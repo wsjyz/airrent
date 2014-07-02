@@ -3,7 +3,7 @@ package com.eighth.airrent.domain;
 /**
  * Created by dam on 14-6-25.
  */
-public class UserInfo {
+public class UserInfo extends BaseDomain{
 
     private String userId;
     private String loginName;//登录名
@@ -35,5 +35,101 @@ public class UserInfo {
 
     public void setLoginTip(String loginTip) {
         this.loginTip = loginTip;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public String getLoginName() {
+        return loginName;
+    }
+
+    public void setLoginName(String loginName) {
+        this.loginName = loginName;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getMobile() {
+        return mobile;
+    }
+
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public String getIdentityCard() {
+        return identityCard;
+    }
+
+    public void setIdentityCard(String identityCard) {
+        this.identityCard = identityCard;
+    }
+
+    public String getSex() {
+        return sex;
+    }
+
+    public void setSex(String sex) {
+        this.sex = sex;
+    }
+
+    public String getAge() {
+        return age;
+    }
+
+    public void setAge(String age) {
+        this.age = age;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getWorkOrg() {
+        return workOrg;
+    }
+
+    public void setWorkOrg(String workOrg) {
+        this.workOrg = workOrg;
+    }
+
+    public String getZhifubao() {
+        return zhifubao;
+    }
+
+    public void setZhifubao(String zhifubao) {
+        this.zhifubao = zhifubao;
+    }
+
+    public String getRegistToken() {
+        return registToken;
+    }
+
+    public void setRegistToken(String registToken) {
+        this.registToken = registToken;
     }
 }

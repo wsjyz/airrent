@@ -6,7 +6,7 @@ package com.eighth.airrent.domain;
  * Created by lk.zh on 2014/5/20.
  */
 
-public class Information {
+public class Information extends BaseDomain{
 
 
     private String informationId;//主键

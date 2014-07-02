@@ -3,7 +3,7 @@ package com.eighth.airrent.domain;
 /**
  * Created by dam on 2014/7/2.
  */
-public class VerifyCode {
+public class VerifyCode extends BaseDomain{
 
     private String tokenId;//当前验证码ID
     private String token;//当前验证码值

@@ -5,7 +5,7 @@ import java.math.BigDecimal;
 /**
  * Created by dam on 2014/7/2.
  */
-public class VIPCard {
+public class VIPCard extends BaseDomain{
 
     private String cardId;//主键
     private String cardName;//卡名称

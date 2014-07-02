@@ -5,7 +5,7 @@ import java.math.BigDecimal;
 /**
  * Created by dam on 14-6-25.
  */
-public class UserOrder {
+public class UserOrder extends BaseDomain{
     private String orderId;//订单编号
     private String userId;//提交人ID
     private String airportId;

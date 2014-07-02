@@ -3,7 +3,7 @@ package com.eighth.airrent.domain;
 /**
  * Created by dam on 2014/7/2.
  */
-public class Airline {
+public class Airline extends BaseDomain{
 
     private String airlineId;
     private String airlineName;
