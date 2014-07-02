@@ -8,4 +8,5 @@ public class Airport {
     private String airportId;
     private String airportName;//机场名称
     private String description;//机场描述
+    private String airportImage;//机场图片
 }

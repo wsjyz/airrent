@@ -7,6 +7,7 @@ public class UserInfo {
 
     private String userId;
     private String loginName;//登录名
+    private String password;
     private String mobile;//手机号
     private String userName;//姓名
     private String identityCard;//身份证号
@@ -15,6 +16,7 @@ public class UserInfo {
     private String address;//居住地址
     private String workOrg;//工作单位
     private String zhifubao;//支付宝账号
+    private String registToken;//注册时的验证码
 
     private String loginTip;
     private String loginStatus;//LOGIN_INFO_NULL请输入用户名密码

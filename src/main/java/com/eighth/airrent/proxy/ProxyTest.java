@@ -1,14 +1,11 @@
 package com.eighth.airrent.proxy;
 
-import com.eighth.airrent.domain.Information;
 import com.eighth.airrent.domain.UserInfo;
 import com.eighth.airrent.proxy.exception.RemoteInvokeException;
-import com.eighth.airrent.proxy.service.*;
 import com.eighth.airrent.proxy.service.UserService;
-import com.eighth.airrent.proxy.service.UserServiceImpl;
+import com.eighth.airrent.proxy.service.impl.UserServiceImpl;
 
 import java.lang.reflect.*;
-import java.util.List;
 
 /**
  * Created by dam on 2014/6/27.

@@ -1,24 +1,11 @@
 package com.eighth.airrent.proxy.utils;
 
 import com.alibaba.fastjson.*;
-import com.eighth.airrent.proxy.service.UserService;
-import com.eighth.airrent.proxy.service.UserServiceImpl;
-import javassist.ClassPool;
-import javassist.CtClass;
-import javassist.CtMethod;
-import javassist.NotFoundException;
-import javassist.bytecode.CodeAttribute;
-import javassist.bytecode.LocalVariableAttribute;
-import javassist.bytecode.MethodInfo;
 import org.objectweb.asm.*;
 import org.objectweb.asm.Type;
 
 import java.io.IOException;
 import java.lang.reflect.*;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * Created by dam on 2014/6/27.

@@ -9,11 +9,20 @@ package com.eighth.airrent.domain;
 public class Information {
 
 
-    private String informationId;
-    private String title;
-    private String content;
-    private String postTime;
-    private String status;
+    private String informationId;//主键
+    private String title;//标题
+    private String content;//内容
+    private String postTime;//发布时间yyyy-MM-dd HH:mm:ss
+    private String fileUril;//图片链接 http://xxx.jpg
+    private String status;//状态PUB已发布UNPUB未发布
+
+    public String getFileUril() {
+        return fileUril;
+    }
+
+    public void setFileUril(String fileUril) {
+        this.fileUril = fileUril;
+    }
 
     public String getInformationId() {
         return informationId;
