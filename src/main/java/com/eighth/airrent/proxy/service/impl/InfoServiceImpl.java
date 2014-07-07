@@ -8,8 +8,9 @@ import com.eighth.airrent.proxy.service.InfoService;
  * Created by dam on 2014/6/29.
  */
 public class InfoServiceImpl implements InfoService {
+
     @Override
-    public OpenPage<Information> getInformations(String openPage) {
+    public OpenPage<Information> getInformations(OpenPage openPage) {
         return null;
     }
 }

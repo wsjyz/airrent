@@ -1,11 +1,17 @@
 package com.eighth.airrent.proxy;
 
+
+
+
+
 import com.eighth.airrent.domain.UserInfo;
 import com.eighth.airrent.proxy.exception.RemoteInvokeException;
 import com.eighth.airrent.proxy.service.UserService;
-import com.eighth.airrent.proxy.service.impl.UserServiceImpl;
 
-import java.lang.reflect.*;
+import java.lang.reflect.Array;
+import java.lang.reflect.GenericArrayType;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 
 /**
  * Created by dam on 2014/6/27.
@@ -13,11 +19,15 @@ import java.lang.reflect.*;
 public class ProxyTest {
 
     public static void main(String[] args) {
-        UserService userService = new UserServiceImpl();
-        UserService proxy = new RemoteProxy<UserService>(new UserServiceImpl()).getProxy();
-        //UserService proxy = new RemoteProxy<UserService>(UserService.class).getProxy();
+//        UserService userService = new UserServiceImpl();
+        UserService proxy = new RemoteProxy<UserService>(UserService.class)
+                .putOtherParameters("access_token","124")
+                .putOtherParameters("imei","222")
+                .getProxy();
+
+//        //UserService proxy = new RemoteProxy<UserService>(UserService.class).getProxy();
         try {
-            UserInfo userInfo = proxy.login("sef", "ddd");
+            UserInfo userInfo = proxy.login("sef","222");
             System.out.println(userInfo.getLoginTip());
         } catch (RemoteInvokeException e) {
             e.printStackTrace();
@@ -45,6 +55,7 @@ public class ProxyTest {
 //        for(Information info:l1.getRows()){
 //            System.out.println(info.getContent());
 //        }
+
 
     }
     private Class getGenericClass(ParameterizedType parameterizedType, int i) {

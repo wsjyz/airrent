@@ -18,7 +18,7 @@ public class UserInfo extends BaseDomain{
     private String zhifubao;//支付宝账号
     private String registToken;//注册时的验证码
 
-    private String loginTip;
+    private String loginTip;//登录提示信息
     private String loginStatus;//LOGIN_INFO_NULL请输入用户名密码
 
     public String getLoginStatus() {

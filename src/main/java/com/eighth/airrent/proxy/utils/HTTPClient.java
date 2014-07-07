@@ -15,7 +15,6 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -23,7 +22,7 @@ import java.util.Map;
  */
 public class HTTPClient {
 
-    private final String SERVER_HOST_URL = "http://192.168.0.96:8080/airrent/";
+    private final static String SERVER_HOST_URL = "http://192.168.0.96:8080/hk/";
     //参数
     private Map<String,Object> params = new HashMap<String, Object>();
     //参数名和方法名
@@ -49,6 +48,7 @@ public class HTTPClient {
         ArrayList<BasicNameValuePair> list = new ArrayList<BasicNameValuePair>();
         if(params.size() > 0){
             for(String key:params.keySet()){
+                System.out.println(key+"|"+params.get(key));
                 BasicNameValuePair nameValue = new BasicNameValuePair(key,params.get(key).toString());
                 list.add(nameValue);
             }
@@ -65,7 +65,11 @@ public class HTTPClient {
         CloseableHttpClient httpClient = HttpClients.createDefault();
         String postUri = SERVER_HOST_URL+getServiceUri();
         HttpPost httpPost = new HttpPost(postUri);
-        httpPost.setEntity(packageParams());
+
+        if(params.size() > 0){
+            httpPost.setEntity(packageParams());
+        }
+
 
         ResponseHandler<String> responseHandler = new ResponseHandler<String>() {
 

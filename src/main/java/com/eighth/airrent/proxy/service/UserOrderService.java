@@ -18,6 +18,13 @@ public interface UserOrderService {
     OpenPage<UserOrder> findUserOrder(OpenPage openPage,String userId)throws RemoteInvokeException;
 
     /**
+     * 新增订单
+     * @return
+     * @throws RemoteInvokeException
+     */
+    UserOrder addUserOrder(UserOrder order)throws RemoteInvokeException;
+
+    /**
      * 支付订单
      * @param userId
      * @param orderId 订单编号
