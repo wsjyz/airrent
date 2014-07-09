@@ -1,5 +1,6 @@
 package com.eighth.airrent.proxy.utils;
 
+import com.alibaba.fastjson.JSON;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
@@ -49,7 +50,8 @@ public class HTTPClient {
         if(params.size() > 0){
             for(String key:params.keySet()){
                 System.out.println(key+"|"+params.get(key));
-                BasicNameValuePair nameValue = new BasicNameValuePair(key,params.get(key).toString());
+                String paramsValues = JSON.toJSONString(params.get(key).toString());
+                BasicNameValuePair nameValue = new BasicNameValuePair(key,paramsValues);
                 list.add(nameValue);
             }
         }
