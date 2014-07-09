@@ -28,4 +28,8 @@ public class UserOrderServiceImpl implements UserOrderService {
     public String deleteOrderById(String orderId) throws RemoteInvokeException {
         return null;
     }
+
+	public UserOrder addUserOrder(UserOrder order) throws RemoteInvokeException {
+		return null;
+	}
 }
