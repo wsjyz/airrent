@@ -10,7 +10,6 @@ import org.springframework.util.CollectionUtils;
 
 import com.eighth.airrent.dao.BaseDAO;
 import com.eighth.airrent.dao.PlaneDAO;
-import com.eighth.airrent.domain.Airline;
 import com.eighth.airrent.domain.Plane;
 import com.eighth.airrent.proxy.exception.RemoteInvokeException;
 

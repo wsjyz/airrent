@@ -9,7 +9,7 @@ import com.eighth.airrent.domain.Plane;
  */
 public interface AirportDAO {
 	
-	  OpenPage<Airport> findAirportList(String airportName);
+	  OpenPage<Airport> findAirportList(OpenPage<Airport> openPage,String airportName);
 	 
 	  Airport findAirportById(String airportId);
 

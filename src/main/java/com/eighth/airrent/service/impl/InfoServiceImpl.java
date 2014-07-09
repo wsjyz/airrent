@@ -5,7 +5,6 @@ import com.eighth.airrent.domain.Information;
 import com.eighth.airrent.domain.OpenPage;
 import com.eighth.airrent.proxy.service.InfoService;
 
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,8 +19,7 @@ public class InfoServiceImpl implements InfoService{
 	InformationDAO InformationDAO;
 	@Override
 	public OpenPage<Information> getInformations(OpenPage openPage) {
-		// TODO Auto-generated method stub
-		return null;
+		return InformationDAO.getInformations(openPage);
 	}
 
    

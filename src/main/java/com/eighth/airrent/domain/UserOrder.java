@@ -22,7 +22,7 @@ public class UserOrder extends BaseDomain{
     //支付状态 ONLINE_PAYED线上已支付 OFFLINE_PAYED线下已支付 NOT_PAY未支付
     private String orderStatus;
     private String description;//备注
-	public String getOrderId() {
+	public String getOrderId() { 
 		return orderId;
 	}
 	public void setOrderId(String orderId) {

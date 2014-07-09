@@ -20,39 +20,33 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public UserInfo login(String loginName, String password)
 			throws RemoteInvokeException {
-		// TODO Auto-generated method stub
-		return null;
+		return userDAO.login(loginName, password);
 	}
 
 	@Override
 	public UserInfo regist(UserInfo userInfo) throws RemoteInvokeException {
-		// TODO Auto-generated method stub
-		return null;
+		return userDAO.regist(userInfo);
 	}
 
 	@Override
-	public VerifyCode obtainVerifyCode() throws RemoteInvokeException {
-		// TODO Auto-generated method stub
-		return null;
+	public String obtainVerifyCode() throws RemoteInvokeException {
+		return userDAO.obtainVerifyCode();
 	}
 
 	@Override
 	public String checkVerifyCode(String tokenId) throws RemoteInvokeException {
-		// TODO Auto-generated method stub
-		return null;
+		return userDAO.checkVerifyCode(tokenId);
 	}
 
 	@Override
 	public String resetPassword(String mobile, String newPassword)
 			throws RemoteInvokeException {
-		// TODO Auto-generated method stub
-		return null;
+		return userDAO.resetPassword(mobile, newPassword);
 	}
 
 	@Override
 	public String modifyUserInfo(UserInfo userInfo)
 			throws RemoteInvokeException {
-		// TODO Auto-generated method stub
-		return null;
+		return userDAO.modifyUserInfo(userInfo);
 	}
 }

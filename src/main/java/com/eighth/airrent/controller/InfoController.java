@@ -25,8 +25,7 @@ public class InfoController {
 	@RequestMapping(value = "/getInformations")
 	@ResponseBody
 	public OpenPage<Information> getInformations(@RequestParam OpenPage openPage) {
-		// TODO Auto-generated method stub
-		return null;
+		return InfoService.getInformations(openPage);
 	}
 
 }

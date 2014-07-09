@@ -21,11 +21,11 @@ public class AirlineServiceImpl implements AirlineService{
 		return airlineDAO.findAirlineById(airlineId);
 	}
 
+	@SuppressWarnings("rawtypes")
 	@Override
 	public OpenPage<Plane> findPlaneByAirlineId(OpenPage openPage,
 			String airlineId) throws RemoteInvokeException {
-		// TODO Auto-generated method stub
-		return null;
+		return airlineDAO.findPlaneByAirlineId(openPage, airlineId);
 	}
 
 }

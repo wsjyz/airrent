@@ -22,7 +22,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public VerifyCode obtainVerifyCode() throws RemoteInvokeException {
+    public String obtainVerifyCode() throws RemoteInvokeException {
         return null;
     }
 

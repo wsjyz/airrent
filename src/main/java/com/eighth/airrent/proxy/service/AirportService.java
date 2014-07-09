@@ -17,7 +17,7 @@ public interface AirportService {
      * @return
      * @throws RemoteInvokeException
      */
-    OpenPage<Airport> findAirportList(String airportName)throws RemoteInvokeException;
+    OpenPage<Airport> findAirportList(OpenPage openPage,String airportName)throws RemoteInvokeException;
 
     /**
      * 机场详情

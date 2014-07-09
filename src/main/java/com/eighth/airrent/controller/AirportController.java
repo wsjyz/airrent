@@ -26,10 +26,9 @@ public class AirportController {
 
 	@RequestMapping(value = "/findAirportList")
 	@ResponseBody
-	public OpenPage<Airport> findAirportList(@RequestParam String airportName)
+	public OpenPage<Airport> findAirportList(@RequestParam OpenPage openPage,@RequestParam String airportName)
 			throws RemoteInvokeException {
-		// TODO Auto-generated method stub
-		return null;
+		return airportService.findAirportList(openPage,airportName);
 	}
 
 	@RequestMapping(value = "/findAirportById")

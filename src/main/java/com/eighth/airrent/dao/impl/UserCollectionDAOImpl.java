@@ -2,9 +2,7 @@ package com.eighth.airrent.dao.impl;
 
 import com.eighth.airrent.dao.BaseDAO;
 import com.eighth.airrent.dao.UserCollectionDAO;
-import com.eighth.airrent.domain.Plane;
 import com.eighth.airrent.domain.UserCollection;
-import com.eighth.airrent.proxy.exception.RemoteInvokeException;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -13,7 +11,6 @@ import java.util.List;
 
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
-import org.springframework.util.CollectionUtils;
 
 /**
  * Created by dam on 2014/7/2.
@@ -40,8 +37,7 @@ public class UserCollectionDAOImpl extends BaseDAO implements UserCollectionDAO 
 								throws SQLException {
 							UserCollection userCollection = new UserCollection();
 							userCollection.setPlaneId(rs.getString("plane_id"));
-							userCollection.setPlaneName(rs
-									.getString("plane_name"));
+							userCollection.setPlaneName(rs.getString("plane_name"));
 							userCollection.setUserId(rs.getString("user_id"));
 							return userCollection;
 						}

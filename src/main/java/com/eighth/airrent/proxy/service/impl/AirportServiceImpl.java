@@ -11,7 +11,7 @@ import com.eighth.airrent.proxy.service.AirportService;
  */
 public class AirportServiceImpl implements AirportService {
     @Override
-    public OpenPage<Airport> findAirportList(String airportName) throws RemoteInvokeException {
+    public OpenPage<Airport> findAirportList(OpenPage openPage,String airportName) throws RemoteInvokeException {
         return null;
     }
 

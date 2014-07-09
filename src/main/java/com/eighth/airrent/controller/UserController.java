@@ -23,16 +23,8 @@ public class UserController {
 
     @RequestMapping(value = "/login")
     @ResponseBody
-    public UserInfo login(@RequestParam String loginName,@RequestParam String password){
-        UserInfo userInfo = new UserInfo();
-        if(StringUtils.isBlank(loginName) || StringUtils.isBlank(password)){
-            userInfo.setLoginStatus("LOGIN_INFO_NULL");
-            userInfo.setLoginTip("请输入用户名密码");
-        }else{
-            userInfo.setLoginStatus("SUCCESS");
-            userInfo.setLoginTip("登录成功");
-        }
-        return userInfo;
+    public UserInfo login(@RequestParam String loginName,@RequestParam String password) throws RemoteInvokeException{
+        return userService.login(loginName, password);
     }
     
     

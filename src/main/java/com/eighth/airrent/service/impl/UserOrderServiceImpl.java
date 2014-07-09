@@ -20,33 +20,28 @@ public class UserOrderServiceImpl implements UserOrderService {
 	@Override
 	public OpenPage<UserOrder> findUserOrder(OpenPage openPage, String userId)
 			throws RemoteInvokeException {
-		// TODO Auto-generated method stub
-		return null;
+		return userOrderDAO.findUserOrder(openPage, userId);
 	}
 
 	@Override
 	public String payOrder(String userId, String orderId)
 			throws RemoteInvokeException {
-		// TODO Auto-generated method stub
-		return null;
+		return userOrderDAO.payOrder(userId, orderId);
 	}
 
 	@Override
 	public UserOrder findOrderById(String orderId) throws RemoteInvokeException {
-		// TODO Auto-generated method stub
-		return null;
+		return userOrderDAO.findOrderById(orderId);
 	}
 
 	@Override
 	public String deleteOrderById(String orderId) throws RemoteInvokeException {
-		// TODO Auto-generated method stub
-		return null;
+		return userOrderDAO.deleteOrderById(orderId);
 	}
 
 	@Override
 	public UserOrder addUserOrder(UserOrder order) throws RemoteInvokeException {
-		// TODO Auto-generated method stub
-		return null;
+		return userOrderDAO.addUserOrder(order);
 	}
 
 }

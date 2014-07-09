@@ -32,7 +32,7 @@ public interface UserService {
      * @return
      * @throws RemoteInvokeException
      */
-    VerifyCode obtainVerifyCode()throws RemoteInvokeException;
+    String obtainVerifyCode() throws RemoteInvokeException;
 
     /**
      * 验证注册码是否正确
@@ -40,7 +40,7 @@ public interface UserService {
      * @return RIGHT正确、FAULT错误、PAST过期
      * @throws RemoteInvokeException
      */
-    String checkVerifyCode(String tokenId)throws RemoteInvokeException;
+    String checkVerifyCode(String code) throws RemoteInvokeException;
 
     /**
      * 重置密码

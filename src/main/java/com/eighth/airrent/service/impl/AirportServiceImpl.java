@@ -20,10 +20,9 @@ public class AirportServiceImpl implements AirportService {
 	AirportDAO airportDAO;
 
 	@Override
-	public OpenPage<Airport> findAirportList(String airportName)
+	public OpenPage<Airport> findAirportList(OpenPage openPage,String airportName)
 			throws RemoteInvokeException {
-		// TODO Auto-generated method stub
-		return null;
+		return airportDAO.findAirportList(openPage, airportName);
 	}
 
 	@Override
@@ -35,8 +34,7 @@ public class AirportServiceImpl implements AirportService {
 	@Override
 	public OpenPage<Plane> findPlaneByAirportId(OpenPage openPage,
 			String airportId) throws RemoteInvokeException {
-		// TODO Auto-generated method stub
-		return null;
+		return airportDAO.findPlaneByAirportId(openPage, airportId);
 	}
 
 }

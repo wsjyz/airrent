@@ -29,18 +29,18 @@ public interface UserDAO {
 
     /**
      * 获取注册验证码
-     * @return
+     * @return SUCCESS 成功|FAIL失败
      * @throws RemoteInvokeException
      */
-    VerifyCode obtainVerifyCode();
+    String obtainVerifyCode();
 
     /**
      * 验证注册码是否正确
-     * @param tokenId 是obtainRegistCode方法返回的
-     * @return RIGHT正确、FAULT错误、PAST过期
+     * @param  code是obtainRegistCode方法返回的
+//     * @return RIGHT正确、FAULT错误、PAST过期
      * @throws RemoteInvokeException
      */
-    String checkVerifyCode(String tokenId);
+    String checkVerifyCode(String code);
 
     /**
      * 重置密码

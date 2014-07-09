@@ -31,7 +31,6 @@ public class AirlineController {
 	@ResponseBody
 	public OpenPage<Plane> findPlaneByAirlineId(@RequestParam OpenPage openPage,
 			@RequestParam String airlineId) throws RemoteInvokeException {
-		// TODO Auto-generated method stub
-		return null;
+		return airlineService.findPlaneByAirlineId(openPage, airlineId);
 	}
 }

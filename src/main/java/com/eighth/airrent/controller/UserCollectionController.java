@@ -27,16 +27,14 @@ public class UserCollectionController {
 	@ResponseBody	
 	public List<UserCollection> findUserCollection(@RequestParam String userId,
 			@RequestParam String collectionType) throws RemoteInvokeException {
-		// TODO Auto-generated method stub
-		return null;
+		return UserCollectionService.findUserCollection(userId, collectionType);
 	}
 
 	@RequestMapping(value = "/addUserCollection")
 	@ResponseBody
 	public String addUserCollection(@RequestParam UserCollection collection)
 			throws RemoteInvokeException {
-		// TODO Auto-generated method stub
-		return null;
+		return UserCollectionService.addUserCollection(collection);
 	}
 
 }

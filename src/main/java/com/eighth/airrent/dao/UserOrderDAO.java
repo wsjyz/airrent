@@ -42,4 +42,7 @@ public interface UserOrderDAO {
      * @throws RemoteInvokeException
      */
     String deleteOrderById(String orderId);
+    
+    
+    UserOrder addUserOrder(UserOrder order);
 }

@@ -18,8 +18,7 @@ public class VIPCardServiceImpl implements VIPCardService{
 	VIPCardDAO VIPCardDAO;
 	@Override
 	public List<VIPCard> findVIPCardList() {
-		// TODO Auto-generated method stub
-		return null;
+		return VIPCardDAO.findVIPCardList();
 	}
 
 
