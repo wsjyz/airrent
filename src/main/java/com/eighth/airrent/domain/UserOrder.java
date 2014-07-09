@@ -22,5 +22,89 @@ public class UserOrder extends BaseDomain{
     //支付状态 ONLINE_PAYED线上已支付 OFFLINE_PAYED线下已支付 NOT_PAY未支付
     private String orderStatus;
     private String description;//备注
+	public String getOrderId() {
+		return orderId;
+	}
+	public void setOrderId(String orderId) {
+		this.orderId = orderId;
+	}
+	public String getUserId() {
+		return userId;
+	}
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
+	public String getAirportId() {
+		return airportId;
+	}
+	public void setAirportId(String airportId) {
+		this.airportId = airportId;
+	}
+	public String getOrderUse() {
+		return orderUse;
+	}
+	public void setOrderUse(String orderUse) {
+		this.orderUse = orderUse;
+	}
+	public String getStartTime() {
+		return startTime;
+	}
+	public void setStartTime(String startTime) {
+		this.startTime = startTime;
+	}
+	public String getEndTime() {
+		return endTime;
+	}
+	public void setEndTime(String endTime) {
+		this.endTime = endTime;
+	}
+	public String getStarting() {
+		return starting;
+	}
+	public void setStarting(String starting) {
+		this.starting = starting;
+	}
+	public String getDestination() {
+		return destination;
+	}
+	public void setDestination(String destination) {
+		this.destination = destination;
+	}
+	public int getUserCounts() {
+		return userCounts;
+	}
+	public void setUserCounts(int userCounts) {
+		this.userCounts = userCounts;
+	}
+	public String getOptTime() {
+		return optTime;
+	}
+	public void setOptTime(String optTime) {
+		this.optTime = optTime;
+	}
+	public BigDecimal getDownPayment() {
+		return downPayment;
+	}
+	public void setDownPayment(BigDecimal downPayment) {
+		this.downPayment = downPayment;
+	}
+	public int getOrderCounts() {
+		return orderCounts;
+	}
+	public void setOrderCounts(int orderCounts) {
+		this.orderCounts = orderCounts;
+	}
+	public String getOrderStatus() {
+		return orderStatus;
+	}
+	public void setOrderStatus(String orderStatus) {
+		this.orderStatus = orderStatus;
+	}
+	public String getDescription() {
+		return description;
+	}
+	public void setDescription(String description) {
+		this.description = description;
+	}
 
 }
