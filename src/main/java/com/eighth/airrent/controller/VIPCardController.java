@@ -24,7 +24,7 @@ public class VIPCardController{
 	@RequestMapping(value = "/findVIPCardList")
 	@ResponseBody
 	public List<VIPCard> findVIPCardList() {
-		return null;
+		return VIPCardService.findVIPCardList();
 	}
 
 

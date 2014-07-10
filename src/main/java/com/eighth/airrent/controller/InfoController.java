@@ -3,6 +3,7 @@ package com.eighth.airrent.controller;
 import com.eighth.airrent.domain.Information;
 import com.eighth.airrent.domain.OpenPage;
 import com.eighth.airrent.proxy.service.InfoService;
+import com.eighth.airrent.web.FastJson;
 
 import java.util.List;
 
@@ -24,7 +25,7 @@ public class InfoController {
 
 	@RequestMapping(value = "/getInformations")
 	@ResponseBody
-	public OpenPage<Information> getInformations(@RequestParam OpenPage openPage) {
+	public OpenPage<Information> getInformations(@FastJson OpenPage openPage) {
 		return InfoService.getInformations(openPage);
 	}
 

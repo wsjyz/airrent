@@ -11,6 +11,8 @@ import com.eighth.airrent.domain.OpenPage;
 import com.eighth.airrent.domain.UserOrder;
 import com.eighth.airrent.proxy.exception.RemoteInvokeException;
 import com.eighth.airrent.proxy.service.UserOrderService;
+import com.eighth.airrent.proxy.service.UserService;
+import com.eighth.airrent.web.FastJson;
 
 /**
  * Created by dam on 2014/7/2.
@@ -24,34 +26,30 @@ public class UserOrderController {
 
 	@RequestMapping(value = "/findUserOrder")
 	@ResponseBody
-	public OpenPage<UserOrder> findUserOrder(@RequestParam OpenPage openPage,
+	public OpenPage<UserOrder> findUserOrder(@FastJson OpenPage openPage,
 			@RequestParam String userId) throws RemoteInvokeException {
-		// TODO Auto-generated method stub
-		return null;
+		return userOrderService.findUserOrder(openPage, userId);
 	}
 
 	@RequestMapping(value = "/payOrder")
 	@ResponseBody
 	public String payOrder(@RequestParam String userId,
 			@RequestParam String orderId) throws RemoteInvokeException {
-		// TODO Auto-generated method stub
-		return null;
+		return userOrderService.payOrder(userId, orderId);
 	}
 
 	@RequestMapping(value = "/findOrderById")
 	@ResponseBody
 	public UserOrder findOrderById(@RequestParam String orderId)
 			throws RemoteInvokeException {
-		// TODO Auto-generated method stub
-		return null;
+		return userOrderService.findOrderById(orderId);
 	}
 
 	@RequestMapping(value = "/deleteOrderById")
 	@ResponseBody
 	public String deleteOrderById(@RequestParam String orderId)
 			throws RemoteInvokeException {
-		// TODO Auto-generated method stub
-		return null;
+		return userOrderService.deleteOrderById(orderId);
 	}
 
 }

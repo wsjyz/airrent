@@ -13,6 +13,7 @@ import com.eighth.airrent.domain.OpenPage;
 import com.eighth.airrent.domain.Plane;
 import com.eighth.airrent.proxy.exception.RemoteInvokeException;
 import com.eighth.airrent.proxy.service.AirportService;
+import com.eighth.airrent.web.FastJson;
 
 
 /**
@@ -26,7 +27,7 @@ public class AirportController {
 
 	@RequestMapping(value = "/findAirportList")
 	@ResponseBody
-	public OpenPage<Airport> findAirportList(@RequestParam OpenPage openPage,@RequestParam String airportName)
+	public OpenPage<Airport> findAirportList(@FastJson OpenPage openPage,@RequestParam String airportName)
 			throws RemoteInvokeException {
 		return airportService.findAirportList(openPage,airportName);
 	}
@@ -40,10 +41,9 @@ public class AirportController {
 
 	@RequestMapping(value = "/findPlaneByAirportId")
 	@ResponseBody
-	public OpenPage<Plane> findPlaneByAirportId(@RequestParam OpenPage openPage,
+	public OpenPage<Plane> findPlaneByAirportId(@FastJson OpenPage openPage,
 			@RequestParam  String airportId) throws RemoteInvokeException {
-		// TODO Auto-generated method stub
-		return null;
+		return airportService.findPlaneByAirportId(openPage, airportId);
 	}
 
 }

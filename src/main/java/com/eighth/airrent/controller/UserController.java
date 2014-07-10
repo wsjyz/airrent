@@ -32,36 +32,31 @@ public class UserController {
     @RequestMapping(value = "/regist")
     @ResponseBody
 	public UserInfo regist(@RequestParam UserInfo userInfo) throws RemoteInvokeException {
-		// TODO Auto-generated method stub
-		return null;
+		return userService.regist(userInfo);
 	}
 
     @RequestMapping(value = "/obtainVerifyCode")
     @ResponseBody
-	public VerifyCode obtainVerifyCode() throws RemoteInvokeException {
-		// TODO Auto-generated method stub
-		return null;
+	public String obtainVerifyCode() throws RemoteInvokeException {
+		return userService.obtainVerifyCode();
 	}
 
     @RequestMapping(value = "/checkVerifyCode")
     @ResponseBody
 	public String checkVerifyCode(@RequestParam String tokenId) throws RemoteInvokeException {
-		// TODO Auto-generated method stub
-		return null;
+		return userService.checkVerifyCode(tokenId);
 	}
 
     @RequestMapping(value = "/resetPassword")
     @ResponseBody
 	public String resetPassword(@RequestParam String mobile,@RequestParam  String newPassword)
 			throws RemoteInvokeException {
-		// TODO Auto-generated method stub
-		return null;
+		return userService.resetPassword(mobile, newPassword);
 	}
     @RequestMapping(value = "/modifyUserInfo")
     @ResponseBody
 	public String modifyUserInfo(@RequestParam UserInfo userInfo)
 			throws RemoteInvokeException {
-		// TODO Auto-generated method stub
-		return null;
+		return userService.modifyUserInfo(userInfo);
 	}
 }

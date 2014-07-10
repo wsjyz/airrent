@@ -11,6 +11,7 @@ import com.eighth.airrent.domain.OpenPage;
 import com.eighth.airrent.domain.Plane;
 import com.eighth.airrent.proxy.exception.RemoteInvokeException;
 import com.eighth.airrent.proxy.service.AirlineService;
+import com.eighth.airrent.web.FastJson;
 
 @Controller
 @RequestMapping(value = "/AirlineService")
@@ -29,8 +30,9 @@ public class AirlineController {
 	}
 	@RequestMapping(value = "/findPlaneByAirlineId")
 	@ResponseBody
-	public OpenPage<Plane> findPlaneByAirlineId(@RequestParam OpenPage openPage,
+	public OpenPage<Plane> findPlaneByAirlineId(@FastJson OpenPage openPage,
 			@RequestParam String airlineId) throws RemoteInvokeException {
+		
 		return airlineService.findPlaneByAirlineId(openPage, airlineId);
 	}
 }
