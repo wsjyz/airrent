@@ -20,7 +20,10 @@ public class VIPCardController{
 
 	@Autowired
 	VIPCardService VIPCardService;
-
+	/**
+	 *已测试
+	 * @return
+	 */
 	@RequestMapping(value = "/findVIPCardList")
 	@ResponseBody
 	public List<VIPCard> findVIPCardList() {

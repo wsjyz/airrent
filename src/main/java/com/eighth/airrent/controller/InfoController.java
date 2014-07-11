@@ -23,6 +23,11 @@ public class InfoController {
 	@Autowired
 	InfoService InfoService;
 
+	/**
+	 * 已测试
+	 * @param openPage
+	 * @return
+	 */
 	@RequestMapping(value = "/getInformations")
 	@ResponseBody
 	public OpenPage<Information> getInformations(@FastJson OpenPage openPage) {

@@ -34,8 +34,8 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public String checkVerifyCode(String tokenId) throws RemoteInvokeException {
-		return userDAO.checkVerifyCode(tokenId);
+	public String checkVerifyCode(String code) throws RemoteInvokeException {
+		return userDAO.checkVerifyCode(code);
 	}
 
 	@Override

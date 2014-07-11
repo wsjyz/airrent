@@ -12,6 +12,7 @@ import com.eighth.airrent.dao.BaseDAO;
 import com.eighth.airrent.dao.UserOrderDAO;
 import com.eighth.airrent.domain.OpenPage;
 import com.eighth.airrent.domain.UserOrder;
+import com.eighth.airrent.util.CommonUtils;
 
 /**
  * Created by dam on 2014/7/2.
@@ -110,7 +111,45 @@ public class UserOrderDAOImpl extends BaseDAO implements UserOrderDAO{
 
 	@Override
 	public UserOrder addUserOrder(UserOrder order) {
-		return null;
+		StringBuffer sql=new StringBuffer();
+		String orderId=CommonUtils.genUUID();
+		sql.append("INSERT into t_airrent_user_order(order_id,user_id,airport_id,order_use,start_time,end_time,"
+				+ "starting,destination,user_counts,opt_time,down_payment,order_counts,order_status,description) values('"
+				+orderId+ "','"+ order.getUserId()
+				+ "','" + order.getAirportId()+ "','" + order.getOrderUse()+ "','" 
+				+ order.getStartTime()+ "','" + order.getEndTime()
+				+ "','" + order.getStarting()+ "','" + order.getDestination()
+				+ "','" + order.getUserCounts()+ "','" + order.getOptTime()
+				+ "','" + order.getDownPayment()+ "','" + order.getOrderCounts()
+				+ "','" + order.getOrderStatus()+ "','" + order.getDescription()+ "')");
+		int update = getJdbcTemplate().update(sql.toString());
+		if (update>0) {
+			StringBuffer sql1=new StringBuffer();
+			sql1.append("select * from t_airrent_user_order where order_id='"+orderId+"'");
+			List<UserOrder> list=getJdbcTemplate().query(sql1.toString(), new RowMapper<UserOrder>(){
+				@Override
+				public UserOrder mapRow(ResultSet rs, int rowNum) throws SQLException {
+					UserOrder userOrder=new UserOrder();
+					userOrder.setOrderId(rs.getString("order_id"));
+					userOrder.setUserId(rs.getString("user_id"));//登录名
+					userOrder.setAirportId(rs.getString("airport_id"));
+					userOrder.setOrderUse(rs.getString("order_use"));//手机号
+					userOrder.setStartTime(rs.getString("start_time"));//姓名
+					userOrder.setEndTime(rs.getString("end_time"));//身份证号
+					userOrder.setStarting(rs.getString("starting"));//MALE|FAMALE
+					userOrder.setDestination(rs.getString("destination"));//登录提示信息
+					userOrder.setUserCounts(rs.getInt("user_counts"));//年龄
+				    userOrder.setOptTime(rs.getString("opt_time"));//居住地址
+				    userOrder.setDownPayment(rs.getBigDecimal("down_payment"));//工作单位
+				    userOrder.setOrderCounts(rs.getInt("order_counts"));//支付宝账号
+				    userOrder.setOrderStatus(rs.getString("order_status"));//注册时的验证码
+				    userOrder.setDescription(rs.getString("description"));//LOGIN_INFO_NULL请输入用户名密码
+				return userOrder;
+				}
+			});
+			return list.get(0);
+		}
+		return new UserOrder();
 	}
 
    

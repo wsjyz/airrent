@@ -3,6 +3,7 @@ package com.eighth.airrent.controller;
 import com.eighth.airrent.domain.UserCollection;
 import com.eighth.airrent.proxy.exception.RemoteInvokeException;
 import com.eighth.airrent.proxy.service.UserCollectionService;
+import com.eighth.airrent.web.FastJson;
 
 import java.util.List;
 
@@ -22,17 +23,28 @@ public class UserCollectionController {
 
 	@Autowired
 	UserCollectionService UserCollectionService;
-	
+	/**
+	 * 已测试
+	 * @param userId
+	 * @param collectionType
+	 * @return
+	 * @throws RemoteInvokeException
+	 */
 	@RequestMapping(value = "/findUserCollection")
 	@ResponseBody	
 	public List<UserCollection> findUserCollection(@RequestParam String userId,
 			@RequestParam String collectionType) throws RemoteInvokeException {
 		return UserCollectionService.findUserCollection(userId, collectionType);
 	}
-
+/**
+ * 已测试
+ * @param collection
+ * @return
+ * @throws RemoteInvokeException
+ */
 	@RequestMapping(value = "/addUserCollection")
 	@ResponseBody
-	public String addUserCollection(@RequestParam UserCollection collection)
+	public String addUserCollection(@FastJson UserCollection collection)
 			throws RemoteInvokeException {
 		return UserCollectionService.addUserCollection(collection);
 	}

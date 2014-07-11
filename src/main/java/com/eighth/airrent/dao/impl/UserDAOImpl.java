@@ -98,7 +98,7 @@ public class UserDAOImpl  extends BaseDAO implements UserDAO {
 		StringBuffer sql=new StringBuffer();
 		String tokenId=CommonUtils.genUUID();
 		Calendar cal=Calendar.getInstance();
-		String token="";
+		String token="5781";
 		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		sql.append("INSERT into t_airrent_verify_code(token_id,token,opt_time) values('"
 				+tokenId+ "','"+token+ "','" +sdf.format(cal.getTime())+ "')");

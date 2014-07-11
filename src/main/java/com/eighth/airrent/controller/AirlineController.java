@@ -20,7 +20,12 @@ public class AirlineController {
 	@Autowired
 	AirlineService airlineService;
 	
-	
+	/**
+	 * 已测试
+	 * @param airlineId
+	 * @return
+	 * @throws RemoteInvokeException
+	 */
 	@RequestMapping(value = "/findAirlineById")
 	@ResponseBody
 	public Airline findAirlineById(@RequestParam String airlineId) throws RemoteInvokeException{
@@ -28,6 +33,13 @@ public class AirlineController {
 		return airline;
 		
 	}
+	/**
+	 * 已测试
+	 * @param openPage
+	 * @param airlineId
+	 * @return
+	 * @throws RemoteInvokeException
+	 */
 	@RequestMapping(value = "/findPlaneByAirlineId")
 	@ResponseBody
 	public OpenPage<Plane> findPlaneByAirlineId(@FastJson OpenPage openPage,

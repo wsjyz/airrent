@@ -20,7 +20,12 @@ public class PlaneController {
 
 	@Autowired
 	PlaneService planeService;
-
+	/**
+	 * 已测试
+	 * @param planeId
+	 * @return
+	 * @throws RemoteInvokeException
+	 */
 	@RequestMapping(value = "/findPlaneById")
 	@ResponseBody
 	public Plane findPlaneById(@RequestParam String planeId)

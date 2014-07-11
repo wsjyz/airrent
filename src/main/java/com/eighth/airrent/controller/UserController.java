@@ -4,6 +4,7 @@ import com.eighth.airrent.domain.UserInfo;
 import com.eighth.airrent.domain.VerifyCode;
 import com.eighth.airrent.proxy.exception.RemoteInvokeException;
 import com.eighth.airrent.proxy.service.UserService;
+import com.eighth.airrent.web.FastJson;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,13 @@ public class UserController {
 	@Autowired
 	UserService userService;
 
+	/**
+	 * 已测试
+	 * @param loginName
+	 * @param password
+	 * @return
+	 * @throws RemoteInvokeException
+	 */
     @RequestMapping(value = "/login")
     @ResponseBody
     public UserInfo login(@RequestParam String loginName,@RequestParam String password) throws RemoteInvokeException{
@@ -28,34 +36,61 @@ public class UserController {
     }
     
     
-
+/**
+ * 已测试
+ * @param userInfo
+ * @return
+ * @throws RemoteInvokeException
+ */
     @RequestMapping(value = "/regist")
     @ResponseBody
-	public UserInfo regist(@RequestParam UserInfo userInfo) throws RemoteInvokeException {
+	public UserInfo regist(@FastJson UserInfo userInfo) throws RemoteInvokeException {
 		return userService.regist(userInfo);
 	}
 
+    /**
+     * 已测试
+     * @return
+     * @throws RemoteInvokeException
+     */
     @RequestMapping(value = "/obtainVerifyCode")
     @ResponseBody
 	public String obtainVerifyCode() throws RemoteInvokeException {
 		return userService.obtainVerifyCode();
 	}
-
+/**
+ * 已测试
+ * @param token
+ * @return
+ * @throws RemoteInvokeException
+ */
     @RequestMapping(value = "/checkVerifyCode")
     @ResponseBody
-	public String checkVerifyCode(@RequestParam String tokenId) throws RemoteInvokeException {
-		return userService.checkVerifyCode(tokenId);
+	public String checkVerifyCode(@RequestParam String token) throws RemoteInvokeException {
+		return userService.checkVerifyCode(token);
 	}
-
+    /**
+     * 已测试
+     * @param mobile
+     * @param newPassword
+     * @return
+     * @throws RemoteInvokeException
+     */
     @RequestMapping(value = "/resetPassword")
     @ResponseBody
 	public String resetPassword(@RequestParam String mobile,@RequestParam  String newPassword)
 			throws RemoteInvokeException {
 		return userService.resetPassword(mobile, newPassword);
 	}
+    /**
+     * 已测试
+     * @param userInfo
+     * @return
+     * @throws RemoteInvokeException
+     */
     @RequestMapping(value = "/modifyUserInfo")
     @ResponseBody
-	public String modifyUserInfo(@RequestParam UserInfo userInfo)
+	public String modifyUserInfo(@FastJson UserInfo userInfo)
 			throws RemoteInvokeException {
 		return userService.modifyUserInfo(userInfo);
 	}

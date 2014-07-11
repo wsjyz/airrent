@@ -24,6 +24,13 @@ public class UserOrderController {
 	@Autowired
 	UserOrderService userOrderService;
 
+	/**
+	 * 已测试
+	 * @param openPage
+	 * @param userId
+	 * @return
+	 * @throws RemoteInvokeException
+	 */
 	@RequestMapping(value = "/findUserOrder")
 	@ResponseBody
 	public OpenPage<UserOrder> findUserOrder(@FastJson OpenPage openPage,
@@ -38,6 +45,12 @@ public class UserOrderController {
 		return userOrderService.payOrder(userId, orderId);
 	}
 
+	/**
+	 * 已测试
+	 * @param orderId
+	 * @return
+	 * @throws RemoteInvokeException
+	 */
 	@RequestMapping(value = "/findOrderById")
 	@ResponseBody
 	public UserOrder findOrderById(@RequestParam String orderId)
@@ -45,6 +58,12 @@ public class UserOrderController {
 		return userOrderService.findOrderById(orderId);
 	}
 
+	/**
+	 * 已测试
+	 * @param orderId
+	 * @return
+	 * @throws RemoteInvokeException
+	 */
 	@RequestMapping(value = "/deleteOrderById")
 	@ResponseBody
 	public String deleteOrderById(@RequestParam String orderId)

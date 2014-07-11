@@ -24,7 +24,13 @@ import com.eighth.airrent.web.FastJson;
 public class AirportController {
 	@Autowired
 	AirportService airportService;
-
+	/**
+	 * 已测试
+	 * @param openPage
+	 * @param airportName
+	 * @return
+	 * @throws RemoteInvokeException
+	 */
 	@RequestMapping(value = "/findAirportList")
 	@ResponseBody
 	public OpenPage<Airport> findAirportList(@FastJson OpenPage openPage,@RequestParam String airportName)
@@ -32,6 +38,12 @@ public class AirportController {
 		return airportService.findAirportList(openPage,airportName);
 	}
 
+	/**
+	 * 已测试
+	 * @param airportId
+	 * @return
+	 * @throws RemoteInvokeException
+	 */
 	@RequestMapping(value = "/findAirportById")
 	@ResponseBody
 	public Airport findAirportById(@RequestParam String airportId)
@@ -39,6 +51,13 @@ public class AirportController {
 		return airportService.findAirportById(airportId);
 	}
 
+	/**
+	 * 已测试
+	 * @param openPage
+	 * @param airportId
+	 * @return
+	 * @throws RemoteInvokeException
+	 */
 	@RequestMapping(value = "/findPlaneByAirportId")
 	@ResponseBody
 	public OpenPage<Plane> findPlaneByAirportId(@FastJson OpenPage openPage,
