@@ -11,11 +11,24 @@
        ">
     <context:component-scan base-package="com.eighth.airrent"/>
 
-    <mvc:annotation-driven >
+    <mvc:annotation-driven conversion-service="conversionService">
         <mvc:argument-resolvers>
             <bean class="com.eighth.airrent.web.FastJsonArgumentResolver"/>
         </mvc:argument-resolvers>
     </mvc:annotation-driven>
+
+    <!--转换器 使Controller方法可以自动转换不同格式类型 不加会报400错-->
+    <bean id="conversionService"
+          class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
+        <property name="formatters">
+            <set>
+                <bean class="org.springframework.format.datetime.DateFormatter">
+                    <!--<constructor-arg value="yyyy-MM-dd HH:mm:ss"/>-->
+                </bean><!--String to DATE-->
+                <bean class="org.springframework.format.number.CurrencyFormatter"/><!--String to BigDecimal-->
+            </set>
+        </property>
+    </bean>
 
     <mvc:resources mapping="/images/**" location="/WEB-INF/images/"/>
     <mvc:resources mapping="/css/**" location="/WEB-INF/css/"/>
