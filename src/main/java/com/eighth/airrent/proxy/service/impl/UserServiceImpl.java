@@ -40,4 +40,9 @@ public class UserServiceImpl implements UserService {
     public String modifyUserInfo(UserInfo userInfo) throws RemoteInvokeException {
         return null;
     }
+
+	@Override
+	public UserInfo getById(String userId) throws RemoteInvokeException {
+		return null;
+	}
 }

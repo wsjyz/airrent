@@ -35,4 +35,19 @@ public interface AirportService {
      * @throws RemoteInvokeException
      */
     OpenPage<Plane> findPlaneByAirportId(OpenPage openPage,String airportId)throws RemoteInvokeException;
+    
+   /**
+    * 新增机场
+    * @param airport
+    * @return
+    * @throws RemoteInvokeException
+    */
+    String addAirport(Airport airport) throws RemoteInvokeException;
+    /**
+     * 删除机场
+     * @param airprotId
+     * @return
+     * @throws RemoteInvokeException
+     */
+    String deleteAirprot(String airprotId) throws RemoteInvokeException;
 }

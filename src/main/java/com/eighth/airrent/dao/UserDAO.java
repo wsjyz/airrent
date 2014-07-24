@@ -59,5 +59,5 @@ public interface UserDAO {
      */
     String modifyUserInfo(UserInfo userInfo);
 
-
+	UserInfo getById(String userId);
 }

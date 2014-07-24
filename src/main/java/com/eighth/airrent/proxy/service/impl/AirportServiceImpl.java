@@ -24,4 +24,16 @@ public class AirportServiceImpl implements AirportService {
     public OpenPage<Plane> findPlaneByAirportId(OpenPage openPage, String airportId) throws RemoteInvokeException {
         return null;
     }
+
+	@Override
+	public String addAirport(Airport airport) throws RemoteInvokeException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String deleteAirprot(String airprotId) throws RemoteInvokeException {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

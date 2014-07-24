@@ -8,11 +8,18 @@ import com.eighth.airrent.proxy.exception.RemoteInvokeException;
  */
 public interface PlaneDAO {
 
-    /**
-     * 飞机详情
-     * @param planeId
-     * @return
-     * @throws RemoteInvokeException
-     */
-    Plane findPlaneById(String planeId)throws RemoteInvokeException;
+	/**
+	 * 飞机详情
+	 * 
+	 * @param planeId
+	 * @return
+	 */
+	Plane findPlaneById(String planeId);
+
+	String addPlane(Plane plane);
+
+	String deletePlane(String planeId);
+
+	String updatePlane(Plane plane);
+
 }

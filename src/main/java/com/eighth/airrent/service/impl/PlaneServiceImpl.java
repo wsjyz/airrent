@@ -21,4 +21,19 @@ public class PlaneServiceImpl implements PlaneService {
 		return planeDAO.findPlaneById(planeId);
 	}
 
+	@Override
+	public String addPlane(Plane plane) throws RemoteInvokeException {
+		return planeDAO.addPlane(plane);
+	}
+
+	@Override
+	public String deletePlane(String planeId) throws RemoteInvokeException {
+		return planeDAO.deletePlane(planeId);
+	}
+
+	@Override
+	public String updatePlane(Plane plane) throws RemoteInvokeException {
+		return planeDAO.updatePlane(plane);
+	}
+
 }
