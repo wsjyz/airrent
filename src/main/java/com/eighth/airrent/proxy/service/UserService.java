@@ -36,7 +36,7 @@ public interface UserService {
 
     /**
      * 验证注册码是否正确
-     * @param tokenId 是obtainRegistCode方法返回的
+     * @param code 是obtainRegistCode方法返回的
      * @return RIGHT正确、FAULT错误、PAST过期
      * @throws RemoteInvokeException
      */
