@@ -66,5 +66,11 @@ public interface UserService {
     @RemoteMethod(methodVarNames={ "userInfo" })
     String modifyUserInfo(UserInfo userInfo)throws RemoteInvokeException;
 
-
+	/**
+	 * 查看个人信息
+	 * @param userId
+	 * @return
+	 * @throws RemoteInvokeException
+	 */
+	UserInfo getById(String userId) throws RemoteInvokeException;
 }

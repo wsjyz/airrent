@@ -64,5 +64,27 @@ public class AirportController {
 			@RequestParam  String airportId) throws RemoteInvokeException {
 		return airportService.findPlaneByAirportId(openPage, airportId);
 	}
+	/**
+	 * 
+	 * @param airport
+	 * @return
+	 * @throws RemoteInvokeException
+	 */
+	@RequestMapping(value = "/addAirport")
+	@ResponseBody
+	public String addAirport(@FastJson Airport airport) throws RemoteInvokeException {
+		return airportService.addAirport(airport);
+	}
+	/**
+	 * 
+	 * @param airprotId
+	 * @return
+	 * @throws RemoteInvokeException
+	 */
+	@RequestMapping(value = "/deleteAirprot")
+	@ResponseBody
+	public String deleteAirprot(String airprotId) throws RemoteInvokeException {
+		return airportService.deleteAirprot(airprotId);
+	}
 
 }

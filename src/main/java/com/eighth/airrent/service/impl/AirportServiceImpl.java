@@ -10,7 +10,6 @@ import com.eighth.airrent.domain.Plane;
 import com.eighth.airrent.proxy.exception.RemoteInvokeException;
 import com.eighth.airrent.proxy.service.AirportService;
 
-
 /**
  * Created by dam on 2014/7/2.
  */
@@ -20,8 +19,8 @@ public class AirportServiceImpl implements AirportService {
 	AirportDAO airportDAO;
 
 	@Override
-	public OpenPage<Airport> findAirportList(OpenPage openPage,String airportName)
-			throws RemoteInvokeException {
+	public OpenPage<Airport> findAirportList(OpenPage openPage,
+			String airportName) throws RemoteInvokeException {
 		return airportDAO.findAirportList(openPage, airportName);
 	}
 
@@ -35,6 +34,16 @@ public class AirportServiceImpl implements AirportService {
 	public OpenPage<Plane> findPlaneByAirportId(OpenPage openPage,
 			String airportId) throws RemoteInvokeException {
 		return airportDAO.findPlaneByAirportId(openPage, airportId);
+	}
+
+	@Override
+	public String addAirport(Airport airport) throws RemoteInvokeException {
+		return airportDAO.addAirport(airport);
+	}
+
+	@Override
+	public String deleteAirprot(String airprotId) throws RemoteInvokeException {
+		return airportDAO.deleteAirprot(airprotId);
 	}
 
 }

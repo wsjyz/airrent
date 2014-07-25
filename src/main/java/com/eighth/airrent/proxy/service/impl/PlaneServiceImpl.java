@@ -12,4 +12,22 @@ public class PlaneServiceImpl implements PlaneService {
     public Plane findPlaneById(String planeId) throws RemoteInvokeException {
         return null;
     }
+
+	@Override
+	public String addPlane(Plane plane) throws RemoteInvokeException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String deletePlane(String planeId) throws RemoteInvokeException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String updatePlane(Plane plane) throws RemoteInvokeException {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

@@ -9,12 +9,39 @@ import com.eighth.airrent.proxy.exception.RemoteInvokeException;
  */
 public interface PlaneService {
 
-    /**
-     * 飞机详情
-     * @param planeId
-     * @return
-     * @throws RemoteInvokeException
-     */
+	/**
+	 * 飞机详情
+	 * 
+	 * @param planeId
+	 * @return
+	 * @throws RemoteInvokeException
+	 */
     @RemoteMethod(methodVarNames={ "planeId"})
-    Plane findPlaneById(String planeId)throws RemoteInvokeException;
+	Plane findPlaneById(String planeId) throws RemoteInvokeException;
+
+	/**
+	 * 新增飞机
+	 * 
+	 * @param plane
+	 * @return
+	 * @throws RemoteInvokeException
+	 */
+	String addPlane(Plane plane) throws RemoteInvokeException;
+
+	/**
+	 * 删除飞机
+	 * 
+	 * @param planeId
+	 * @return
+	 * @throws RemoteInvokeException
+	 */
+	String deletePlane(String planeId) throws RemoteInvokeException;
+
+	/**
+	 * 修改飞机基本信息 
+	 * @param plane
+	 * @return
+	 * @throws RemoteInvokeException
+	 */
+	String updatePlane(Plane plane) throws RemoteInvokeException;
 }

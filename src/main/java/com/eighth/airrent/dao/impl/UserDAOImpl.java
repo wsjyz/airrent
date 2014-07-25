@@ -48,7 +48,11 @@ public class UserDAOImpl  extends BaseDAO implements UserDAO {
 			return userInfo;
 			}
 		});
+		if (CollectionUtils.isEmpty(list)) {
+			return new UserInfo();
+		}
 		return list.get(0);
+
 	}
 
 	@Override
@@ -98,7 +102,8 @@ public class UserDAOImpl  extends BaseDAO implements UserDAO {
 		StringBuffer sql=new StringBuffer();
 		String tokenId=CommonUtils.genUUID();
 		Calendar cal=Calendar.getInstance();
-		String token="5781";
+		 int random=(int)(Math.random()*10000);
+		String token=random+"";
 		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		sql.append("INSERT into t_airrent_verify_code(token_id,token,opt_time) values('"
 				+tokenId+ "','"+token+ "','" +sdf.format(cal.getTime())+ "')");
@@ -172,6 +177,34 @@ public class UserDAOImpl  extends BaseDAO implements UserDAO {
 			status="SUCCESS";
 		}
 		return status;
+	}
+
+	@Override
+	public UserInfo getById(String userId) {
+		StringBuffer sql1=new StringBuffer();
+		sql1.append("select * from t_airrent_user_info where user_id='"+userId+"'");
+		List<UserInfo> list=getJdbcTemplate().query(sql1.toString(), new RowMapper<UserInfo>(){
+			@Override
+			public UserInfo mapRow(ResultSet rs, int rowNum) throws SQLException {
+					UserInfo userInfo=new UserInfo();
+					userInfo.setUserId(rs.getString("user_id"));
+				    userInfo.setLoginName(rs.getString("login_name"));//登录名
+				    userInfo.setPassword(rs.getString("password"));
+				    userInfo.setMobile(rs.getString("mobile"));//手机号
+				    userInfo.setUserName(rs.getString("user_name"));//姓名
+				    userInfo.setIdentityCard(rs.getString("identity_card"));//身份证号
+				    userInfo.setSex(rs.getString("sex"));//MALE|FAMALE
+				    userInfo.setAge(rs.getString("age"));//年龄
+				    userInfo.setAddress(rs.getString("address"));//居住地址
+				    userInfo.setWorkOrg(rs.getString("work_org"));//工作单位
+				    userInfo.setZhifubao(rs.getString("zhifubao"));//支付宝账号
+				    userInfo.setRegistToken(rs.getString("registToken"));//注册时的验证码
+				    userInfo.setLoginTip(rs.getString("login_tip"));//登录提示信息
+				    userInfo.setLoginStatus(rs.getString("login_status"));//LOGIN_INFO_NULL请输入用户名密码
+			return userInfo;
+			}
+		});
+		return list.get(0);
 	}
 
   

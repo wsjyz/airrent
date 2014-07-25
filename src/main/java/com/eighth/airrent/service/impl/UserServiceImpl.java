@@ -49,4 +49,9 @@ public class UserServiceImpl implements UserService {
 			throws RemoteInvokeException {
 		return userDAO.modifyUserInfo(userInfo);
 	}
+
+	@Override
+	public UserInfo getById(String userId) throws RemoteInvokeException {
+		return userDAO.getById(userId);
+	}
 }
