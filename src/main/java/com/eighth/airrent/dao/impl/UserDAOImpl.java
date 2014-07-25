@@ -48,7 +48,11 @@ public class UserDAOImpl  extends BaseDAO implements UserDAO {
 			return userInfo;
 			}
 		});
+		if (CollectionUtils.isEmpty(list)) {
+			return new UserInfo();
+		}
 		return list.get(0);
+
 	}
 
 	@Override
