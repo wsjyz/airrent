@@ -2,6 +2,7 @@ package com.eighth.airrent.proxy.service;
 
 import com.eighth.airrent.domain.Information;
 import com.eighth.airrent.domain.OpenPage;
+import com.eighth.airrent.proxy.annotation.RemoteMethod;
 
 import java.util.List;
 
@@ -15,5 +16,6 @@ public interface InfoService {
      * @param openPage json格式 { "pageNo": 0, "pageSize": 10 }pageNo页号 pageSize每页显示条数
      * @return
      */
+    @RemoteMethod(methodVarNames={ "openPage"})
     OpenPage<Information> getInformations(OpenPage openPage);
 }

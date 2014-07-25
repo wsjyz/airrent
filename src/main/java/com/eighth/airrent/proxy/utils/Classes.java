@@ -13,7 +13,13 @@ public class Classes {
 
 
     public static Object stringToObject(String s, Type type){
-        return JSON.parseObject(s,type);
+        Object obj = null;
+        try{
+            obj = JSON.parseObject(s,type);
+        }catch (Exception e){
+            System.out.println("服务端返回值序列化异常！");
+        }
+        return obj;
     }
 
     public static String parseClassMethodToUri(String packageClassName,String methodName){

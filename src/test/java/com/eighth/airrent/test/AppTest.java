@@ -11,7 +11,7 @@ public class AppTest {
         Server jettyServer = new Server(8080);
 
         WebAppContext wah = new WebAppContext();
-        wah.setContextPath("/airrent");
+        wah.setContextPath("/ar");
         wah.setWar("src/main/webapp");
         jettyServer.setHandler(wah);
         try {

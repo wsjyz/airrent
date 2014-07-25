@@ -3,6 +3,7 @@ package com.eighth.airrent.proxy.service;
 import com.eighth.airrent.domain.Airport;
 import com.eighth.airrent.domain.OpenPage;
 import com.eighth.airrent.domain.Plane;
+import com.eighth.airrent.proxy.annotation.RemoteMethod;
 import com.eighth.airrent.proxy.exception.RemoteInvokeException;
 
 
@@ -17,6 +18,7 @@ public interface AirportService {
      * @return
      * @throws RemoteInvokeException
      */
+    @RemoteMethod(methodVarNames={ "openPage","airportName" })
     OpenPage<Airport> findAirportList(OpenPage openPage,String airportName)throws RemoteInvokeException;
 
     /**
@@ -25,6 +27,7 @@ public interface AirportService {
      * @return
      * @throws RemoteInvokeException
      */
+    @RemoteMethod(methodVarNames={ "airlineId" })
     Airport findAirportById(String airportId)throws RemoteInvokeException;
 
     /**
@@ -34,5 +37,6 @@ public interface AirportService {
      * @return
      * @throws RemoteInvokeException
      */
+    @RemoteMethod(methodVarNames={ "openPage","airlineId" })
     OpenPage<Plane> findPlaneByAirportId(OpenPage openPage,String airportId)throws RemoteInvokeException;
 }

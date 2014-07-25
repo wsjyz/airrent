@@ -3,6 +3,7 @@ package com.eighth.airrent.proxy.service;
 import com.eighth.airrent.domain.Airline;
 import com.eighth.airrent.domain.OpenPage;
 import com.eighth.airrent.domain.Plane;
+import com.eighth.airrent.proxy.annotation.RemoteMethod;
 import com.eighth.airrent.proxy.exception.RemoteInvokeException;
 
 import java.util.List;
@@ -18,6 +19,7 @@ public interface AirlineService {
      * @return
      * @throws RemoteInvokeException
      */
+    @RemoteMethod(methodVarNames={ "airlineId" })
     Airline findAirlineById(String airlineId)throws RemoteInvokeException;
 
     /**
@@ -27,5 +29,6 @@ public interface AirlineService {
      * @return
      * @throws RemoteInvokeException
      */
+    @RemoteMethod(methodVarNames={ "openPage","airlineId" })
     OpenPage<Plane> findPlaneByAirlineId(OpenPage openPage,String airlineId)throws RemoteInvokeException;
 }
