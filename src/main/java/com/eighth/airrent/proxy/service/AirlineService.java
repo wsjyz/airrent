@@ -5,8 +5,6 @@ import com.eighth.airrent.domain.OpenPage;
 import com.eighth.airrent.domain.Plane;
 import com.eighth.airrent.proxy.exception.RemoteInvokeException;
 
-import java.util.List;
-
 /**
  * Created by dam on 2014/7/2.
  */
