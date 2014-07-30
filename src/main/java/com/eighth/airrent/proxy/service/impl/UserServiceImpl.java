@@ -11,9 +11,7 @@ import com.eighth.airrent.proxy.service.UserService;
 public class UserServiceImpl implements UserService {
     @Override
     public UserInfo login(String loginName, String password) {
-        UserInfo userInfo = new UserInfo();
-        userInfo.setLoginStatus("LOCAL");
-        return userInfo;
+        return null;
     }
 
     @Override
@@ -37,7 +35,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public String modifyUserInfo(UserInfo userInfo) throws RemoteInvokeException {
+    public UserInfo modifyUserInfo(UserInfo userInfo) throws RemoteInvokeException {
         return null;
     }
 

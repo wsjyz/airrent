@@ -101,7 +101,7 @@ public class UserController {
 	 */
 	@RequestMapping(value = "/modifyUserInfo")
 	@ResponseBody
-	public String modifyUserInfo(@FastJson UserInfo userInfo)
+	public UserInfo modifyUserInfo(@FastJson UserInfo userInfo)
 			throws RemoteInvokeException {
 		return userService.modifyUserInfo(userInfo);
 	}

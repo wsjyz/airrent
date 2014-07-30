@@ -64,7 +64,7 @@ public interface UserService {
 	 * @return SUCCESS成功，FAIL失败
 	 * @throws RemoteInvokeException
 	 */
-	String modifyUserInfo(UserInfo userInfo) throws RemoteInvokeException;
+	UserInfo modifyUserInfo(UserInfo userInfo) throws RemoteInvokeException;
 
 	/**
 	 * 查看个人信息

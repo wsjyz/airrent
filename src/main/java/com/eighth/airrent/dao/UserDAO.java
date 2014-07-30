@@ -54,10 +54,9 @@ public interface UserDAO {
     /**
      * 修改个人信息
      * @param userInfo
-     * @return SUCCESS成功，FAIL失败
      * @
      */
-    String modifyUserInfo(UserInfo userInfo);
+    UserInfo modifyUserInfo(UserInfo userInfo);
 
 	UserInfo getById(String userId);
 }
