@@ -13,6 +13,7 @@ import org.springframework.util.CollectionUtils;
 import com.eighth.airrent.dao.AirportDAO;
 import com.eighth.airrent.dao.BaseDAO;
 import com.eighth.airrent.domain.Airport;
+import com.eighth.airrent.domain.Corp;
 import com.eighth.airrent.domain.OpenPage;
 import com.eighth.airrent.domain.Plane;
 import com.eighth.airrent.util.CommonUtils;
@@ -68,7 +69,33 @@ public class AirportDAOImpl extends BaseDAO implements AirportDAO {
 			return airport;
 		}
     }
-
+    public void getPoint(Airport airport ){
+	     try {  
+	            String sCurrentLine;  
+	            String sTotalString;  
+	            sCurrentLine = "";  
+	            sTotalString = "";  
+	            java.io.InputStream l_urlStream;  
+	            java.net.URL l_url = new java.net.URL("http://api.map.baidu.com/geocoder/v2/?address="+airport.getDescription().replaceAll(" ", "")+"&output=json&ak=702632E1add3d4953d0f105f27c294b9&callback=showLocation");  
+	            java.net.HttpURLConnection l_connection = (java.net.HttpURLConnection) l_url.openConnection();  
+	            l_connection.connect();  
+	            l_urlStream = l_connection.getInputStream();  
+	            java.io.BufferedReader l_reader = new java.io.BufferedReader(new java.io.InputStreamReader(l_urlStream));   
+	            String str=l_reader.readLine();
+	            //用经度分割返回的网页代码
+	            String s=","+"\""+"lat"+"\""+":";
+	            String strs[]=str.split(s, 2);
+	            String s1="\""+"lng"+"\""+":";
+	           String a[]=strs[0].split(s1, 2);
+	           airport.setLng(a[1]);
+	           s1="}"+","+"\"";
+	          String a1[]=strs[1].split(s1, 2);
+	          airport.setLat(a1[0]);
+	        } catch (Exception e) {  
+	            e.printStackTrace();  
+	        }  
+	    
+	  }
 
 	@Override
 	public Airport findAirportById(String airportId) {
@@ -139,6 +166,7 @@ public class AirportDAOImpl extends BaseDAO implements AirportDAO {
 	public String addAirport(Airport airport) {
 		StringBuffer sql = new StringBuffer();
 		String airportId = CommonUtils.genUUID();
+		getPoint(airport);
 		sql.append("INSERT into t_airrent_airport(airport_id,airport_name,description,airport_image) values('"
 				+ airportId
 				+ "','"
