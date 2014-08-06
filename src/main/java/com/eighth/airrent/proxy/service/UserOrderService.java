@@ -31,7 +31,7 @@ public interface UserOrderService {
      * @return
      * @throws RemoteInvokeException
      */
-    String payOrder(String userId,String orderId)throws RemoteInvokeException;
+    String payOrder(String userId,String orderId)throws Exception;
 
     /**
      * 获取订单信息

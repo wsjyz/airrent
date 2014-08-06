@@ -11,7 +11,6 @@ import org.springframework.util.CollectionUtils;
 import com.eighth.airrent.dao.BaseDAO;
 import com.eighth.airrent.dao.PlaneDAO;
 import com.eighth.airrent.domain.Plane;
-import com.eighth.airrent.proxy.exception.RemoteInvokeException;
 import com.eighth.airrent.util.CommonUtils;
 
 /**
@@ -24,8 +23,14 @@ public class PlaneDAOImpl extends BaseDAO implements PlaneDAO{
 	public Plane findPlaneById(String planeId) {
 		StringBuffer sql=new StringBuffer();
 		sql.append("select * from t_airrent_plane where plane_id='"+planeId+"'");
-		List<Plane> list = getJdbcTemplate().query(sql.toString(), new RowMapper<Plane>() {
-			@Override
+		List<Plane> list = getJdbcTemplate().query(sql.toString(), new PlaneMapper());
+		if (CollectionUtils.isEmpty(list)) {
+			return new Plane();
+		}
+		return list.get(0);
+	}
+	 public class PlaneMapper implements RowMapper<Plane>{
+		 @Override
 			public Plane mapRow(ResultSet rs, int rowNum) throws SQLException {
 				Plane plane = new Plane();
 				plane.setAirlineId(rs.getString("airline_id"));
@@ -48,13 +53,8 @@ public class PlaneDAOImpl extends BaseDAO implements PlaneDAO{
 				plane.setTimeInProduct(rs.getString("time_in_product"));
 				return plane;
 			}
-		});
-		if (CollectionUtils.isEmpty(list)) {
-			return new Plane();
-		}
-		return list.get(0);
-	}
-
+	    	
+	    }
 	@Override
 	public String addPlane(Plane plane) {
 		StringBuffer sql = new StringBuffer();

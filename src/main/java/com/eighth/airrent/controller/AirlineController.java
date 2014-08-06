@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.eighth.airrent.domain.Airline;
 import com.eighth.airrent.domain.OpenPage;
@@ -47,4 +48,10 @@ public class AirlineController {
 		
 		return airlineService.findPlaneByAirlineId(openPage, airlineId);
 	}
+	@RequestMapping("/payment")
+    public ModelAndView toPay() {
+        ModelAndView view = new ModelAndView();
+        view.setViewName("index");
+        return view;
+    }
 }

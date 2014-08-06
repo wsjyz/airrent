@@ -2,6 +2,7 @@ package com.eighth.airrent.dao.impl;
 
 import com.eighth.airrent.dao.BaseDAO;
 import com.eighth.airrent.dao.InformationDAO;
+import com.eighth.airrent.domain.Airline;
 import com.eighth.airrent.domain.Information;
 import com.eighth.airrent.domain.OpenPage;
 
@@ -29,19 +30,7 @@ public class InformationDAOImpl extends BaseDAO implements InformationDAO{
 			openPage.setTotal(count);
 			sql=new StringBuffer();
 			sql.append("select * from t_airrent_information  limit "+openPage.getPageSize()+" OFFSET "+(openPage.getFirst() - 1)+"");
-			List<Information> list = getJdbcTemplate().query(sql.toString(), new RowMapper<Information>() {
-				@Override
-				public Information mapRow(ResultSet rs, int rowNum) throws SQLException {
-					Information information=new Information();
-					information.setInformationId(rs.getString("information_id"));
-					information.setTitle(rs.getString("title"));
-					information.setContent(rs.getString("content"));
-					information.setPostTime(rs.getString("post_time"));
-					information.setFileUril(rs.getString("file_uril"));
-					information.setStatus(rs.getString("status"));
-					return information;
-				}
-			});
+			List<Information> list = getJdbcTemplate().query(sql.toString(), new InformationMapper());
 			openPage.setRows(list);
 		}else{
 			openPage.setTotal(count);
@@ -51,5 +40,17 @@ public class InformationDAOImpl extends BaseDAO implements InformationDAO{
 		return openPage;
 	}
 
-   
+	 public class InformationMapper implements RowMapper<Information>{
+		 @Override
+			public Information mapRow(ResultSet rs, int rowNum) throws SQLException {
+				Information information=new Information();
+				information.setInformationId(rs.getString("information_id"));
+				information.setTitle(rs.getString("title"));
+				information.setContent(rs.getString("content"));
+				information.setPostTime(rs.getString("post_time"));
+				information.setFileUril(rs.getString("file_uril"));
+				information.setStatus(rs.getString("status"));
+				return information;
+			}
+	    }
 }

@@ -25,7 +25,7 @@ public class UserOrderServiceImpl implements UserOrderService {
 
 	@Override
 	public String payOrder(String userId, String orderId)
-			throws RemoteInvokeException {
+			throws Exception {
 		return userOrderDAO.payOrder(userId, orderId);
 	}
 

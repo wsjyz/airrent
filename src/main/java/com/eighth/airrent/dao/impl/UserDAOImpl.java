@@ -14,6 +14,7 @@ import org.springframework.util.StringUtils;
 
 import com.eighth.airrent.dao.BaseDAO;
 import com.eighth.airrent.dao.UserDAO;
+import com.eighth.airrent.domain.Airline;
 import com.eighth.airrent.domain.UserInfo;
 import com.eighth.airrent.domain.VerifyCode;
 import com.eighth.airrent.util.AirrentUtils;
@@ -33,26 +34,7 @@ public class UserDAOImpl  extends BaseDAO implements UserDAO {
 		}
 		StringBuffer sql=new StringBuffer();
 		sql.append("select * from t_airrent_user_info where login_name='"+loginName+"' and password='"+password+"'");
-		List<UserInfo> list=getJdbcTemplate().query(sql.toString(), new RowMapper<UserInfo>(){
-			@Override
-			public UserInfo mapRow(ResultSet rs, int rowNum) throws SQLException {
-					UserInfo userInfo=new UserInfo();
-					userInfo.setUserId(rs.getString("user_id"));
-				    userInfo.setLoginName(rs.getString("login_name"));//登录名
-				    userInfo.setPassword(rs.getString("password"));
-				    userInfo.setMobile(rs.getString("mobile"));//手机号
-				    userInfo.setUserName(rs.getString("user_name"));//姓名
-				    userInfo.setIdentityCard(rs.getString("identity_card"));//身份证号
-				    userInfo.setSex(rs.getString("sex"));//MALE|FAMALE
-				    userInfo.setAge(rs.getString("age"));//年龄
-				    userInfo.setAddress(rs.getString("address"));//居住地址
-				    userInfo.setWorkOrg(rs.getString("work_org"));//工作单位
-				    userInfo.setZhifubao(rs.getString("zhifubao"));//支付宝账号
-				    userInfo.setRegistToken(rs.getString("registToken"));//注册时的验证码
-				    userInfo.setLoginTip(rs.getString("login_tip"));//登录提示信息
-			return userInfo;
-			}
-		});
+		List<UserInfo> list=getJdbcTemplate().query(sql.toString(), new UserInfoMapper());
 		if (CollectionUtils.isEmpty(list)) {
 			userInfo.setHint(AirrentUtils.NAME_PASSWORD_ERROR);
 		}else{
@@ -62,15 +44,8 @@ public class UserDAOImpl  extends BaseDAO implements UserDAO {
 		return userInfo;
 
 	}
-
-	@Override
-	public UserInfo regist(UserInfo userInfo) {
-		StringBuffer sql=new StringBuffer();
-		//检查是否已注册
-		StringBuffer sql1=new StringBuffer();
-		sql1.append("select * from t_airrent_user_info where login_name='"+userInfo.getLoginName()+"'");
-		List<UserInfo> list=getJdbcTemplate().query(sql1.toString(), new RowMapper<UserInfo>(){
-			@Override
+	 public class UserInfoMapper implements RowMapper<UserInfo>{
+		 @Override
 			public UserInfo mapRow(ResultSet rs, int rowNum) throws SQLException {
 					UserInfo userInfo=new UserInfo();
 					userInfo.setUserId(rs.getString("user_id"));
@@ -88,7 +63,14 @@ public class UserDAOImpl  extends BaseDAO implements UserDAO {
 				    userInfo.setLoginTip(rs.getString("login_tip"));//登录提示信息
 			return userInfo;
 			}
-		});
+	    }
+	@Override
+	public UserInfo regist(UserInfo userInfo) {
+		StringBuffer sql=new StringBuffer();
+		//检查是否已注册
+		StringBuffer sql1=new StringBuffer();
+		sql1.append("select * from t_airrent_user_info where login_name='"+userInfo.getLoginName()+"'");
+		List<UserInfo> list=getJdbcTemplate().query(sql1.toString(), new UserInfoMapper());
 		if (!CollectionUtils.isEmpty(list)) {
 			userInfo.setHint(AirrentUtils.REGIST_EXISTS);
 		}else{
@@ -183,10 +165,56 @@ public class UserDAOImpl  extends BaseDAO implements UserDAO {
 	@Override
 	public UserInfo modifyUserInfo(UserInfo userInfo) {
 		StringBuffer sql=new StringBuffer();
-		sql.append("update t_airrent_user_info set login_name='"+userInfo.getLoginName()+"',password='"+userInfo.getPassword()+"',mobile='"+userInfo.getMobile()
-				+"',user_name='"+userInfo.getUserName()+"',identity_card='"+userInfo.getIdentityCard()+"',sex='"+userInfo.getSex()+"',age='"+userInfo.getAge()
-				+"',address='"+userInfo.getAddress()+"',work_org='"+userInfo.getWorkOrg()+"',zhifubao='"+userInfo.getZhifubao()+"',registToken='"+userInfo.getRegistToken()
-				+"',login_tip='"+userInfo.getLoginTip()+"' where user_id='"+userInfo.getUserId()+"'");
+		sql.append("update t_airrent_user_info set");
+		  if(!StringUtils.isEmpty(userInfo.getLoginName())){
+	            sql.append("login_name='"+userInfo.getLoginName()+"',");
+	        }
+
+		  if(!StringUtils.isEmpty(userInfo.getPassword())){
+	            sql.append("password='"+userInfo.getPassword()+"',");
+	        }
+
+		  if(!StringUtils.isEmpty(userInfo.getMobile())){
+	            sql.append("mobile='"+userInfo.getMobile()+"',");
+	        }
+
+		  if(!StringUtils.isEmpty(userInfo.getUserName())){
+	            sql.append("user_name='"+userInfo.getUserName()+"',");
+	        }
+
+		  if(!StringUtils.isEmpty(userInfo.getIdentityCard())){
+	            sql.append("dentity_card='"+userInfo.getIdentityCard()+"',");
+	        }
+
+		  if(!StringUtils.isEmpty(userInfo.getSex())){
+	            sql.append("sex='"+userInfo.getSex()+"',");
+	        }
+
+		  if(!StringUtils.isEmpty(userInfo.getAge())){
+	            sql.append("age='"+userInfo.getAge()+"',");
+	        }
+
+		  if(!StringUtils.isEmpty(userInfo.getAddress())){
+	            sql.append("address='"+userInfo.getAddress()+"',");
+	        }
+
+		  if(!StringUtils.isEmpty(userInfo.getWorkOrg())){
+	            sql.append("work_org='"+userInfo.getWorkOrg()+"',");
+	        }
+
+		  if(!StringUtils.isEmpty(userInfo.getZhifubao())){
+	            sql.append("zhifubao='"+userInfo.getZhifubao()+"',");
+	        }
+		  if(!StringUtils.isEmpty(userInfo.getRegistToken())){
+	            sql.append("registToken='"+userInfo.getRegistToken()+"',");
+	        }
+		  if(!StringUtils.isEmpty(userInfo.getLoginTip())){
+	            sql.append("login_tip='"+userInfo.getLoginTip()+"',");
+	        }
+		  if(sql.lastIndexOf(",") + 1 == sql.length()){
+	            sql.delete(sql.lastIndexOf(","),sql.length());
+	        }
+		 sql.append("where user_id='"+userInfo.getUserId()+"'");
 		int count=getJdbcTemplate().update(sql.toString());
 		if (count>0) {
 			return userInfo;
@@ -198,26 +226,7 @@ public class UserDAOImpl  extends BaseDAO implements UserDAO {
 	public UserInfo getById(String userId) {
 		StringBuffer sql1=new StringBuffer();
 		sql1.append("select * from t_airrent_user_info where user_id='"+userId+"'");
-		List<UserInfo> list=getJdbcTemplate().query(sql1.toString(), new RowMapper<UserInfo>(){
-			@Override
-			public UserInfo mapRow(ResultSet rs, int rowNum) throws SQLException {
-					UserInfo userInfo=new UserInfo();
-					userInfo.setUserId(rs.getString("user_id"));
-				    userInfo.setLoginName(rs.getString("login_name"));//登录名
-				    userInfo.setPassword(rs.getString("password"));
-				    userInfo.setMobile(rs.getString("mobile"));//手机号
-				    userInfo.setUserName(rs.getString("user_name"));//姓名
-				    userInfo.setIdentityCard(rs.getString("identity_card"));//身份证号
-				    userInfo.setSex(rs.getString("sex"));//MALE|FAMALE
-				    userInfo.setAge(rs.getString("age"));//年龄
-				    userInfo.setAddress(rs.getString("address"));//居住地址
-				    userInfo.setWorkOrg(rs.getString("work_org"));//工作单位
-				    userInfo.setZhifubao(rs.getString("zhifubao"));//支付宝账号
-				    userInfo.setRegistToken(rs.getString("registToken"));//注册时的验证码
-				    userInfo.setLoginTip(rs.getString("login_tip"));//登录提示信息
-			return userInfo;
-			}
-		});
+		List<UserInfo> list=getJdbcTemplate().query(sql1.toString(), new UserInfoMapper());
 		if (CollectionUtils.isEmpty(list)) {
 			return new UserInfo();
 		}

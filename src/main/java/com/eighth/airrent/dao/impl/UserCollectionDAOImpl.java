@@ -2,6 +2,7 @@ package com.eighth.airrent.dao.impl;
 
 import com.eighth.airrent.dao.BaseDAO;
 import com.eighth.airrent.dao.UserCollectionDAO;
+import com.eighth.airrent.domain.Airline;
 import com.eighth.airrent.domain.UserCollection;
 
 import java.sql.ResultSet;
@@ -31,36 +32,26 @@ public class UserCollectionDAOImpl extends BaseDAO implements UserCollectionDAO 
 		List<UserCollection> list = new ArrayList<UserCollection>();
 		if ("PLANE".equals(collectionType)) {
 			list = getJdbcTemplate().query(sql.toString(),
-					new RowMapper<UserCollection>() {
-						@Override
-						public UserCollection mapRow(ResultSet rs, int rowNum)
-								throws SQLException {
-							UserCollection userCollection = new UserCollection();
-							userCollection.setPlaneId(rs.getString("plane_id"));
-							userCollection.setPlaneName(rs.getString("plane_name"));
-							userCollection.setUserId(rs.getString("user_id"));
-							return userCollection;
-						}
-					});
+					new UserCollectionMapper());
 		} else {
 			list = getJdbcTemplate().query(sql.toString(),
-					new RowMapper<UserCollection>() {
-						@Override
-						public UserCollection mapRow(ResultSet rs, int rowNum)
-								throws SQLException {
-							UserCollection userCollection = new UserCollection();
-							userCollection.setAirportId(rs
-									.getString("airport_id"));
-							userCollection.setAirportName(rs
-									.getString("airport_name"));
-							userCollection.setUserId(rs.getString("user_id"));
-							return userCollection;
-						}
-					});
+					new UserCollectionMapper());
 		}
 		return list;
 	}
-
+	 public class UserCollectionMapper implements RowMapper<UserCollection>{
+		 @Override
+			public UserCollection mapRow(ResultSet rs, int rowNum)
+					throws SQLException {
+				UserCollection userCollection = new UserCollection();
+				userCollection.setAirportId(rs
+						.getString("airport_id"));
+				userCollection.setAirportName(rs
+						.getString("airport_name"));
+				userCollection.setUserId(rs.getString("user_id"));
+				return userCollection;
+			}
+	    }
 	@Override
 	public String addUserCollection(UserCollection collection) {
 		StringBuffer sql = new StringBuffer();

@@ -1,15 +1,25 @@
 package com.eighth.airrent.dao.impl;
 
+import java.net.URLDecoder;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
+import com.alipay.config.AlipayConfig;
+import com.alipay.util.AlipaySubmit;
+import com.alipay.util.UtilDate;
+import com.eighth.airrent.dao.AirportDAO;
 import com.eighth.airrent.dao.BaseDAO;
 import com.eighth.airrent.dao.UserOrderDAO;
+import com.eighth.airrent.domain.Airline;
+import com.eighth.airrent.domain.Airport;
 import com.eighth.airrent.domain.OpenPage;
 import com.eighth.airrent.domain.UserOrder;
 import com.eighth.airrent.util.CommonUtils;
@@ -20,6 +30,8 @@ import com.eighth.airrent.util.CommonUtils;
 @Repository(value = "UserOrderDAO")
 public class UserOrderDAOImpl extends BaseDAO implements UserOrderDAO{
 
+	@Autowired
+	AirportDAO airportDao;
 	@SuppressWarnings({ "rawtypes", "deprecation", "unchecked" })
 	@Override
 	public OpenPage<UserOrder> findUserOrder(OpenPage openPage, String userId) {
@@ -30,29 +42,7 @@ public class UserOrderDAOImpl extends BaseDAO implements UserOrderDAO{
 			openPage.setTotal(count);
 			sql=new StringBuffer();
 			sql.append("select * from t_airrent_user_order where user_id='"+userId+"' limit "+openPage.getPageSize()+" OFFSET "+(openPage.getFirst() - 1)+"");
-			List<UserOrder> list=getJdbcTemplate().query(sql.toString(), new RowMapper<UserOrder>(){
-				@Override
-				public UserOrder mapRow(ResultSet rs, int rowNum) throws SQLException {
-					UserOrder userOrder=new UserOrder();
-				    userOrder.setOrderId(rs.getString("order_id"));//订单编号
-				    userOrder.setUserId(rs.getString("user_id"));//提交人ID
-				    userOrder.setAirportId(rs.getString("airport_id"));
-				    //用途:商公务包机CHARTER|私人直升机PRIVATE_COPTER|航摄航拍AERIAL|农地森FARM|商业活动COMERCIAL|观光试飞TOUR|婚礼地产活动WEDDING_ESTATE|其它OTHER
-				    userOrder.setOrderUse(rs.getString("order_use"));
-				    userOrder.setStartTime(rs.getString("start_time"));//开始时间
-				    userOrder.setEndTime(rs.getString("end_time"));//结束时间
-				    userOrder.setStarting(rs.getString("starting"));//出发地
-				    userOrder.setDestination(rs.getString("destination"));//目的地
-				    userOrder.setUserCounts(rs.getInt("user_counts"));//人数
-				    userOrder.setOptTime(rs.getString("opt_time"));//产生时间
-				    userOrder.setDownPayment(rs.getBigDecimal("down_payment"));//定金
-				    userOrder.setOrderCounts(rs.getInt("order_counts"));//预定数量
-				    //支付状态 ONLINE_PAYED线上已支付 OFFLINE_PAYED线下已支付 NOT_PAY未支付
-				    userOrder.setOrderStatus(rs.getString("order_status"));
-				    userOrder.setDescription(rs.getString("description"));//备注
-				return userOrder;
-				}
-			});
+			List<UserOrder> list=getJdbcTemplate().query(sql.toString(), new UserOrderMapper());
 			openPage.setRows(list);
 		}else{
 			openPage.setTotal(count);
@@ -61,18 +51,8 @@ public class UserOrderDAOImpl extends BaseDAO implements UserOrderDAO{
 		}
 		return openPage;
 	}
-
-	@Override
-	public String payOrder(String userId, String orderId) {
-		return null;
-	}
-
-	@Override
-	public UserOrder findOrderById(String orderId) {
-		StringBuffer sql=new StringBuffer();
-		sql.append("select * from t_airrent_user_order where order_id='"+orderId+"'");
-		List<UserOrder> list=getJdbcTemplate().query(sql.toString(), new RowMapper<UserOrder>(){
-			@Override
+	 public class UserOrderMapper implements RowMapper<UserOrder>{
+		 @Override
 			public UserOrder mapRow(ResultSet rs, int rowNum) throws SQLException {
 				UserOrder userOrder=new UserOrder();
 			    userOrder.setOrderId(rs.getString("order_id"));//订单编号
@@ -93,7 +73,104 @@ public class UserOrderDAOImpl extends BaseDAO implements UserOrderDAO{
 			    userOrder.setDescription(rs.getString("description"));//备注
 			return userOrder;
 			}
-		});
+	    }
+	@Override
+	public String payOrder(String userId, String orderId) throws Exception {
+		UserOrder userOrder = findOrderById(orderId);
+//		String ALIPAY_GATEWAY_NEW = "http://wappaygw.alipay.com/service/rest.htm?";
+//		//返回格式
+//		String format = "xml";
+//		//必填，不需要修改
+//		
+//		//返回格式
+//		String v = "2.0";
+//		//必填，不需要修改
+//		
+//		//请求号
+//		String req_id = UtilDate.getOrderNum();
+//		//必填，须保证每次请求都是唯一
+//		
+//		//req_data详细信息
+//		
+//		//服务器异步通知页面路径
+//		String notify_url = "http://localhost:8080/airrent/notify_url.jsp";
+//		//需http://格式的完整路径，不能加?id=123这类自定义参数
+//
+//		//页面跳转同步通知页面路径
+//		String call_back_url = "http://localhost:8080/airrent/call_back_url.jsp";
+//		//需http://格式的完整路径，不能加?id=123这类自定义参数，不能写成http://localhost/
+//
+//		//操作中断返回地址
+//		String merchant_url = "http://localhost:8080/airrent/xxxxxx.jsp";
+//		//用户付款中途退出返回商户的地址。需http://格式的完整路径，不允许加?id=123这类自定义参数
+//
+//		//卖家支付宝帐户
+//		String seller_email = new String();
+//		//必填
+//
+//		//商户订单号
+//		String out_trade_no = new String(userOrder.getOrderId());
+//		//商户网站订单系统中唯一订单号，必填
+//
+//		//订单名称
+//		String subject = new String();
+//		//必填
+//
+//		//付款金额
+//		String total_fee = new String(userOrder.getDownPayment()+"");
+//		//必填
+//		
+//		//请求业务参数详细
+//		String req_dataToken = "<direct_trade_create_req><notify_url>" + notify_url + "</notify_url><call_back_url>" + call_back_url + "</call_back_url><seller_account_name>" + seller_email + "</seller_account_name><out_trade_no>" + out_trade_no + "</out_trade_no><subject>" + subject + "</subject><total_fee>" + total_fee + "</total_fee><merchant_url>" + merchant_url + "</merchant_url></direct_trade_create_req>";
+//		//必填
+//		
+//		//////////////////////////////////////////////////////////////////////////////////
+//		
+//		//把请求参数打包成数组
+//		Map<String, String> sParaTempToken = new HashMap<String, String>();
+//		sParaTempToken.put("service", "alipay.wap.trade.create.direct");
+//		sParaTempToken.put("partner", AlipayConfig.partner);
+//		sParaTempToken.put("_input_charset", AlipayConfig.input_charset);
+//		sParaTempToken.put("sec_id", AlipayConfig.sign_type);
+//		sParaTempToken.put("format", format);
+//		sParaTempToken.put("v", v);
+//		sParaTempToken.put("req_id", req_id);
+//		sParaTempToken.put("req_data", req_dataToken);
+//		
+//		//建立请求
+//		String sHtmlTextToken = AlipaySubmit.buildRequest(ALIPAY_GATEWAY_NEW,"", "",sParaTempToken);
+//		//URLDECODE返回的信息
+//		sHtmlTextToken = URLDecoder.decode(sHtmlTextToken,AlipayConfig.input_charset);
+//		//获取token
+//		String request_token = AlipaySubmit.getRequestToken(sHtmlTextToken);
+//		//out.println(request_token);
+//		
+//		////////////////////////////////////根据授权码token调用交易接口alipay.wap.auth.authAndExecute//////////////////////////////////////
+//		
+//		//业务详细
+//		String req_data = "<auth_and_execute_req><request_token>" + request_token + "</request_token></auth_and_execute_req>";
+//		//必填
+//		
+//		//把请求参数打包成数组
+//		Map<String, String> sParaTemp = new HashMap<String, String>();
+//		sParaTemp.put("service", "alipay.wap.auth.authAndExecute");
+//		sParaTemp.put("partner", AlipayConfig.partner);
+//		sParaTemp.put("_input_charset", AlipayConfig.input_charset);
+//		sParaTemp.put("sec_id", AlipayConfig.sign_type);
+//		sParaTemp.put("format", format);
+//		sParaTemp.put("v", v);
+//		sParaTemp.put("req_data", req_data);
+//		
+//		//建立请求
+//		String sHtmlText = AlipaySubmit.buildRequest(ALIPAY_GATEWAY_NEW, sParaTemp, "get", "确认");
+		return null;
+	}
+
+	@Override
+	public UserOrder findOrderById(String orderId) {
+		StringBuffer sql=new StringBuffer();
+		sql.append("select * from t_airrent_user_order where order_id='"+orderId+"'");
+		List<UserOrder> list=getJdbcTemplate().query(sql.toString(), new UserOrderMapper());
 		return list.get(0);
 	}
 
@@ -126,27 +203,7 @@ public class UserOrderDAOImpl extends BaseDAO implements UserOrderDAO{
 		if (update>0) {
 			StringBuffer sql1=new StringBuffer();
 			sql1.append("select * from t_airrent_user_order where order_id='"+orderId+"'");
-			List<UserOrder> list=getJdbcTemplate().query(sql1.toString(), new RowMapper<UserOrder>(){
-				@Override
-				public UserOrder mapRow(ResultSet rs, int rowNum) throws SQLException {
-					UserOrder userOrder=new UserOrder();
-					userOrder.setOrderId(rs.getString("order_id"));
-					userOrder.setUserId(rs.getString("user_id"));//登录名
-					userOrder.setAirportId(rs.getString("airport_id"));
-					userOrder.setOrderUse(rs.getString("order_use"));//手机号
-					userOrder.setStartTime(rs.getString("start_time"));//姓名
-					userOrder.setEndTime(rs.getString("end_time"));//身份证号
-					userOrder.setStarting(rs.getString("starting"));//MALE|FAMALE
-					userOrder.setDestination(rs.getString("destination"));//登录提示信息
-					userOrder.setUserCounts(rs.getInt("user_counts"));//年龄
-				    userOrder.setOptTime(rs.getString("opt_time"));//居住地址
-				    userOrder.setDownPayment(rs.getBigDecimal("down_payment"));//工作单位
-				    userOrder.setOrderCounts(rs.getInt("order_counts"));//支付宝账号
-				    userOrder.setOrderStatus(rs.getString("order_status"));//注册时的验证码
-				    userOrder.setDescription(rs.getString("description"));//LOGIN_INFO_NULL请输入用户名密码
-				return userOrder;
-				}
-			});
+			List<UserOrder> list=getJdbcTemplate().query(sql1.toString(), new UserOrderMapper());
 			return list.get(0);
 		}
 		return new UserOrder();

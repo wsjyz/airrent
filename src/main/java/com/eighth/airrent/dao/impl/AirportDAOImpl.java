@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.CollectionUtils;
@@ -27,32 +28,26 @@ public class AirportDAOImpl extends BaseDAO implements AirportDAO {
 	public OpenPage<Airport> findAirportList(OpenPage<Airport> openPage,
 			String airportName) {
 		StringBuffer sql = new StringBuffer();
-		sql.append("select count(*) from t_airrent_airport where airport_name like '%"
+		sql.append("select count(*) from t_airrent_airport");
+		if (!StringUtils.isEmpty(airportName)) {
+			sql.append("where airport_name like '%"
 				+ airportName + "%'");
+		}
+		 
 		int count = getJdbcTemplate().queryForInt(sql.toString());
 		if (count > 0) {
 			openPage.setTotal(count);
 			sql = new StringBuffer();
-			sql.append("select * from t_airrent_airport where airport_name like '%"
-					+ airportName
-					+ "%' limit "
+			sql.append("select * from t_airrent_airport");
+			if (!StringUtils.isEmpty(airportName)) {
+				sql.append("where airport_name like '%"
+					+ airportName + "%'");
+			}
+			sql.append(" limit "
 					+ openPage.getPageSize()
 					+ " OFFSET " + (openPage.getFirst() - 1) + "");
 			List<Airport> list = getJdbcTemplate().query(sql.toString(),
-					new RowMapper<Airport>() {
-						@Override
-						public Airport mapRow(ResultSet rs, int rowNum)
-								throws SQLException {
-							Airport airport = new Airport();
-							airport.setAirportId(rs.getString("airport_id"));
-							airport.setAirportImage(rs
-									.getString("airport_name"));
-							airport.setAirportName(rs
-									.getString("airport_image"));
-							airport.setDescription(rs.getString("description"));
-							return airport;
-						}
-					});
+					new AirportMapper());
 			openPage.setRows(list);
 		} else {
 			openPage.setTotal(count);
@@ -61,6 +56,19 @@ public class AirportDAOImpl extends BaseDAO implements AirportDAO {
 		}
 		return openPage;
 	}
+    public class AirportMapper implements RowMapper<Airport>{
+    	@Override
+		public Airport mapRow(ResultSet rs, int rowNum)
+				throws SQLException {
+			Airport airport = new Airport();
+			airport.setAirportId(rs.getString("airport_id"));
+			airport.setAirportImage(rs.getString("airport_name"));
+			airport.setAirportName(rs.getString("airport_image"));
+			airport.setDescription(rs.getString("description"));
+			return airport;
+		}
+    }
+
 
 	@Override
 	public Airport findAirportById(String airportId) {
@@ -69,18 +77,7 @@ public class AirportDAOImpl extends BaseDAO implements AirportDAO {
 						+ airportId + "' ");
 
 		List<Airport> list = getJdbcTemplate().query(sql.toString(),
-				new RowMapper<Airport>() {
-					@Override
-					public Airport mapRow(ResultSet rs, int rowNum)
-							throws SQLException {
-						Airport airport = new Airport();
-						airport.setAirportId(rs.getString("airport_id"));
-						airport.setAirportImage(rs.getString("airport_name"));
-						airport.setAirportName(rs.getString("description"));
-						airport.setDescription(rs.getString("airport_image"));
-						return airport;
-					}
-				});
+				new AirportMapper());
 		if (CollectionUtils.isEmpty(list)) {
 			return new Airport();
 		}
@@ -102,37 +99,7 @@ public class AirportDAOImpl extends BaseDAO implements AirportDAO {
 					+ airportId + "' limit " + openPage.getPageSize()
 					+ " OFFSET " + (openPage.getFirst() - 1) + "");
 			List<Plane> list = getJdbcTemplate().query(sql.toString(),
-					new RowMapper<Plane>() {
-						@Override
-						public Plane mapRow(ResultSet rs, int rowNum)
-								throws SQLException {
-							Plane plane = new Plane();
-							plane.setPlaneId(rs.getString("plane_id"));
-							plane.setPlaneName(rs.getString("plane_name"));
-							plane.setPlaneImage(rs.getString("plane_image"));
-							plane.setPlaneNo(rs.getString("plane_no"));
-							plane.setFlyUnitCost(rs
-									.getBigDecimal("fly_unit_cost"));
-							plane.setPlaneType(rs.getString("plane_type"));
-							plane.setTimeInProduct(rs
-									.getString("time_in_product"));
-							plane.setProductArea(rs.getString("product_area"));
-							plane.setDrivingMile(rs
-									.getBigDecimal("driving_mile"));
-							plane.setSpeed(rs.getBigDecimal("speed"));
-							plane.setColour(rs.getString("colour"));
-							plane.setShowUnitCost(rs
-									.getBigDecimal("show_unit_cost"));
-							plane.setPlanePrice(rs.getBigDecimal("plane_price"));
-							plane.setProductOrg(rs.getString("product_org"));
-							plane.setAirlineId(rs.getString("airline_id"));
-							plane.setAirportId(rs.getString("airport_id"));
-							plane.setSitCounts(rs.getInt("sit_counts"));
-							plane.setReminderSitCounts(rs
-									.getInt("reminder_sit_counts"));
-							return plane;
-						}
-					});
+					new PlaneMapper());
 			openPage.setRows(list);
 		} else {
 			openPage.setTotal(count);
@@ -142,6 +109,32 @@ public class AirportDAOImpl extends BaseDAO implements AirportDAO {
 		return openPage;
 	}
 
+	 public class PlaneMapper implements RowMapper<Plane>{
+		 @Override
+			public Plane mapRow(ResultSet rs, int rowNum) throws SQLException {
+				Plane plane = new Plane();
+				plane.setAirlineId(rs.getString("airline_id"));
+				plane.setAirportId(rs.getString("airport_id"));
+				plane.setColour(rs.getString("colour"));
+				plane.setDrivingMile(rs.getBigDecimal("driving_mile"));
+				plane.setFlyUnitCost(rs.getBigDecimal("fly_unit_cost"));
+				plane.setPlaneId(rs.getString("plane_id"));
+				plane.setPlaneImage(rs.getString("plane_image"));
+				plane.setPlaneName(rs.getString("plane_name"));
+				plane.setPlaneNo(rs.getString("plane_no"));
+				plane.setPlanePrice(rs.getBigDecimal("plane_price"));
+				plane.setPlaneType(rs.getString("plane_type"));
+				plane.setProductArea(rs.getString("product_area"));
+				plane.setProductOrg(rs.getString("product_org"));
+				plane.setReminderSitCounts(rs.getInt("reminder_sit_counts"));
+				plane.setShowUnitCost(rs.getBigDecimal("show_unit_cost"));
+				plane.setSitCounts(rs.getInt("sit_counts"));
+				plane.setSpeed(rs.getBigDecimal("speed"));
+				plane.setTimeInProduct(rs.getString("time_in_product"));
+				return plane;
+			}
+	    	
+	    }
 	@Override
 	public String addAirport(Airport airport) {
 		StringBuffer sql = new StringBuffer();
