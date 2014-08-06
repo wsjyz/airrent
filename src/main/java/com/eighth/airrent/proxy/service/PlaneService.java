@@ -1,6 +1,7 @@
 package com.eighth.airrent.proxy.service;
 
 import com.eighth.airrent.domain.Plane;
+import com.eighth.airrent.proxy.annotation.RemoteMethod;
 import com.eighth.airrent.proxy.exception.RemoteInvokeException;
 
 /**
@@ -15,6 +16,7 @@ public interface PlaneService {
 	 * @return
 	 * @throws RemoteInvokeException
 	 */
+    @RemoteMethod(methodVarNames={ "planeId"})
 	Plane findPlaneById(String planeId) throws RemoteInvokeException;
 
 	/**

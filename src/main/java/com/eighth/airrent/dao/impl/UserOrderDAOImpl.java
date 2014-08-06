@@ -1,5 +1,6 @@
 package com.eighth.airrent.dao.impl;
 
+import java.math.BigDecimal;
 import java.net.URLDecoder;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -60,8 +61,10 @@ public class UserOrderDAOImpl extends BaseDAO implements UserOrderDAO{
 			    userOrder.setAirportId(rs.getString("airport_id"));
 			    //用途:商公务包机CHARTER|私人直升机PRIVATE_COPTER|航摄航拍AERIAL|农地森FARM|商业活动COMERCIAL|观光试飞TOUR|婚礼地产活动WEDDING_ESTATE|其它OTHER
 			    userOrder.setOrderUse(rs.getString("order_use"));
-			    userOrder.setStartTime(rs.getString("start_time"));//开始时间
-			    userOrder.setEndTime(rs.getString("end_time"));//结束时间
+			    userOrder.setStartDate(rs.getString("start_date"));//开始时间
+			    userOrder.setEndDate(rs.getString("end_date"));//结束时间
+			    userOrder.setStayHour(rs.getBigDecimal("stay_hour"));//停留时间
+			    userOrder.setFlyHour(rs.getBigDecimal("fly_hour"));//飞行时间
 			    userOrder.setStarting(rs.getString("starting"));//出发地
 			    userOrder.setDestination(rs.getString("destination"));//目的地
 			    userOrder.setUserCounts(rs.getInt("user_counts"));//人数
@@ -191,14 +194,14 @@ public class UserOrderDAOImpl extends BaseDAO implements UserOrderDAO{
 		StringBuffer sql=new StringBuffer();
 		String orderId=CommonUtils.genUUID();
 		sql.append("INSERT into t_airrent_user_order(order_id,user_id,airport_id,order_use,start_time,end_time,"
-				+ "starting,destination,user_counts,opt_time,down_payment,order_counts,order_status,description) values('"
+				+ "starting,destination,user_counts,opt_time,down_payment,order_counts,order_status,description,fly_hour,stay_hour) values('"
 				+orderId+ "','"+ order.getUserId()
 				+ "','" + order.getAirportId()+ "','" + order.getOrderUse()+ "','" 
-				+ order.getStartTime()+ "','" + order.getEndTime()
+				+ order.getStartDate()+ "','" + order.getEndDate()
 				+ "','" + order.getStarting()+ "','" + order.getDestination()
 				+ "','" + order.getUserCounts()+ "','" + order.getOptTime()
 				+ "','" + order.getDownPayment()+ "','" + order.getOrderCounts()
-				+ "','" + order.getOrderStatus()+ "','" + order.getDescription()+ "')");
+				+ "','" + order.getOrderStatus()+ "','" + order.getDescription()+ "','" + order.getFlyHour()+ "','" + order.getStayHour()+ "')");
 		int update = getJdbcTemplate().update(sql.toString());
 		if (update>0) {
 			StringBuffer sql1=new StringBuffer();

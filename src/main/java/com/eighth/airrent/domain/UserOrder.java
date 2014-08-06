@@ -11,8 +11,10 @@ public class UserOrder extends BaseDomain{
     private String airportId;
     //用途:商公务包机CHARTER|私人直升机PRIVATE_COPTER|航摄航拍AERIAL|农地森FARM|商业活动COMERCIAL|观光试飞TOUR|婚礼地产活动WEDDING_ESTATE|其它OTHER
     private String orderUse;
-    private String startTime;//开始时间
-    private String endTime;//结束时间
+    private String startDate;//出发日期
+    private String endDate;//返程日期
+    private BigDecimal stayHour;//停留时间
+    private BigDecimal flyHour;//飞行时间
     private String starting;//出发地
     private String destination;//目的地
     private int userCounts;//人数
@@ -22,7 +24,24 @@ public class UserOrder extends BaseDomain{
     //支付状态 ONLINE_PAYED线上已支付 OFFLINE_PAYED线下已支付 NOT_PAY未支付
     private String orderStatus;
     private String description;//备注
-	public String getOrderId() { 
+
+    public BigDecimal getStayHour() {
+        return stayHour;
+    }
+
+    public void setStayHour(BigDecimal stayHour) {
+        this.stayHour = stayHour;
+    }
+
+    public BigDecimal getFlyHour() {
+        return flyHour;
+    }
+
+    public void setFlyHour(BigDecimal flyHour) {
+        this.flyHour = flyHour;
+    }
+
+    public String getOrderId() {
 		return orderId;
 	}
 	public void setOrderId(String orderId) {
@@ -46,17 +65,17 @@ public class UserOrder extends BaseDomain{
 	public void setOrderUse(String orderUse) {
 		this.orderUse = orderUse;
 	}
-	public String getStartTime() {
-		return startTime;
+	public String getStartDate() {
+		return startDate;
 	}
-	public void setStartTime(String startTime) {
-		this.startTime = startTime;
+	public void setStartDate(String startDate) {
+		this.startDate = startDate;
 	}
-	public String getEndTime() {
-		return endTime;
+	public String getEndDate() {
+		return endDate;
 	}
-	public void setEndTime(String endTime) {
-		this.endTime = endTime;
+	public void setEndDate(String endDate) {
+		this.endDate = endDate;
 	}
 	public String getStarting() {
 		return starting;

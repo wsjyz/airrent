@@ -13,6 +13,12 @@ public class Classes {
 
 
     public static Object stringToObject(String s, Type type){
+        if(type instanceof Class){
+            Class c = (Class)type;
+            if(c.isAssignableFrom(String.class)){
+                return s;
+            }
+        }
         return JSON.parseObject(s,type);
     }
 

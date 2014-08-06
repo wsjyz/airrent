@@ -27,11 +27,20 @@ public class ProxyTest {
 
 //        //UserService proxy = new RemoteProxy<UserService>(UserService.class).getProxy();
         try {
-            UserInfo userInfo = proxy.login("sef","222");
+            UserInfo userInfo = proxy.login("update1","password");
             System.out.println(userInfo.getLoginTip());
         } catch (RemoteInvokeException e) {
             e.printStackTrace();
         }
+        //注册
+//        UserInfo u = new UserInfo();
+//        u.setUserName("111");
+//        u.setPassword("222");
+//        try {
+//            proxy.regist(u);
+//        } catch (RemoteInvokeException e) {
+//            e.printStackTrace();
+//        }
 //
 //        InfoServiceRemote infoServiceRemote = new RemoteProxy<InfoServiceRemote>(new InfoServiceRemoteImpl()).getProxy();
 //

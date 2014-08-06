@@ -1,6 +1,7 @@
 package com.eighth.airrent.proxy.service;
 
 import com.eighth.airrent.domain.UserCollection;
+import com.eighth.airrent.proxy.annotation.RemoteMethod;
 import com.eighth.airrent.proxy.exception.RemoteInvokeException;
 
 import java.util.List;
@@ -16,6 +17,7 @@ public interface UserCollectionService {
      * @param collectionType PLANE飞机 AIRPORT机场
      * @return
      */
+    @RemoteMethod(methodVarNames={ "userId","collectionType"})
     List<UserCollection> findUserCollection(String userId,String collectionType)throws RemoteInvokeException;
 
     /**
@@ -24,5 +26,6 @@ public interface UserCollectionService {
      * @return SUCCESS成功，FAIL失败
      * @throws RemoteInvokeException
      */
+    @RemoteMethod(methodVarNames={ "collection"})
     String addUserCollection(UserCollection collection)throws RemoteInvokeException;
 }
