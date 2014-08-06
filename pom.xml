@@ -5,6 +5,7 @@
     <groupId>com.eighth</groupId>
     <artifactId>airrent</artifactId>
     <version>1.0</version>
+    <packaging>war</packaging>
     <properties>
         <spring.version>4.0.4.RELEASE</spring.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

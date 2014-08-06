@@ -41,7 +41,7 @@ public class RemoteProxy<M> extends ProxyFactory<M> {
 
     @Override
     public void before(String[] argNames, Object[] args) {
-
+        map.clear();
         for(int i = 0;i < argNames.length;i ++){
             String argName = argNames[i];
             map.put(argName,args[i]);

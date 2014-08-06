@@ -24,8 +24,8 @@ import java.util.Map;
  */
 public class HTTPClient {
 
-    //private final static String SERVER_HOST_URL = "http://203.195.131.34:8081/ar/";
-    private final static String SERVER_HOST_URL = "http://localhost:8080/ar/";
+    private final static String SERVER_HOST_URL = "http://203.195.131.34:8081/hw/";
+    //private final static String SERVER_HOST_URL = "http://localhost:8080/hw/";
     //参数
     private Map<String,Object> params = new HashMap<String, Object>();
     //参数名和方法名
@@ -51,7 +51,6 @@ public class HTTPClient {
         ArrayList<BasicNameValuePair> list = new ArrayList<BasicNameValuePair>();
         if(params.size() > 0){
             for(String key:params.keySet()){
-                System.out.println(key+"|"+params.get(key));
                 Object paramsValueObj = params.get(key);
                 String paramsValues = "";
                 if(paramsValueObj instanceof String){
@@ -59,7 +58,7 @@ public class HTTPClient {
                 }else{
                     paramsValues = JSON.toJSONString(params.get(key));
                 }
-
+                System.out.println(key+"|"+paramsValues);
                 BasicNameValuePair nameValue = new BasicNameValuePair(key,paramsValues);
                 list.add(nameValue);
             }
@@ -72,9 +71,10 @@ public class HTTPClient {
         }
         return urlencodedformentity;
     }
-    public String request()throws RemoteInvokeException{
+    public String request(){
         CloseableHttpClient httpClient = HttpClients.createDefault();
         String postUri = SERVER_HOST_URL+getServiceUri();
+        System.out.println("request uri:"+postUri);
         HttpPost httpPost = new HttpPost(postUri);
 
         if(params.size() > 0){
@@ -91,7 +91,7 @@ public class HTTPClient {
                     HttpEntity entity = response.getEntity();
                     return entity != null ? EntityUtils.toString(entity) : null;
                 } else {
-                   throw new RemoteInvokeException(EntityUtils.toString(response.getEntity()));
+                    throw new RemoteInvokeException(EntityUtils.toString(response.getEntity()));
                 }
             }
 

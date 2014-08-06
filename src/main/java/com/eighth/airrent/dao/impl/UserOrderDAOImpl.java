@@ -39,8 +39,8 @@ public class UserOrderDAOImpl extends BaseDAO implements UserOrderDAO{
 				    userOrder.setAirportId(rs.getString("airport_id"));
 				    //用途:商公务包机CHARTER|私人直升机PRIVATE_COPTER|航摄航拍AERIAL|农地森FARM|商业活动COMERCIAL|观光试飞TOUR|婚礼地产活动WEDDING_ESTATE|其它OTHER
 				    userOrder.setOrderUse(rs.getString("order_use"));
-				    userOrder.setStartTime(rs.getString("start_time"));//开始时间
-				    userOrder.setEndTime(rs.getString("end_time"));//结束时间
+				    userOrder.setStartDate(rs.getString("start_date"));//开始时间
+				    userOrder.setEndDate(rs.getString("end_date"));//结束时间
 				    userOrder.setStarting(rs.getString("starting"));//出发地
 				    userOrder.setDestination(rs.getString("destination"));//目的地
 				    userOrder.setUserCounts(rs.getInt("user_counts"));//人数
@@ -50,6 +50,8 @@ public class UserOrderDAOImpl extends BaseDAO implements UserOrderDAO{
 				    //支付状态 ONLINE_PAYED线上已支付 OFFLINE_PAYED线下已支付 NOT_PAY未支付
 				    userOrder.setOrderStatus(rs.getString("order_status"));
 				    userOrder.setDescription(rs.getString("description"));//备注
+                    userOrder.setFlyHour(rs.getBigDecimal("fly_hour"));
+                    userOrder.setStayHour(rs.getBigDecimal("stay_hour"));
 				return userOrder;
 				}
 			});
@@ -80,8 +82,8 @@ public class UserOrderDAOImpl extends BaseDAO implements UserOrderDAO{
 			    userOrder.setAirportId(rs.getString("airport_id"));
 			    //用途:商公务包机CHARTER|私人直升机PRIVATE_COPTER|航摄航拍AERIAL|农地森FARM|商业活动COMERCIAL|观光试飞TOUR|婚礼地产活动WEDDING_ESTATE|其它OTHER
 			    userOrder.setOrderUse(rs.getString("order_use"));
-			    userOrder.setStartTime(rs.getString("start_time"));//开始时间
-			    userOrder.setEndTime(rs.getString("end_time"));//结束时间
+			    userOrder.setStartDate(rs.getString("start_date"));//开始时间
+			    userOrder.setEndDate(rs.getString("end_date"));//结束时间
 			    userOrder.setStarting(rs.getString("starting"));//出发地
 			    userOrder.setDestination(rs.getString("destination"));//目的地
 			    userOrder.setUserCounts(rs.getInt("user_counts"));//人数
@@ -91,6 +93,8 @@ public class UserOrderDAOImpl extends BaseDAO implements UserOrderDAO{
 			    //支付状态 ONLINE_PAYED线上已支付 OFFLINE_PAYED线下已支付 NOT_PAY未支付
 			    userOrder.setOrderStatus(rs.getString("order_status"));
 			    userOrder.setDescription(rs.getString("description"));//备注
+                userOrder.setFlyHour(rs.getBigDecimal("fly_hour"));
+                userOrder.setStayHour(rs.getBigDecimal("stay_hour"));
 			return userOrder;
 			}
 		});
@@ -114,14 +118,15 @@ public class UserOrderDAOImpl extends BaseDAO implements UserOrderDAO{
 		StringBuffer sql=new StringBuffer();
 		String orderId=CommonUtils.genUUID();
 		sql.append("INSERT into t_airrent_user_order(order_id,user_id,airport_id,order_use,start_time,end_time,"
-				+ "starting,destination,user_counts,opt_time,down_payment,order_counts,order_status,description) values('"
+				+ "starting,destination,user_counts,opt_time,down_payment,order_counts,order_status,description,fly_hour,stay_hour) values('"
 				+orderId+ "','"+ order.getUserId()
 				+ "','" + order.getAirportId()+ "','" + order.getOrderUse()+ "','" 
-				+ order.getStartTime()+ "','" + order.getEndTime()
+				+ order.getStartDate()+ "','" + order.getEndDate()
 				+ "','" + order.getStarting()+ "','" + order.getDestination()
 				+ "','" + order.getUserCounts()+ "','" + order.getOptTime()
 				+ "','" + order.getDownPayment()+ "','" + order.getOrderCounts()
-				+ "','" + order.getOrderStatus()+ "','" + order.getDescription()+ "')");
+				+ "','" + order.getOrderStatus()+ "','" + order.getDescription()+ "'," +
+                " '"+order.getFlyHour()+"','"+order.getStayHour()+"')");
 		int update = getJdbcTemplate().update(sql.toString());
 		if (update>0) {
 			StringBuffer sql1=new StringBuffer();
@@ -134,8 +139,8 @@ public class UserOrderDAOImpl extends BaseDAO implements UserOrderDAO{
 					userOrder.setUserId(rs.getString("user_id"));//登录名
 					userOrder.setAirportId(rs.getString("airport_id"));
 					userOrder.setOrderUse(rs.getString("order_use"));//手机号
-					userOrder.setStartTime(rs.getString("start_time"));//姓名
-					userOrder.setEndTime(rs.getString("end_time"));//身份证号
+					userOrder.setStartDate(rs.getString("start_date"));//姓名
+					userOrder.setEndDate(rs.getString("end_date"));//身份证号
 					userOrder.setStarting(rs.getString("starting"));//MALE|FAMALE
 					userOrder.setDestination(rs.getString("destination"));//登录提示信息
 					userOrder.setUserCounts(rs.getInt("user_counts"));//年龄
@@ -144,6 +149,8 @@ public class UserOrderDAOImpl extends BaseDAO implements UserOrderDAO{
 				    userOrder.setOrderCounts(rs.getInt("order_counts"));//支付宝账号
 				    userOrder.setOrderStatus(rs.getString("order_status"));//注册时的验证码
 				    userOrder.setDescription(rs.getString("description"));//LOGIN_INFO_NULL请输入用户名密码
+                    userOrder.setFlyHour(rs.getBigDecimal("fly_hour"));
+                    userOrder.setStayHour(rs.getBigDecimal("stay_hour"));
 				return userOrder;
 				}
 			});
