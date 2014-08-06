@@ -10,11 +10,13 @@ import java.util.List;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 
 import com.eighth.airrent.dao.BaseDAO;
 import com.eighth.airrent.dao.UserDAO;
 import com.eighth.airrent.domain.UserInfo;
 import com.eighth.airrent.domain.VerifyCode;
+import com.eighth.airrent.util.AirrentUtils;
 import com.eighth.airrent.util.CommonUtils;
 
 /**
@@ -25,6 +27,10 @@ public class UserDAOImpl  extends BaseDAO implements UserDAO {
 
 	@Override
 	public UserInfo login(String loginName, String password) {
+		UserInfo userInfo=new UserInfo();
+		if (StringUtils.isEmpty(loginName) || StringUtils.isEmpty(password)) {
+			userInfo.setHint(AirrentUtils.LOGIN_INFO_NULL);
+		}
 		StringBuffer sql=new StringBuffer();
 		sql.append("select * from t_airrent_user_info where login_name='"+loginName+"' and password='"+password+"'");
 		List<UserInfo> list=getJdbcTemplate().query(sql.toString(), new RowMapper<UserInfo>(){
@@ -44,57 +50,68 @@ public class UserDAOImpl  extends BaseDAO implements UserDAO {
 				    userInfo.setZhifubao(rs.getString("zhifubao"));//支付宝账号
 				    userInfo.setRegistToken(rs.getString("registToken"));//注册时的验证码
 				    userInfo.setLoginTip(rs.getString("login_tip"));//登录提示信息
-				    userInfo.setLoginStatus(rs.getString("login_status"));//LOGIN_INFO_NULL请输入用户名密码
 			return userInfo;
 			}
 		});
 		if (CollectionUtils.isEmpty(list)) {
-			return new UserInfo();
+			userInfo.setHint(AirrentUtils.NAME_PASSWORD_ERROR);
+		}else{
+			userInfo= list.get(0);
+			userInfo.setHint(AirrentUtils.LOGIN_SUCCESS);
 		}
-		return list.get(0);
+		return userInfo;
 
 	}
 
 	@Override
 	public UserInfo regist(UserInfo userInfo) {
 		StringBuffer sql=new StringBuffer();
-		String userId=CommonUtils.genUUID();
-		sql.append("INSERT into t_airrent_user_info(user_id,login_name,password,mobile,user_name,identity_card,sex,age,address,work_org,zhifubao,registToken,login_tip,login_status) values('"
-				+userId+ "','"+ userInfo.getLoginName()
-				+ "','" + userInfo.getPassword()+ "','" + userInfo.getMobile()+ "','" 
-				+ userInfo.getUserName()+ "','" + userInfo.getIdentityCard()
-				+ "','" + userInfo.getSex()+ "','" + userInfo.getAge()
-				+ "','" + userInfo.getAddress()+ "','" + userInfo.getWorkOrg()
-				+ "','" + userInfo.getZhifubao()+ "','" + userInfo.getRegistToken()
-				+ "','" + userInfo.getLoginTip()+ "','" + userInfo.getLoginStatus()+ "')");
-		int update = getJdbcTemplate().update(sql.toString());
-		if (update>0) {
-			StringBuffer sql1=new StringBuffer();
-			sql1.append("select * from t_airrent_user_info where user_id='"+userId+"'");
-			List<UserInfo> list=getJdbcTemplate().query(sql1.toString(), new RowMapper<UserInfo>(){
-				@Override
-				public UserInfo mapRow(ResultSet rs, int rowNum) throws SQLException {
-						UserInfo userInfo=new UserInfo();
-						userInfo.setUserId(rs.getString("user_id"));
-					    userInfo.setLoginName(rs.getString("login_name"));//登录名
-					    userInfo.setPassword(rs.getString("password"));
-					    userInfo.setMobile(rs.getString("mobile"));//手机号
-					    userInfo.setUserName(rs.getString("user_name"));//姓名
-					    userInfo.setIdentityCard(rs.getString("identity_card"));//身份证号
-					    userInfo.setSex(rs.getString("sex"));//MALE|FAMALE
-					    userInfo.setAge(rs.getString("age"));//年龄
-					    userInfo.setAddress(rs.getString("address"));//居住地址
-					    userInfo.setWorkOrg(rs.getString("work_org"));//工作单位
-					    userInfo.setZhifubao(rs.getString("zhifubao"));//支付宝账号
-					    userInfo.setRegistToken(rs.getString("registToken"));//注册时的验证码
-					    userInfo.setLoginTip(rs.getString("login_tip"));//登录提示信息
-					    userInfo.setLoginStatus(rs.getString("login_status"));//LOGIN_INFO_NULL请输入用户名密码
-				return userInfo;
-				}
-			});
-			return list.get(0);
+		//检查是否已注册
+		StringBuffer sql1=new StringBuffer();
+		sql1.append("select * from t_airrent_user_info where login_name='"+userInfo.getLoginName()+"'");
+		List<UserInfo> list=getJdbcTemplate().query(sql1.toString(), new RowMapper<UserInfo>(){
+			@Override
+			public UserInfo mapRow(ResultSet rs, int rowNum) throws SQLException {
+					UserInfo userInfo=new UserInfo();
+					userInfo.setUserId(rs.getString("user_id"));
+				    userInfo.setLoginName(rs.getString("login_name"));//登录名
+				    userInfo.setPassword(rs.getString("password"));
+				    userInfo.setMobile(rs.getString("mobile"));//手机号
+				    userInfo.setUserName(rs.getString("user_name"));//姓名
+				    userInfo.setIdentityCard(rs.getString("identity_card"));//身份证号
+				    userInfo.setSex(rs.getString("sex"));//MALE|FAMALE
+				    userInfo.setAge(rs.getString("age"));//年龄
+				    userInfo.setAddress(rs.getString("address"));//居住地址
+				    userInfo.setWorkOrg(rs.getString("work_org"));//工作单位
+				    userInfo.setZhifubao(rs.getString("zhifubao"));//支付宝账号
+				    userInfo.setRegistToken(rs.getString("registToken"));//注册时的验证码
+				    userInfo.setLoginTip(rs.getString("login_tip"));//登录提示信息
+			return userInfo;
+			}
+		});
+		if (!CollectionUtils.isEmpty(list)) {
+			userInfo.setHint(AirrentUtils.REGIST_EXISTS);
+		}else{
+			String userId=CommonUtils.genUUID();
+			sql.append("INSERT into t_airrent_user_info(user_id,login_name,password,mobile,user_name,identity_card,sex,age,address,work_org,zhifubao,registToken,login_tip) values('"
+					+userId+ "','"+ userInfo.getLoginName()
+					+ "','" + userInfo.getPassword()+ "','" + userInfo.getMobile()+ "','" 
+					+ userInfo.getUserName()+ "','" + userInfo.getIdentityCard()
+					+ "','" + userInfo.getSex()+ "','" + userInfo.getAge()
+					+ "','" + userInfo.getAddress()+ "','" + userInfo.getWorkOrg()
+					+ "','" + userInfo.getZhifubao()+ "','" + userInfo.getRegistToken()
+					+ "','" + userInfo.getLoginTip()+ "')");
+			int update = getJdbcTemplate().update(sql.toString());
+			if (update>0) {
+				userInfo=getById(userId);
+				userInfo.setHint(AirrentUtils.REGIST_SUCCESS);
+			}else{
+
+				userInfo.setUserId(userId);
+				userInfo.setHint(AirrentUtils.REGIST_FAIL);
+			}
 		}
-		return new UserInfo();
+		return userInfo;
 	}
 
 	@Override
@@ -143,7 +160,6 @@ public class UserDAOImpl  extends BaseDAO implements UserDAO {
 						break;
 					}
 				} catch (ParseException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				
@@ -165,18 +181,17 @@ public class UserDAOImpl  extends BaseDAO implements UserDAO {
 	}
 
 	@Override
-	public String modifyUserInfo(UserInfo userInfo) {
+	public UserInfo modifyUserInfo(UserInfo userInfo) {
 		StringBuffer sql=new StringBuffer();
 		sql.append("update t_airrent_user_info set login_name='"+userInfo.getLoginName()+"',password='"+userInfo.getPassword()+"',mobile='"+userInfo.getMobile()
 				+"',user_name='"+userInfo.getUserName()+"',identity_card='"+userInfo.getIdentityCard()+"',sex='"+userInfo.getSex()+"',age='"+userInfo.getAge()
 				+"',address='"+userInfo.getAddress()+"',work_org='"+userInfo.getWorkOrg()+"',zhifubao='"+userInfo.getZhifubao()+"',registToken='"+userInfo.getRegistToken()
-				+"',login_tip='"+userInfo.getLoginTip()+"',login_status='"+userInfo.getLoginStatus()+"' where user_id='"+userInfo.getUserId()+"'");
+				+"',login_tip='"+userInfo.getLoginTip()+"' where user_id='"+userInfo.getUserId()+"'");
 		int count=getJdbcTemplate().update(sql.toString());
-		String status="FAIL";
 		if (count>0) {
-			status="SUCCESS";
+			return userInfo;
 		}
-		return status;
+		return null;
 	}
 
 	@Override
@@ -200,11 +215,14 @@ public class UserDAOImpl  extends BaseDAO implements UserDAO {
 				    userInfo.setZhifubao(rs.getString("zhifubao"));//支付宝账号
 				    userInfo.setRegistToken(rs.getString("registToken"));//注册时的验证码
 				    userInfo.setLoginTip(rs.getString("login_tip"));//登录提示信息
-				    userInfo.setLoginStatus(rs.getString("login_status"));//LOGIN_INFO_NULL请输入用户名密码
 			return userInfo;
 			}
 		});
+		if (CollectionUtils.isEmpty(list)) {
+			return new UserInfo();
+		}
 		return list.get(0);
+
 	}
 
   
