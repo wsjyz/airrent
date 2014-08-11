@@ -33,11 +33,11 @@ public class AlipayConfig {
 	
     // 商户的私钥
     // 如果签名方式设置为“0001”时，请设置该参数
-	public static String private_key = "";
+	public static String private_key = "MIICdgIBADANBgkqhkiG9w0BAQEFAASCAmAwggJcAgEAAoGBAKdWfME6WfmJah5uO09WqfA0o+4uD7iJpbg5m9UOpkyH33DTut8XjQClIa3OsiBj0LiaUfw1kEEJw7CddouKRYrSy7b4UETLXDPQsEbL8jvwvvhwdjStapkqYY+Dpx9MLiTmyHnVM7GcxAgCvK8X6sYmz16r3/vHKuYiF/Vysog5AgMBAAECgYBsoQh7p5WhGEN7XbPC3U+UT5fblqs98J1T6pHuzYPHSq0SYWB+UpuGP6yNWBDqVeG49PUj9OGgVuZiUNYT378kQtPKepLr4evn22a8ZLhPSd+KZWb4lVkBT6Egm64JcxasMitqjU/d3MSNr7IAkE6xfPg3Z3wNZ28qN87R/mnewQJBANHQR8P5wjqNL6f2J/Jl+bYDEdUvJSrYhT5u94IktKi9bsyzgpgXq+vuKARtP/pwbyPHlSnc7tv1AFU51+hNKZMCQQDMLI1ArVAWZNxBq9MbeBzcY8gnQX0YXiUByay5gKcX7zkte+fIKq9ybv0LHfI68WxpUHMmPUS9BLC1tPI7kfaDAkA0lxtV8QWRPZBjblzm8k6cI7rVj8KmMa18T740XdT2srzSDHDAhLZwJbrcGTI/KO2Cr2UhICKy+X9C3YPT03uHAkBDWHqrF7+v80rXeoaiq+bRJzSRBj/t9re8NDp94Zq8AVNZ1mHom3PNiiB7N0B8AsAgqMGinlj7A/4JoYq47XdjAkEAprnppgNivo8300nGO4jlkp/pV2S3Mlzc9lBivMuKQUTaMIJWTGVKwavQTItkt8cSf1hvELhLxnF9bjNHYAFy4w==";
 
     // 支付宝的公钥
     // 如果签名方式设置为“0001”时，请设置该参数
-	public static String ali_public_key = "";
+	public static String ali_public_key = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCnVnzBOln5iWoebjtPVqnwNKPuLg+4iaW4OZvVDqZMh99w07rfF40ApSGtzrIgY9C4mlH8NZBBCcOwnXaLikWK0su2+FBEy1wz0LBGy/I78L74cHY0rWqZKmGPg6cfTC4k5sh51TOxnMQIAryvF+rGJs9eq9/7xyrmIhf1crKIOQIDAQAB";
 
 	//↑↑↑↑↑↑↑↑↑↑请在这里配置您的基本信息↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑
 	

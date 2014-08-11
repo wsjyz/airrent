@@ -48,10 +48,4 @@ public class AirlineController {
 		
 		return airlineService.findPlaneByAirlineId(openPage, airlineId);
 	}
-	@RequestMapping("/payment")
-    public ModelAndView toPay() {
-        ModelAndView view = new ModelAndView();
-        view.setViewName("index");
-        return view;
-    }
 }

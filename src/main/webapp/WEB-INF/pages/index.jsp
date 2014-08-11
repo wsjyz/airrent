@@ -78,7 +78,7 @@ ul,ol{
 }
 #logo{
 	background-color: transparent;
-    background-image: url("images/new-btn-fixed.png");
+    background-image: url("../images/new-btn-fixed.png");
     border: medium none;
 	background-position:0 0;
 	width:166px;
@@ -168,7 +168,7 @@ ul,ol{
 				<li class="last">3、确认完成</li>
             </ol>
         </div>
-        <form name=alipayment action=alipayapi.jsp method=post target="_blank">
+        <form name=alipayment action="${request.contextPath}UserOrderService/toAlipayapi" method=post target="_blank">
             <div id="body" style="clear:left">
                 <dl class="content">
                     <dt>卖家支付宝帐户：</dt>

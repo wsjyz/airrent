@@ -1,11 +1,13 @@
 package com.eighth.airrent.controller;
 
+import org.eclipse.jetty.http.HttpTester.Request;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.eighth.airrent.domain.OpenPage;
 import com.eighth.airrent.domain.UserOrder;
@@ -70,5 +72,30 @@ public class UserOrderController {
 			throws RemoteInvokeException {
 		return userOrderService.deleteOrderById(orderId);
 	}
-
+	@RequestMapping("/payment")
+    public ModelAndView toPay() {
+        ModelAndView view = new ModelAndView();
+        view.setViewName("index");
+        return view;
+    }
+	
+	@RequestMapping("/toAlipayapi")
+    public ModelAndView toAlipayapi() {
+        ModelAndView view = new ModelAndView();
+        view.setViewName("alipayapi");
+        return view;
+    }
+	@RequestMapping("/toNotify")
+    public ModelAndView toNotify() {
+        ModelAndView view = new ModelAndView();
+        view.setViewName("notify_url");
+        return view;
+    }
+	
+	@RequestMapping("/tocallbackurl")
+    public ModelAndView tocallbackurl() {
+        ModelAndView view = new ModelAndView();
+        view.setViewName("call_back_url");
+        return view;
+    }
 }
