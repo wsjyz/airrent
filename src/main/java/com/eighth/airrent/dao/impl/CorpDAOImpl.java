@@ -4,6 +4,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -23,12 +24,12 @@ public class CorpDAOImpl extends BaseDAO implements CorpDAO {
 		StringBuffer sql=new StringBuffer();
 		String corpId=CommonUtils.genUUID();
 		getPoint(corp);
-		sql.append("INSERT into t_airrent_corp(corp_id,corp_name,login_name,password,status,address,weixin,phone,airport_id) values('"
+		sql.append("INSERT into t_airrent_corp(corp_id,corp_name,login_name,password,status,address,weixin,phone,airport_id,lat,lng) values('"
 				+corpId+ "','"+ corp.getCorpName()
 				+ "','" + corp.getLoginName()+ "','" + corp.getPassword()+ "','" 
 				+ corp.getStatus()+ "','" + corp.getAddress()
 				+ "','" + corp.getWeixin()+ "','" + corp.getPhone()
-				+ "','" + corp.getAirport()+"')");
+				+ "','" + corp.getAirport()+ "','" + corp.getLat()+ "','" + corp.getLng()+"')");
 		int update = getJdbcTemplate().update(sql.toString());
 		String status="FAIL";
 		if (update>0) {
@@ -112,6 +113,8 @@ public class CorpDAOImpl extends BaseDAO implements CorpDAO {
 			corp.setWeixin(rs.getString("weixin"));
 			corp.setPhone(rs.getString("phone"));
 			corp.setAirportId(rs.getString("airport_id"));
+			corp.setLat(rs.getString("lat"));
+			corp.setLng(rs.getString("lng"));
 			return corp;
 		}
     }

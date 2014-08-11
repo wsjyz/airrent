@@ -66,6 +66,8 @@ public class AirportDAOImpl extends BaseDAO implements AirportDAO {
 			airport.setAirportImage(rs.getString("airport_name"));
 			airport.setAirportName(rs.getString("airport_image"));
 			airport.setDescription(rs.getString("description"));
+			airport.setLat(rs.getString("lat"));
+			airport.setLng(rs.getString("lng"));
 			return airport;
 		}
     }
@@ -167,7 +169,7 @@ public class AirportDAOImpl extends BaseDAO implements AirportDAO {
 		StringBuffer sql = new StringBuffer();
 		String airportId = CommonUtils.genUUID();
 		getPoint(airport);
-		sql.append("INSERT into t_airrent_airport(airport_id,airport_name,description,airport_image) values('"
+		sql.append("INSERT into t_airrent_airport(airport_id,airport_name,description,airport_image,lat,lng) values('"
 				+ airportId
 				+ "','"
 				+ airport.getAirportName()
@@ -175,6 +177,10 @@ public class AirportDAOImpl extends BaseDAO implements AirportDAO {
 				+ airport.getDescription()
 				+ "','"
 				+ airport.getAirportImage()
+				+ "','"
+				+ airport.getLat()
+				+ "','"
+				+ airport.getLng()
 				+ "')");
 		int update = getJdbcTemplate().update(sql.toString());
 		if (update > 0) {
