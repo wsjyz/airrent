@@ -1,5 +1,6 @@
 package com.eighth.airrent.dao.impl;
 
+import java.net.URLEncoder;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -73,12 +74,8 @@ public class AirportDAOImpl extends BaseDAO implements AirportDAO {
     }
     public void getPoint(Airport airport ){
 	     try {  
-	            String sCurrentLine;  
-	            String sTotalString;  
-	            sCurrentLine = "";  
-	            sTotalString = "";  
 	            java.io.InputStream l_urlStream;  
-	            java.net.URL l_url = new java.net.URL("http://api.map.baidu.com/geocoder/v2/?address="+airport.getDescription().replaceAll(" ", "")+"&output=json&ak=702632E1add3d4953d0f105f27c294b9&callback=showLocation");  
+	            java.net.URL l_url = new java.net.URL("http://api.map.baidu.com/geocoder/v2/?address="+airport.getDescription().replaceAll(" ", "")+"&output=json&ak=106f91b50bc8da14c6ce7d456f2e3e50&callback=showLocation");  
 	            java.net.HttpURLConnection l_connection = (java.net.HttpURLConnection) l_url.openConnection();  
 	            l_connection.connect();  
 	            l_urlStream = l_connection.getInputStream();  

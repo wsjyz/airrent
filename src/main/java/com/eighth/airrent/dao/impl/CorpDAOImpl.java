@@ -44,7 +44,7 @@ public class CorpDAOImpl extends BaseDAO implements CorpDAO {
 	            sCurrentLine = "";  
 	            sTotalString = "";  
 	            java.io.InputStream l_urlStream;  
-	            java.net.URL l_url = new java.net.URL("http://api.map.baidu.com/geocoder/v2/?address="+corp.getAddress().replaceAll(" ", "")+"&output=json&ak=702632E1add3d4953d0f105f27c294b9&callback=showLocation");  
+	            java.net.URL l_url = new java.net.URL("http://api.map.baidu.com/geocoder/v2/?address="+corp.getAddress().replaceAll(" ", "")+"&output=json&ak=106f91b50bc8da14c6ce7d456f2e3e50&callback=showLocation");  
 	            java.net.HttpURLConnection l_connection = (java.net.HttpURLConnection) l_url.openConnection();  
 	            l_connection.connect();  
 	            l_urlStream = l_connection.getInputStream();  
