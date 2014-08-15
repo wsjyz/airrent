@@ -29,7 +29,7 @@ public class CorpDAOImpl extends BaseDAO implements CorpDAO {
 				+ "','" + corp.getLoginName()+ "','" + corp.getPassword()+ "','" 
 				+ corp.getStatus()+ "','" + corp.getAddress()
 				+ "','" + corp.getWeixin()+ "','" + corp.getPhone()
-				+ "','" + corp.getAirport()+ "','" + corp.getLat()+ "','" + corp.getLng()+"')");
+				+ "','" + corp.getAirportId()+ "','" + corp.getLat()+ "','" + corp.getLng()+"')");
 		int update = getJdbcTemplate().update(sql.toString());
 		String status="FAIL";
 		if (update>0) {
