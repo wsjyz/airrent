@@ -1,5 +1,7 @@
 package com.eighth.airrent.proxy.service;
 
+import java.util.List;
+
 import com.eighth.airrent.domain.Airport;
 import com.eighth.airrent.domain.OpenPage;
 import com.eighth.airrent.domain.Plane;
@@ -54,4 +56,11 @@ public interface AirportService {
      * @throws RemoteInvokeException
      */
     String deleteAirprot(String airprotId) throws RemoteInvokeException;
+    /**
+	 * 根据地址魔火查询所有机场
+	 * @param address
+	 * @return
+	 */
+	
+	List<Airport> findAllAirport(String address)throws RemoteInvokeException;
 }

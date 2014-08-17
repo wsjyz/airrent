@@ -13,6 +13,7 @@ import org.springframework.util.CollectionUtils;
 
 import com.eighth.airrent.dao.AirportDAO;
 import com.eighth.airrent.dao.BaseDAO;
+import com.eighth.airrent.domain.Airline;
 import com.eighth.airrent.domain.Airport;
 import com.eighth.airrent.domain.Corp;
 import com.eighth.airrent.domain.OpenPage;
@@ -200,4 +201,14 @@ public class AirportDAOImpl extends BaseDAO implements AirportDAO {
 		}
 	}
 
+	@Override
+	public List<Airport> findAllAirport(String address) {
+		StringBuffer sql = new StringBuffer("select * from t_airrent_airport");
+		if (StringUtils.isNotEmpty(address)) {
+			sql.append(" where description like '"+address+"'");
+		}
+		List<Airport> list = getJdbcTemplate().query(sql.toString(),
+				new AirportMapper());
+		return list;
+	}
 }

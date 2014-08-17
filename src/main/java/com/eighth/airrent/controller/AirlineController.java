@@ -1,5 +1,7 @@
 package com.eighth.airrent.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -47,5 +49,11 @@ public class AirlineController {
 			@RequestParam String airlineId) throws RemoteInvokeException {
 		
 		return airlineService.findPlaneByAirlineId(openPage, airlineId);
+	}
+	@RequestMapping(value = "/findAirlineAllById")
+	@ResponseBody
+	public List<Airline> findAirlineAllById(@RequestParam String airportId) throws RemoteInvokeException{
+		 List<Airline> list = airlineService.findAirlineAllById(airportId);
+		return list;
 	}
 }

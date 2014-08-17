@@ -1,5 +1,7 @@
 package com.eighth.airrent.proxy.service;
 
+import java.util.List;
+
 import com.eighth.airrent.domain.Airline;
 import com.eighth.airrent.domain.OpenPage;
 import com.eighth.airrent.domain.Plane;
@@ -26,4 +28,7 @@ public interface AirlineService {
      * @throws RemoteInvokeException
      */
     OpenPage<Plane> findPlaneByAirlineId(OpenPage openPage,String airlineId)throws RemoteInvokeException;
+    
+    
+	List<Airline> findAirlineAllById(String AirportId) throws RemoteInvokeException;
 }

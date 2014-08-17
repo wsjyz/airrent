@@ -1,5 +1,7 @@
 package com.eighth.airrent.service.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +28,12 @@ public class AirlineServiceImpl implements AirlineService{
 	public OpenPage<Plane> findPlaneByAirlineId(OpenPage openPage,
 			String airlineId) throws RemoteInvokeException {
 		return airlineDAO.findPlaneByAirlineId(openPage, airlineId);
+	}
+
+	@Override
+	public List<Airline> findAirlineAllById(String AirportId)
+			throws RemoteInvokeException {
+		return airlineDAO.findAirlineAllById(AirportId);
 	}
 
 }

@@ -1,5 +1,7 @@
 package com.eighth.airrent.proxy.service.impl;
 
+import java.util.List;
+
 import com.eighth.airrent.domain.Airline;
 import com.eighth.airrent.domain.OpenPage;
 import com.eighth.airrent.domain.Plane;
@@ -19,4 +21,10 @@ public class AirlineServiceImpl implements AirlineService {
     public OpenPage<Plane> findPlaneByAirlineId(OpenPage openPage, String airlineId) throws RemoteInvokeException {
         return null;
     }
+
+	@Override
+	public List<Airline> findAirlineAllById(String AirportId)
+			throws RemoteInvokeException {
+		return null;
+	}
 }

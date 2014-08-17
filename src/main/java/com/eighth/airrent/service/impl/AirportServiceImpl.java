@@ -1,5 +1,7 @@
 package com.eighth.airrent.service.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -44,6 +46,12 @@ public class AirportServiceImpl implements AirportService {
 	@Override
 	public String deleteAirprot(String airprotId) throws RemoteInvokeException {
 		return airportDAO.deleteAirprot(airprotId);
+	}
+
+	@Override
+	public List<Airport> findAllAirport(String address)
+			throws RemoteInvokeException {
+		return airportDAO.findAllAirport(address);
 	}
 
 }

@@ -1,5 +1,7 @@
 package com.eighth.airrent.proxy.service.impl;
 
+import java.util.List;
+
 import com.eighth.airrent.domain.Airport;
 import com.eighth.airrent.domain.OpenPage;
 import com.eighth.airrent.domain.Plane;
@@ -33,6 +35,13 @@ public class AirportServiceImpl implements AirportService {
 
 	@Override
 	public String deleteAirprot(String airprotId) throws RemoteInvokeException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Airport> findAllAirport(String address)
+			throws RemoteInvokeException {
 		// TODO Auto-generated method stub
 		return null;
 	}

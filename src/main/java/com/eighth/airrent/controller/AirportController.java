@@ -1,5 +1,7 @@
 package com.eighth.airrent.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
@@ -86,5 +88,15 @@ public class AirportController {
 	public String deleteAirprot(String airprotId) throws RemoteInvokeException {
 		return airportService.deleteAirprot(airprotId);
 	}
-
+	/**
+	 * 
+	 * @param airprotId
+	 * @return
+	 * @throws RemoteInvokeException
+	 */
+	@RequestMapping(value = "/findAllAirport")
+	@ResponseBody
+	public List<Airport> findAllAirport(String address) throws RemoteInvokeException {
+		return airportService.findAllAirport(address);
+	}
 }
