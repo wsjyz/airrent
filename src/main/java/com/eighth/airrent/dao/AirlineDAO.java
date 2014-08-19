@@ -1,5 +1,8 @@
 package com.eighth.airrent.dao;
 
+
+import java.util.List;
+
 import com.eighth.airrent.domain.Airline;
 import com.eighth.airrent.domain.OpenPage;
 import com.eighth.airrent.domain.Plane;
@@ -16,4 +19,7 @@ public interface AirlineDAO {
      * @throws RemoteInvokeException
      */
     OpenPage<Plane> findPlaneByAirlineId(OpenPage openPage,String airlineId);
+    
+	List<Airline> findAirlineAllById(String AirportId);
+
 }

@@ -9,8 +9,8 @@ public class Airport extends BaseDomain {
 	private String airportName;// 机场名称
 	private String description;// 机场描述
 	private String airportImage;// 机场图片
-	private String lat;// 经度
-	private String lng;// 纬度
+	private String lat;// 纬度
+	private String lng;// 经度
 
 	public void setLat(String lat) {
 		this.lat = lat;

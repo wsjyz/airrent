@@ -37,6 +37,7 @@ public class AirlineDAOImpl extends BaseDAO implements AirlineDAO {
 			line.setAirlineId(rs.getString("airline_id"));
 			line.setAirlineImage(rs.getString("airline_image"));
 			line.setAirlineName(rs.getString("airline_name"));
+			line.setAirportId(rs.getString("airport_id"));
 			return line;
 		}
     	
@@ -88,4 +89,12 @@ public class AirlineDAOImpl extends BaseDAO implements AirlineDAO {
 			}
 	    	
 	    }
+	@Override
+	public List<Airline> findAirlineAllById(String airportId) {
+		StringBuffer sql=new StringBuffer();
+		sql.append("select * from t_airrent_airline where airport_id='"+airportId+"'");
+		List<Airline> list = getJdbcTemplate().query(sql.toString(), new AirlineMapper());
+		
+		return list;
+	}
 }

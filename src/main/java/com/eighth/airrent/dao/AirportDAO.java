@@ -1,9 +1,11 @@
 package com.eighth.airrent.dao;
 
+import java.util.List;
+
+import com.eighth.airrent.domain.Airline;
 import com.eighth.airrent.domain.Airport;
 import com.eighth.airrent.domain.OpenPage;
 import com.eighth.airrent.domain.Plane;
-import com.eighth.airrent.proxy.exception.RemoteInvokeException;
 
 /**
  * Created by dam on 14-6-25.
@@ -20,4 +22,11 @@ public interface AirportDAO {
 	String addAirport(Airport airport);
 
 	String deleteAirprot(String airprotId);
+	/**
+	 * 根据地址魔火查询所有机场
+	 * @param address
+	 * @return
+	 */
+	
+	List<Airport> findAllAirport(String address);
 }

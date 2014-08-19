@@ -14,8 +14,8 @@ public class Corp extends BaseDomain {
 	private String phone;// 联系电话
 	private Airport airport;// 机场
 	private String airportId;
-	private String lat;// 经度
-	private String lng;// 纬度
+	private String lat;// 纬度
+	private String lng;// 经度
 
 	public void setLat(String lat) {
 		this.lat = lat;
