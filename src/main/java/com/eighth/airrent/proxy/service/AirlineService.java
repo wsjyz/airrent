@@ -5,6 +5,7 @@ import java.util.List;
 import com.eighth.airrent.domain.Airline;
 import com.eighth.airrent.domain.OpenPage;
 import com.eighth.airrent.domain.Plane;
+import com.eighth.airrent.proxy.annotation.RemoteMethod;
 import com.eighth.airrent.proxy.exception.RemoteInvokeException;
 
 /**
@@ -29,6 +30,6 @@ public interface AirlineService {
      */
     OpenPage<Plane> findPlaneByAirlineId(OpenPage openPage,String airlineId)throws RemoteInvokeException;
     
-    
+    @RemoteMethod(methodVarNames={"AirportId" })
 	List<Airline> findAirlineAllById(String AirportId) throws RemoteInvokeException;
 }
