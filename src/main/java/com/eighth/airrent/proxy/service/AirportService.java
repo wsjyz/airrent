@@ -62,5 +62,5 @@ public interface AirportService {
 	 * @return
 	 */
     @RemoteMethod(methodVarNames={ "address" })
-	List<Airport> findAllAirport(String address)throws RemoteInvokeException;
+	List<Airport> findAllAirport(String address)throws RemoteInvokeException; 
 }
