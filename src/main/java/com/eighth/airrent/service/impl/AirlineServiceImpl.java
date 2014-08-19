@@ -36,4 +36,19 @@ public class AirlineServiceImpl implements AirlineService{
 		return airlineDAO.findAirlineAllById(AirportId);
 	}
 
+	@Override
+	public String addAirline(Airline airline) throws RemoteInvokeException {
+		return airlineDAO.addAirline(airline);
+	}
+
+	@Override
+	public String updateAirline(Airline airline) throws RemoteInvokeException {
+		return airlineDAO.updateAirline(airline);
+	}
+
+	@Override
+	public String deleteAirline(String airlineId) throws RemoteInvokeException {
+		return airlineDAO.deleteAirline(airlineId);
+	}
+
 }

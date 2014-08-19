@@ -21,5 +21,12 @@ public interface AirlineDAO {
     OpenPage<Plane> findPlaneByAirlineId(OpenPage openPage,String airlineId);
     
 	List<Airline> findAirlineAllById(String AirportId);
+	
+	String addAirline(Airline airline);
+
+
+	String updateAirline(Airline airline);
+
+	String deleteAirline(String airlineId);
 
 }

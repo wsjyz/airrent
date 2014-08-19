@@ -56,4 +56,45 @@ public class AirlineController {
 		 List<Airline> list = airlineService.findAirlineAllById(airportId);
 		return list;
 	}
+	
+	/**
+	 * 新增公司
+	 * 
+	 * @param corp
+	 * @return
+	 * @throws RemoteInvokeException
+	 */
+	@RequestMapping(value = "/addAirline")
+	@ResponseBody
+	public String addAirline(@FastJson Airline airline) throws RemoteInvokeException {
+		return airlineService.addAirline(airline);
+
+	}
+	/**
+	 * 修改公司基本信息
+	 * 
+	 * @param corp
+	 * @return
+	 * @throws RemoteInvokeException
+	 */
+	@RequestMapping(value = "/updateAirline")
+	@ResponseBody
+	public String updateAirline(@FastJson Airline airline) throws RemoteInvokeException {
+		return airlineService.updateAirline(airline);
+
+	};
+
+	/**
+	 * 删除公司
+	 * 
+	 * @param corpId
+	 * @return
+	 * @throws RemoteInvokeException
+	 */
+	@RequestMapping(value = "/deleteAirline")
+	@ResponseBody
+	public String deleteAirline(@RequestParam String airlineId)
+			throws RemoteInvokeException {
+		return airlineService.deleteAirline(airlineId);
+	};
 }
