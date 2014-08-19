@@ -27,7 +27,8 @@ public class ProxyTest {
 
 //        //UserService proxy = new RemoteProxy<UserService>(UserService.class).getProxy();
         try {
-            UserInfo userInfo = proxy.login("update1","password");
+            UserInfo userInfo = proxy.login("update","password");
+           // UserInfo userInfo = proxy.login("update2","password");
             System.out.println(userInfo.getLoginTip());
         } catch (RemoteInvokeException e) {
             e.printStackTrace();

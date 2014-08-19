@@ -24,7 +24,7 @@ import java.util.Map;
  */
 public class HTTPClient {
 
-    private final static String SERVER_HOST_URL = "http://203.195.131.34:8081/hw/";
+    private final static String SERVER_HOST_URL = "http://203.195.131.34:8081/ar/";
     //private final static String SERVER_HOST_URL = "http://localhost:8080/hw/";
     //参数
     private Map<String,Object> params = new HashMap<String, Object>();
