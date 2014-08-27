@@ -165,7 +165,7 @@ public class UserDAOImpl  extends BaseDAO implements UserDAO {
 	@Override
 	public UserInfo modifyUserInfo(UserInfo userInfo) {
 		StringBuffer sql=new StringBuffer();
-		sql.append("update t_airrent_user_info set");
+		sql.append("update t_airrent_user_info set ");
 		  if(!StringUtils.isEmpty(userInfo.getLoginName())){
 	            sql.append("login_name='"+userInfo.getLoginName()+"',");
 	        }

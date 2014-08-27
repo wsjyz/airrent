@@ -4,14 +4,18 @@ package com.eighth.airrent.proxy;
 
 
 
+import com.alibaba.fastjson.JSON;
+import com.eighth.airrent.domain.Airline;
 import com.eighth.airrent.domain.UserInfo;
 import com.eighth.airrent.proxy.exception.RemoteInvokeException;
+import com.eighth.airrent.proxy.service.AirlineService;
 import com.eighth.airrent.proxy.service.UserService;
 
 import java.lang.reflect.Array;
 import java.lang.reflect.GenericArrayType;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.util.List;
 
 /**
  * Created by dam on 2014/6/27.
@@ -24,24 +28,40 @@ public class ProxyTest {
                 .putOtherParameters("access_token","124")
                 .putOtherParameters("imei","222")
                 .getProxy();
+        AirlineService airlineService = new RemoteProxy<AirlineService>(AirlineService.class).getProxy();
 
 //        //UserService proxy = new RemoteProxy<UserService>(UserService.class).getProxy();
-        try {
-            UserInfo userInfo = proxy.login("update","password");
-           // UserInfo userInfo = proxy.login("update2","password");
-            System.out.println(userInfo.getLoginTip());
-        } catch (RemoteInvokeException e) {
-            e.printStackTrace();
-        }
-        //注册
-//        UserInfo u = new UserInfo();
-//        u.setUserName("111");
-//        u.setPassword("222");
 //        try {
-//            proxy.regist(u);
+//            UserInfo userInfo = proxy.login("update","password");
+//           // UserInfo userInfo = proxy.login("update2","password");
+//            System.out.println(userInfo.getLoginTip());
 //        } catch (RemoteInvokeException e) {
 //            e.printStackTrace();
 //        }
+        //注册
+        UserInfo u = new UserInfo();
+        u.setUserId("userId");
+        u.setUserName("heli2");
+        u.setPassword("newPassword");
+//        UserInfo u1 = null;
+//        try {
+//            u1 = proxy.regist(u);
+//        } catch (RemoteInvokeException e) {
+//            e.printStackTrace();
+//        }
+//        List<Airline> airlineList = null;
+//        try {
+//            airlineList = airlineService.findAirlineAllById("9a55a60808b140c596d4613180360ca5");
+//        } catch (RemoteInvokeException e) {
+//            e.printStackTrace();
+//        }
+        UserInfo userInfo = null;
+        try {
+            userInfo = proxy.modifyUserInfo(u);
+        } catch (RemoteInvokeException e) {
+            e.printStackTrace();
+        }
+        System.out.println(JSON.toJSONString(userInfo));
 //
 //        InfoServiceRemote infoServiceRemote = new RemoteProxy<InfoServiceRemote>(new InfoServiceRemoteImpl()).getProxy();
 //

@@ -32,8 +32,8 @@ public interface AirlineService {
     @RemoteMethod(methodVarNames={ "openPage","airlineId"})
     OpenPage<Plane> findPlaneByAirlineId(OpenPage openPage,String airlineId)throws RemoteInvokeException;
     
-    @RemoteMethod(methodVarNames={"AirportId" })
-	List<Airline> findAirlineAllById(String AirportId) throws RemoteInvokeException; 
+    @RemoteMethod(methodVarNames={"airportId" })
+	List<Airline> findAirlineAllById(String airportId) throws RemoteInvokeException;
 
 
     /**
