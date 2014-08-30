@@ -49,11 +49,11 @@
 		//req_data详细信息
 		
 		//服务器异步通知页面路径
-		String notify_url = "${request.contextPath}UserOrderService/toNotify";
+		String notify_url = "${request.contextPath}/UserOrderService/toNotify";
 		//需http://格式的完整路径，不能加?id=123这类自定义参数
 
 		//页面跳转同步通知页面路径
-		String call_back_url = "${request.contextPath}UserOrderService/tocallbackurl";
+		String call_back_url = "${request.contextPath}/UserOrderService/tocallbackurl";
 		//需http://格式的完整路径，不能加?id=123这类自定义参数，不能写成http://localhost/
 
 		//操作中断返回地址
@@ -95,6 +95,7 @@
 		
 		//建立请求
 		String sHtmlTextToken = AlipaySubmit.buildRequest(ALIPAY_GATEWAY_NEW,"", "",sParaTempToken);
+
 		//URLDECODE返回的信息
 		sHtmlTextToken = URLDecoder.decode(sHtmlTextToken,AlipayConfig.input_charset);
 		//获取token

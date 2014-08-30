@@ -29,10 +29,21 @@ public class AirlineDAOImpl extends BaseDAO implements AirlineDAO {
 				+ airlineId + "'");
 		List<Airline> list = getJdbcTemplate().query(sql.toString(),
 				new AirlineMapper());
+		Airline airline=new Airline();
 		if (CollectionUtils.isEmpty(list)) {
-			return new Airline();
+			return airline;
+		}else{
+			 airline=list.get(0);
+			 if(StringUtils.isNotEmpty(airline.getAirlineId())){
+				 sql = new StringBuffer();
+				sql.append("select * from t_airrent_plane where airline_id='"
+							+ airlineId + "'");
+				List<Plane> planelist = getJdbcTemplate().query(sql.toString(),
+						new PlaneMapper());
+				airline.setPlaneList(planelist);
+			 }
 		}
-		return list.get(0);
+		return airline;
 	}
 
 	public class AirlineMapper implements RowMapper<Airline> {
@@ -112,8 +123,10 @@ public class AirlineDAOImpl extends BaseDAO implements AirlineDAO {
 	@Override
 	public List<Airline> findAirlineAllById(String airportId) {
 		StringBuffer sql = new StringBuffer();
-		sql.append("select * from t_airrent_airline where airport_id='"
-				+ airportId + "'");
+		sql.append("select * from t_airrent_airline ");
+		if(StringUtils.isNotEmpty(airportId)){
+			sql.append("where airport_id='"+ airportId + "'");
+		}
 		List<Airline> list = getJdbcTemplate().query(sql.toString(),
 				new AirlineMapper());
 

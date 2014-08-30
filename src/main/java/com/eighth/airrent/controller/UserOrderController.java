@@ -40,13 +40,6 @@ public class UserOrderController {
 		return userOrderService.findUserOrder(openPage, userId);
 	}
 
-	@RequestMapping(value = "/payOrder")
-	@ResponseBody
-	public String payOrder(@RequestParam String userId,
-			@RequestParam String orderId) throws Exception {
-		return userOrderService.payOrder(userId, orderId);
-	}
-
 	/**
 	 * 已测试
 	 * @param orderId

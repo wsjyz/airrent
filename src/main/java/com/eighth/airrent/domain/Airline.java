@@ -1,5 +1,7 @@
 package com.eighth.airrent.domain;
 
+import java.util.List;
+
 /**
  * Created by dam on 2014/7/2.
  */
@@ -18,6 +20,16 @@ public class Airline extends BaseDomain {
 	private String airportId;
 	private String lat;// 纬度
 	private String lng;// 经度
+
+	private List<Plane> planeList;
+
+	public void setPlaneList(List<Plane> planeList) {
+		this.planeList = planeList;
+	}
+
+	public List<Plane> getPlaneList() {
+		return planeList;
+	}
 
 	public String getAirlineId() {
 		return airlineId;
