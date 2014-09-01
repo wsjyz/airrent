@@ -121,11 +121,14 @@ public class AirlineDAOImpl extends BaseDAO implements AirlineDAO {
 	}
 
 	@Override
-	public List<Airline> findAirlineAllById(String airportId) {
+	public List<Airline> findAirlineAllById(String airportId,String address) {
 		StringBuffer sql = new StringBuffer();
-		sql.append("select * from t_airrent_airline ");
+		sql.append("select * from t_airrent_airline where 1=1 ");
 		if(StringUtils.isNotEmpty(airportId)){
-			sql.append("where airport_id='"+ airportId + "'");
+			sql.append(" and  airport_id='"+ airportId + "'");
+		}
+		if(StringUtils.isNotEmpty(address)){
+			sql.append("and address like '%"+ address + "%'");
 		}
 		List<Airline> list = getJdbcTemplate().query(sql.toString(),
 				new AirlineMapper());
