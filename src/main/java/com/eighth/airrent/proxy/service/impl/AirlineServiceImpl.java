@@ -23,7 +23,7 @@ public class AirlineServiceImpl implements AirlineService {
     }
 
 	@Override
-	public List<Airline> findAirlineAllById(String AirportId)
+	public List<Airline> findAirlineAllById(String AirportId,String address)
 			throws RemoteInvokeException {
 		return null;
 	}

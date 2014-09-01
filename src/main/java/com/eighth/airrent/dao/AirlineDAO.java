@@ -20,7 +20,7 @@ public interface AirlineDAO {
      */
     OpenPage<Plane> findPlaneByAirlineId(OpenPage openPage,String airlineId);
     
-	List<Airline> findAirlineAllById(String AirportId);
+	List<Airline> findAirlineAllById(String AirportId,String address);
 	
 	String addAirline(Airline airline);
 

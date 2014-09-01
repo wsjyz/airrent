@@ -31,9 +31,9 @@ public class AirlineServiceImpl implements AirlineService{
 	}
 
 	@Override
-	public List<Airline> findAirlineAllById(String AirportId)
+	public List<Airline> findAirlineAllById(String airportId,String address)
 			throws RemoteInvokeException {
-		return airlineDAO.findAirlineAllById(AirportId);
+		return airlineDAO.findAirlineAllById(airportId,address);
 	}
 
 	@Override
