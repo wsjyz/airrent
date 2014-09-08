@@ -1,0 +1,38 @@
+<#include "/common/webUtils.ftl">
+<#assign ctx=request.contextPath>
+<table class="table table-bordered table-responsive table-striped" id="table">
+    <thead>
+    <tr>
+        <th class="col-md-2">序号</th>
+        <th class="col-md-2">机场名称</th>
+        <th class="col-md-3">机场地址</th>
+        <th class="col-md-3">操作</th>
+    </tr>
+    </thead>
+    <tbody>
+    <#list page.getRows() as airport>
+        <tr>
+            <td>${airport_index}</td>
+            <td>${airport.airportName}</td>
+            <td>${airport.address}</td>
+            <td>
+                <a href="javascript:void(0);" data-id="${airport.airportId}">删除</a>
+            </td>
+        </tr>
+    </#list>
+    </tbody>
+</table>
+<@emptyPage page=page msg="没有任何机场"/>
+<@pageParam/>
+
+<script>
+    $(function(){
+        $('#table').on('click','a',function(){
+            var airportId=$(this).data('id');
+            $.post('${ctx}/manage/airports/delete',{airportId:airportId},function(){
+                $('#findAirport').trigger('click');
+                $.mhtMsg('操作成功!');
+            })
+        })
+    })
+</script>

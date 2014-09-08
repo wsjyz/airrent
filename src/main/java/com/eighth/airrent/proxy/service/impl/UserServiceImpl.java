@@ -43,4 +43,8 @@ public class UserServiceImpl implements UserService {
 	public UserInfo getById(String userId) throws RemoteInvokeException {
 		return null;
 	}
+
+    public UserInfo findUser(UserInfo userInfo) {
+        return null;
+    }
 }

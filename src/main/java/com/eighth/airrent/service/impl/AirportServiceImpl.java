@@ -54,4 +54,14 @@ public class AirportServiceImpl implements AirportService {
 		return airportDAO.findAllAirport(address);
 	}
 
+    @Override
+    public OpenPage<Airport> findAirportList(OpenPage<Airport> page, String airportName, String address) {
+        return airportDAO.findAirportList(page,airportName,address);
+    }
+
+    @Override
+    public String saveAirport(Airport airport) {
+        return airportDAO.saveAirport(airport);
+    }
+
 }

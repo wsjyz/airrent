@@ -54,4 +54,9 @@ public class UserServiceImpl implements UserService {
 	public UserInfo getById(String userId) throws RemoteInvokeException {
 		return userDAO.getById(userId);
 	}
+
+    @Override
+    public UserInfo findUser(UserInfo userInfo) {
+        return userDAO.find(userInfo);
+    }
 }

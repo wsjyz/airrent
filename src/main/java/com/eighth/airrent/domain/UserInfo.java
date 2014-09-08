@@ -20,8 +20,9 @@ public class UserInfo extends BaseDomain {
 
 	private String loginTip;// 登录提示信息
 	private String hint;// LOGIN_INFO_NULL请输入用户名密码 ，NAME_PASSWORD_ERROR 用户名或密码错误
+    private String type;
 
-	public void setHint(String hint) {
+    public void setHint(String hint) {
 		this.hint = hint;
 	}
 
@@ -132,4 +133,12 @@ public class UserInfo extends BaseDomain {
 	public void setRegistToken(String registToken) {
 		this.registToken = registToken;
 	}
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getType() {
+        return type;
+    }
 }

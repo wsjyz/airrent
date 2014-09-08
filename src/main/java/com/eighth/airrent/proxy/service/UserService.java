@@ -81,4 +81,6 @@ public interface UserService {
 	 */
     @RemoteMethod(methodVarNames={ "userId"})
 	UserInfo getById(String userId) throws RemoteInvokeException;
+
+    public UserInfo findUser(UserInfo userInfo);
 }

@@ -4,6 +4,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -61,6 +62,7 @@ public class UserDAOImpl  extends BaseDAO implements UserDAO {
 				    userInfo.setZhifubao(rs.getString("zhifubao"));//支付宝账号
 				    userInfo.setRegistToken(rs.getString("registToken"));//注册时的验证码
 				    userInfo.setLoginTip(rs.getString("login_tip"));//登录提示信息
+				    userInfo.setType(rs.getString("type"));//用户类型 管理员；普通账号
 			return userInfo;
 			}
 	    }
@@ -234,5 +236,23 @@ public class UserDAOImpl  extends BaseDAO implements UserDAO {
 
 	}
 
-  
+    @Override
+    public UserInfo find(UserInfo userInfo) {
+        StringBuffer sql=new StringBuffer();
+        List<String> params = new ArrayList<String>();
+        sql.append("select * from t_airrent_user_info where 1=1 ")
+                .append("and login_name=? ")
+                .append("and password=? ")
+                .append("and type=? limit 1");
+        params.add(userInfo.getLoginName());
+        params.add(userInfo.getPassword());
+        params.add(userInfo.getType());
+        List<UserInfo> list=getJdbcTemplate().query(sql.toString(),params.toArray(), new UserInfoMapper());
+        if (CollectionUtils.isEmpty(list)) {
+            return null;
+        }
+        return list.get(0);
+    }
+
+
 }

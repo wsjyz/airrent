@@ -59,4 +59,11 @@ public interface UserDAO {
     UserInfo modifyUserInfo(UserInfo userInfo);
 
 	UserInfo getById(String userId);
+
+    /**
+     * 查找userinfo
+     * @param userInfo
+     * @return
+     */
+    UserInfo find(UserInfo userInfo);
 }

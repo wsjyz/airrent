@@ -1,0 +1,88 @@
+<#assign ctx=request.contextPath>
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>ToFly管理</title>
+
+    <link rel="stylesheet" href="${ctx}/css/bootstrap.min.css">
+    <link rel="stylesheet" href="${ctx}/css/main.css">
+    <link rel="stylesheet" href="${ctx}/css/dashboard.css">
+    <link rel="stylesheet" href="${ctx}/css/pnotify.custom.min.css">
+    <link rel="stylesheet" href="${ctx}/css/font-awesome.min.css">
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="${ctx}/js/html5shiv.min.js"></script>
+    <script src="${ctx}/js/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">ToFly</a>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-3 col-md-2 sidebar">
+            <ul class="nav nav-sidebar">
+                <li class="active"><a href="javascript:void(0);" id="airports">机场管理</a></li>
+                <li><a href="javascript:void(0);" id="corps">机构管理</a></li>
+                <li><a href="javascript:void(0);" id="user" >会员管理</a></li>
+                <li><a href="javascript:void(0);" id="userOrder">订单管理</a></li>
+                <li><a href="javascript:void(0);" id="setting">数据设置</a></li>
+                <li><a href="javascript:void(0);" id="passwordchange">修改密码</a></li>
+                <li><a href="javascript:void(0);" id="exit">退出</a></li>
+            </ul>
+        </div>
+        <div id="content" class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+
+        </div>
+
+    </div>
+</div>
+
+</body>
+
+<script src="${ctx}/js//jquery.min.js"></script>
+<script src="${ctx}/js/bootstrap.min.js"></script>
+<script src="${ctx}/js/jquery.twbsPagination.min.js"></script>
+<script src="${ctx}/js/pnotify.custom.min.js"></script>
+<script src="${ctx}/js/jquery.form.js"></script>
+<script src="${ctx}/js/resource.js"></script>
+<script>
+    $(function(){
+        ajaxCallbackHandle('${ctx}/manage/login');
+2
+        $('#airports').click(function(){
+            $('.active').removeClass('active');
+            $(this).parent('li').addClass('active');
+            $('#content').load('${ctx}/manage/airports');
+        })
+        $('#corps,#user,#userOrder,#setting,#passwordchange').click(function(){
+            $('.active').removeClass('active');
+            $(this).parent('li').addClass('active');
+            var id = $(this).attr('id');
+            $('#content').load('${ctx}/manage/menu/'+id);
+        })
+
+        $('#exit').click(function(){
+            location.href='${ctx}/manage/exit';
+        });
+
+        $('#airports').trigger('click');
+    })
+</script>
+</html>

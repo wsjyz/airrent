@@ -29,4 +29,5 @@ public interface AirlineDAO {
 
 	String deleteAirline(String airlineId);
 
+    OpenPage findAirlineList(OpenPage page, String airlineName, String address);
 }

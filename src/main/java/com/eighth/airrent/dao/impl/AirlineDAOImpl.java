@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.eighth.airrent.domain.Airport;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.RowMapper;
@@ -258,4 +259,39 @@ public class AirlineDAOImpl extends BaseDAO implements AirlineDAO {
 			return "FAIL";
 		}
 	}
+
+    @Override
+    public OpenPage findAirlineList(OpenPage page, String airlineName, String address) {
+        StringBuffer sql = new StringBuffer();
+        StringBuffer where = new StringBuffer();
+        List<String> params = new ArrayList<String>();
+        sql.append("select count(*) from t_airrent_airline where 1=1 ");
+        if (StringUtils.isNotBlank(airlineName)) {
+            where.append("and airline_name like ? ");
+            params.add("%"+airlineName+"%");
+        }
+        if (StringUtils.isNotBlank(address)) {
+            where.append("and address like ? ");
+            params.add("%"+address+"%");
+        }
+
+        long count = getJdbcTemplate().queryForObject(sql.append(where).toString(),params.toArray(),Long.class);
+        if (count > 0) {
+            page.setTotal(count);
+            sql = new StringBuffer();
+            sql.append("select * from t_airrent_airline where 1=1 ");
+            sql.append(where);
+            sql.append(" limit "
+                    + page.getPageSize()
+                    + " OFFSET " + (page.getFirst() - 1) + "");
+            List<Airline> list = getJdbcTemplate().query(sql.toString(),params.toArray(),
+                    new AirlineMapper());
+            page.setRows(list);
+        } else {
+            page.setTotal(count);
+            page.setRows(new ArrayList<Airline>());
+
+        }
+        return page;
+    }
 }
