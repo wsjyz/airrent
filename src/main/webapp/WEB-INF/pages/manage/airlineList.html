@@ -12,18 +12,18 @@
     </tr>
     </thead>
     <tbody>
-    <#list page.getRows() as airport>
+    <#list page.getRows() as airline>
         <tr>
-            <td>${airport_index+1}</td>
-            <td>${airport.airlineName}</td>
-            <td>${airport.loginName}</td>
-            <td>${airport.weixin}</td>
-            <td>${airport.phone}</td>
+            <td>${airline_index+1}</td>
+            <td>${airline.airlineName}</td>
+            <td>${airline.loginName}</td>
+            <td>${airline.weixin}</td>
+            <td>${airline.phone}</td>
             <td>
-                <a href="javascript:void(0);" data-id="${airport.airportId}" class="manage">管理</a>
-                <a href="javascript:void(0);" data-id="${airport.airportId}" class="view">查看</a>
-                <a href="javascript:void(0);" data-id="${airport.airportId}" class="change">禁用</a>
-                <a href="javascript:void(0);" data-id="${airport.airportId}" class="delete">删除</a>
+                <a href="javascript:void(0);" data-id="${airline.airlineId}" class="manage">管理</a>
+                <a href="javascript:void(0);" data-id="${airline.airlineId}" class="view">查看</a>
+                <a href="javascript:void(0);" data-id="${airline.airlineId}" class="change">禁用</a>
+                <a href="javascript:void(0);" data-id="${airline.airlineId}" class="delete">删除</a>
             </td>
         </tr>
     </#list>
@@ -36,29 +36,23 @@
     $(function(){
         $('#table')
         .on('click','a.manage',function(){
-            var airportId=$(this).data('id');
-            $.post('${ctx}/manage/airports/delete',{airportId:airportId},function(){
-                $('#findAirport').trigger('click');
-                $.mhtMsg('操作成功!');
-            })
+            var airlineId=$(this).data('id');
+            $('#content').load('${ctx}/manage/menu/airline/manage?airlineId='+airlineId);
         })
         .on('click','a.view',function(){
-            var airportId=$(this).data('id');
-            $.post('${ctx}/manage/airports/delete',{airportId:airportId},function(){
-                $('#findAirport').trigger('click');
-                $.mhtMsg('操作成功!');
-            })
+            var airlineId=$(this).data('id');
+            $('#content').load('${ctx}/manage/menu/airline/view?airlineId='+airlineId);
         })
         .on('click','a.change',function(){
-            var airportId=$(this).data('id');
-            $.post('${ctx}/manage/airports/delete',{airportId:airportId},function(){
+            var airlineId=$(this).data('id');
+            $.post('${ctx}/manage/airlines/delete',{airlineId:airlineId},function(){
                 $('#findAirport').trigger('click');
                 $.mhtMsg('操作成功!');
             })
         })
         .on('click','a.delete',function(){
-            var airportId=$(this).data('id');
-            $.post('${ctx}/manage/airports/delete',{airportId:airportId},function(){
+            var airlineId=$(this).data('id');
+            $.post('${ctx}/manage/airlines/delete',{airlineId:airlineId},function(){
                 $('#findAirport').trigger('click');
                 $.mhtMsg('操作成功!');
             })

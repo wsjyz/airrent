@@ -22,6 +22,7 @@ public class Airline extends BaseDomain {
 	private String lng;// 经度
 
 	private List<Plane> planeList;
+    private String airportName;
 
 	public void setPlaneList(List<Plane> planeList) {
 		this.planeList = planeList;
@@ -135,4 +136,11 @@ public class Airline extends BaseDomain {
 		this.lng = lng;
 	}
 
+    public String getAirportName() {
+        return airportName;
+    }
+
+    public void setAirportName(String airportName) {
+        this.airportName = airportName;
+    }
 }

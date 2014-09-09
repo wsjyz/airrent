@@ -67,7 +67,7 @@
                 </div>
             </div>
         <div class="col-sm-offset-5 col-sm-4">
-            <button type="submit" id="saveAirport" class="btn btn-primary">保存</button>
+            <button type="submit" id="saveAirline" class="btn btn-primary btn-lg">保存</button>
         </div>
     </form>
     </div>
@@ -75,7 +75,7 @@
 </div>
 <script>
     $(function(){
-        $('#saveAirport').click(function(){
+        $('#saveAirline').click(function(){
             var json=$('#addAirline').serializeJson();
             $.post('${ctx}/manage/airline/save',json,function(data){
                 if(data.success){

@@ -120,6 +120,20 @@ public class ManageController {
         return render(mv, "airlineList");
     }
 
+    @RequestMapping("/menu/airline/view")
+    public ModelAndView viewAirline(@RequestParam String airlineId) throws Exception{
+        ModelAndView mv = new ModelAndView();
+        List<Airport> airports=airportService.findAllAirport();
+        mv.addObject("airports",airports);
+        Airline airline = airlineService.findAirlineById(airlineId);
+        if(StringUtils.isNotBlank(airline.getAirportId())){
+            airline.setAirportName(airportService.findAirportById(airline.getAirportId()).getAirportName());
+        }
+        mv.addObject("airline", airline);
+        return render(mv, "airlineView");
+
+    }
+
     @RequestMapping("/airline/save")
     public
     @ResponseBody
