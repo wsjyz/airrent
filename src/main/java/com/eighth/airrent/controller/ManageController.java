@@ -1,8 +1,10 @@
 package com.eighth.airrent.controller;
 
+import com.eighth.airrent.domain.Airline;
 import com.eighth.airrent.domain.Airport;
 import com.eighth.airrent.domain.OpenPage;
 import com.eighth.airrent.domain.UserInfo;
+import com.eighth.airrent.proxy.exception.RemoteInvokeException;
 import com.eighth.airrent.proxy.service.AirlineService;
 import com.eighth.airrent.proxy.service.AirportService;
 import com.eighth.airrent.proxy.service.UserService;
@@ -13,6 +15,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.View;
+
+import java.util.List;
 
 /**
  * Created by kkk on 14/9/4.
@@ -80,7 +84,7 @@ public class ManageController {
     }
 
     @RequestMapping(value = "/airports/save",method = RequestMethod.POST)
-    public @ResponseBody JsonResult saveAirport(@RequestParam String airportName,@RequestParam String address) throws Exception{
+    public @ResponseBody JsonResult saveAirport(@RequestParam String airportName,@RequestParam String address){
         JsonResult jsonResult = new JsonResult();
         Airport airport=new Airport();
         airport.setAirportName(airportName);
@@ -97,13 +101,33 @@ public class ManageController {
         return render(mv, page);
     }
 
+    @RequestMapping("/{page}/add")
+    public ModelAndView addPage(@PathVariable String page) {
+        ModelAndView mv = new ModelAndView();
+        if (page.equals("airline")) {
+            List<Airport> airports=airportService.findAllAirport();
+            mv.addObject("airports",airports);
+        }
+        return render(mv,page+"Add");
+    }
+
     @RequestMapping("/airlines/list")
     public ModelAndView airlineList(@ModelAttribute OpenPage page,
-                                    @RequestParam String airlineName,@RequestParam String address) {
+                                    @RequestParam String airlineName,@RequestParam String loginName) {
         ModelAndView mv = new ModelAndView();
-        page=airlineService.findAirlineList(page, airlineName, address);
+        page=airlineService.findAirlineList(page, airlineName, loginName);
         mv.addObject("page", page);
         return render(mv, "airlineList");
+    }
+
+    @RequestMapping("/airline/save")
+    public
+    @ResponseBody
+    JsonResult saveAirline(@ModelAttribute Airline airline) {
+        JsonResult jsonResult = new JsonResult();
+        String result =  airlineService.saveAirline(airline);
+        jsonResult.setSuccess(StringUtils.equals("SUCCESS",result));
+        return jsonResult;
     }
 
 

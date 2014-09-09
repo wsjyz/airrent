@@ -33,4 +33,6 @@ public interface AirportDAO {
     OpenPage<Airport> findAirportList(OpenPage<Airport> page, String airportName, String address);
 
     String saveAirport(Airport airport);
+
+    List<Airport> findAllAirport();
 }

@@ -39,7 +39,7 @@
         <div class="col-sm-3 col-md-2 sidebar">
             <ul class="nav nav-sidebar">
                 <li class="active"><a href="javascript:void(0);" id="airports">机场管理</a></li>
-                <li><a href="javascript:void(0);" id="corps">机构管理</a></li>
+                <li><a href="javascript:void(0);" id="airlines">机构管理</a></li>
                 <li><a href="javascript:void(0);" id="user" >会员管理</a></li>
                 <li><a href="javascript:void(0);" id="userOrder">订单管理</a></li>
                 <li><a href="javascript:void(0);" id="setting">数据设置</a></li>
@@ -58,7 +58,7 @@
 
 <script src="${ctx}/js//jquery.min.js"></script>
 <script src="${ctx}/js/bootstrap.min.js"></script>
-<script src="${ctx}/js/jquery.twbsPagination.min.js"></script>
+<script src="${ctx}/js/jquery.twbsPagination.js"></script>
 <script src="${ctx}/js/pnotify.custom.min.js"></script>
 <script src="${ctx}/js/jquery.form.js"></script>
 <script src="${ctx}/js/resource.js"></script>
@@ -71,7 +71,7 @@
             $(this).parent('li').addClass('active');
             $('#content').load('${ctx}/manage/airports');
         })
-        $('#corps,#user,#userOrder,#setting,#passwordchange').click(function(){
+        $('#airlines,#user,#userOrder,#setting,#passwordchange').click(function(){
             $('.active').removeClass('active');
             $(this).parent('li').addClass('active');
             var id = $(this).attr('id');

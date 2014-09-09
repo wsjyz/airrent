@@ -55,4 +55,9 @@ public class AirportServiceImpl implements AirportService {
     public String saveAirport(Airport airport) {
         return null;
     }
+
+    @Override
+    public List<Airport> findAllAirport() {
+        return null;
+    }
 }

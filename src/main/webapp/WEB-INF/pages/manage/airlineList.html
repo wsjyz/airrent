@@ -1,0 +1,67 @@
+<#include "/common/webUtils.ftl">
+<#assign ctx=request.contextPath>
+<table class="table table-bordered table-responsive table-striped" id="table">
+    <thead>
+    <tr>
+        <th class="col-md-1">序号</th>
+        <th class="col-md-3">公司名称</th>
+        <th class="col-md-3">公司账号</th>
+        <th class="col-md-1">微信号</th>
+        <th class="col-md-2">联系电话</th>
+        <th class="col-md-3">操作</th>
+    </tr>
+    </thead>
+    <tbody>
+    <#list page.getRows() as airport>
+        <tr>
+            <td>${airport_index+1}</td>
+            <td>${airport.airlineName}</td>
+            <td>${airport.loginName}</td>
+            <td>${airport.weixin}</td>
+            <td>${airport.phone}</td>
+            <td>
+                <a href="javascript:void(0);" data-id="${airport.airportId}" class="manage">管理</a>
+                <a href="javascript:void(0);" data-id="${airport.airportId}" class="view">查看</a>
+                <a href="javascript:void(0);" data-id="${airport.airportId}" class="change">禁用</a>
+                <a href="javascript:void(0);" data-id="${airport.airportId}" class="delete">删除</a>
+            </td>
+        </tr>
+    </#list>
+    </tbody>
+</table>
+<@emptyPage page=page msg="没有任何公司"/>
+<@pageParam/>
+
+<script>
+    $(function(){
+        $('#table')
+        .on('click','a.manage',function(){
+            var airportId=$(this).data('id');
+            $.post('${ctx}/manage/airports/delete',{airportId:airportId},function(){
+                $('#findAirport').trigger('click');
+                $.mhtMsg('操作成功!');
+            })
+        })
+        .on('click','a.view',function(){
+            var airportId=$(this).data('id');
+            $.post('${ctx}/manage/airports/delete',{airportId:airportId},function(){
+                $('#findAirport').trigger('click');
+                $.mhtMsg('操作成功!');
+            })
+        })
+        .on('click','a.change',function(){
+            var airportId=$(this).data('id');
+            $.post('${ctx}/manage/airports/delete',{airportId:airportId},function(){
+                $('#findAirport').trigger('click');
+                $.mhtMsg('操作成功!');
+            })
+        })
+        .on('click','a.delete',function(){
+            var airportId=$(this).data('id');
+            $.post('${ctx}/manage/airports/delete',{airportId:airportId},function(){
+                $('#findAirport').trigger('click');
+                $.mhtMsg('操作成功!');
+            })
+        })
+    })
+</script>

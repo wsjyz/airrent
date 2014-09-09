@@ -52,9 +52,14 @@ public class AirlineServiceImpl implements AirlineService{
 	}
 
     @Override
-    public OpenPage findAirlineList(OpenPage page, String airlineName, String address) {
+    public OpenPage findAirlineList(OpenPage page, String airlineName, String loginName) {
 
-        return airlineDAO.findAirlineList(page, airlineName, address);
+        return airlineDAO.findAirlineList(page, airlineName, loginName);
+    }
+
+    @Override
+    public String saveAirline(Airline airline) {
+        return airlineDAO.saveAirline(airline);
     }
 
 }

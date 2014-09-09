@@ -66,4 +66,6 @@ public interface AirlineService {
 	String deleteAirline(String airlineId) throws RemoteInvokeException;
 
     OpenPage findAirlineList(OpenPage page, String airlineName, String address);
+
+    String saveAirline(Airline airline);
 }

@@ -3,12 +3,12 @@
     <div class="row">
         <form id="search" class="form-inline" role="form">
             <div class="form-group">
-                <label for="airlineName">名称：</label>
+                <label for="airlineName">公司名称：</label>
                 <input type="text" class="form-control" id="airlineName" name="airlineName">
             </div>
             <div class="form-group">
-                <label for="address">隶属公司：</label>
-                <input type="text" class="form-control" id="address" name="address">
+                <label for="loginName">公司账号：</label>
+                <input type="text" class="form-control" id="loginName" name="loginName">
             </div>
             <button id="findAirline" class="btn btn-primary">查找</button>
             <button id="resetForm" class="btn btn-warning">重置</button>
@@ -30,14 +30,14 @@
         $('#findAirline').click(function(){
             var json={
                 airlineName:$('#airlineName').val(),
-                address:$('#address').val()
-            }
+                loginName:$('#loginName').val()
+            };
             $('#tds').load(pageUrl,json,function(){});
             return false;
         })
 
         $('#addAirline').click(function(){
-            $('#content').load('${ctx}/manage/airlines/add');
+            $('#content').load('${ctx}/manage/airline/add');
             return false;
         })
 
@@ -51,8 +51,8 @@
     function loadDataPage(){
         var json={
             airlineName:$('#airlineName').val(),
-            address:$('#address').val()
-        }
+            loginName:$('#loginName').val()
+        };
         $('#tds').load(pageUrl,json,function(){
             var totalPages=parseInt($('#totalPages').val());
             var pageSize=parseInt($('#pageSize').val());

@@ -64,4 +64,9 @@ public class AirportServiceImpl implements AirportService {
         return airportDAO.saveAirport(airport);
     }
 
+    @Override
+    public List<Airport> findAllAirport(){
+        return airportDAO.findAllAirport();
+    }
+
 }

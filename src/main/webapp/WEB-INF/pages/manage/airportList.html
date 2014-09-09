@@ -3,16 +3,16 @@
 <table class="table table-bordered table-responsive table-striped" id="table">
     <thead>
     <tr>
-        <th class="col-md-2">序号</th>
-        <th class="col-md-2">机场名称</th>
-        <th class="col-md-3">机场地址</th>
-        <th class="col-md-3">操作</th>
+        <th class="col-md-1">序号</th>
+        <th class="col-md-3">机场名称</th>
+        <th class="col-md-4">机场地址</th>
+        <th class="col-md-1">操作</th>
     </tr>
     </thead>
     <tbody>
     <#list page.getRows() as airport>
         <tr>
-            <td>${airport_index}</td>
+            <td>${airport_index+1}</td>
             <td>${airport.airportName}</td>
             <td>${airport.address}</td>
             <td>

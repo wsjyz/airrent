@@ -267,4 +267,10 @@ public class AirportDAOImpl extends BaseDAO implements AirportDAO {
             return "FAIL";
         }
     }
+
+    public List<Airport> findAllAirport() {
+        StringBuffer sql = new StringBuffer("select * from t_airrent_airport");
+        List<Airport> list = getJdbcTemplate().query(sql.toString(),new AirportMapper());
+        return list;
+    }
 }

@@ -45,4 +45,14 @@ public class AirlineServiceImpl implements AirlineService {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+    @Override
+    public OpenPage findAirlineList(OpenPage page, String airlineName, String address) {
+        return null;
+    }
+
+    @Override
+    public String saveAirline(Airline airline) {
+        return null;
+    }
 }
