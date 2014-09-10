@@ -22,7 +22,9 @@
             <td>
                 <a href="javascript:void(0);" data-id="${airline.airlineId}" class="manage">管理</a>
                 <a href="javascript:void(0);" data-id="${airline.airlineId}" class="view">查看</a>
-                <a href="javascript:void(0);" data-id="${airline.airlineId}" class="change">禁用</a>
+                <a href="javascript:void(0);" data-id="${airline.airlineId}" class="change">
+                    <#if airline.status=='on'>禁用<#else>启用</#if>
+                </a>
                 <a href="javascript:void(0);" data-id="${airline.airlineId}" class="delete">删除</a>
             </td>
         </tr>
@@ -44,17 +46,24 @@
             $('#content').load('${ctx}/manage/menu/airline/view?airlineId='+airlineId);
         })
         .on('click','a.change',function(){
-            var airlineId=$(this).data('id');
-            $.post('${ctx}/manage/airlines/delete',{airlineId:airlineId},function(){
-                $('#findAirport').trigger('click');
-                $.mhtMsg('操作成功!');
+            var json={
+                airlineId : $(this).data('id'),
+                status : $(this).text()=='禁用'?'off':'on'
+            }
+            $.post('${ctx}/manage/menu/airline/change',json,function(data){
+                if(data.success){
+                    $('#findAirline').trigger('click');
+                    $.mhtMsg('操作成功!');
+                }
             })
         })
         .on('click','a.delete',function(){
             var airlineId=$(this).data('id');
-            $.post('${ctx}/manage/airlines/delete',{airlineId:airlineId},function(){
-                $('#findAirport').trigger('click');
-                $.mhtMsg('操作成功!');
+            $.post('${ctx}/manage/menu/airline/delete',{airlineId:airlineId},function(data){
+                if(data.success){
+                    $('#findAirline').trigger('click');
+                    $.mhtMsg('操作成功!');
+                }
             })
         })
     })

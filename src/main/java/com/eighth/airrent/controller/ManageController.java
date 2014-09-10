@@ -111,6 +111,13 @@ public class ManageController {
         return render(mv,page+"Add");
     }
 
+    /**
+     * 机构管理列表
+     * @param page
+     * @param airlineName
+     * @param loginName
+     * @return
+     */
     @RequestMapping("/airlines/list")
     public ModelAndView airlineList(@ModelAttribute OpenPage page,
                                     @RequestParam String airlineName,@RequestParam String loginName) {
@@ -120,6 +127,12 @@ public class ManageController {
         return render(mv, "airlineList");
     }
 
+    /**
+     * 查看公司机构
+     * @param airlineId
+     * @return
+     * @throws Exception
+     */
     @RequestMapping("/menu/airline/view")
     public ModelAndView viewAirline(@RequestParam String airlineId) throws Exception{
         ModelAndView mv = new ModelAndView();
@@ -134,6 +147,11 @@ public class ManageController {
 
     }
 
+    /**
+     * 新增公司机构
+     * @param airline
+     * @return
+     */
     @RequestMapping("/airline/save")
     public
     @ResponseBody
@@ -141,6 +159,34 @@ public class ManageController {
         JsonResult jsonResult = new JsonResult();
         String result =  airlineService.saveAirline(airline);
         jsonResult.setSuccess(StringUtils.equals("SUCCESS",result));
+        return jsonResult;
+    }
+
+    /**
+     * 机构管理：修改状态、删除
+     * @param opt
+     * @param airlineId
+     * @param status
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping("/menu/airline/{opt}")
+    public
+    @ResponseBody
+    JsonResult changeAirline(@PathVariable String opt,
+                             @RequestParam String airlineId,
+                             @RequestParam(required = false) String status)throws Exception{
+        JsonResult jsonResult = new JsonResult();
+        String result = "";
+        if (opt.equals("change")) {
+            Airline airline=new Airline();
+            airline.setAirlineId(airlineId);
+            airline.setStatus(status);
+            result=airlineService.updateAirline(airline);
+        } else if (opt.equals("delete")) {
+            result=airlineService.deleteAirline(airlineId);
+        }
+        jsonResult.setSuccess(StringUtils.equals("SUCCESS", result));
         return jsonResult;
     }
 
