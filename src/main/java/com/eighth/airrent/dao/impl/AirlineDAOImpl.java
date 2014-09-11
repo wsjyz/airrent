@@ -258,4 +258,15 @@ public class AirlineDAOImpl extends BaseDAO implements AirlineDAO {
 			return "FAIL";
 		}
 	}
+
+	@Override
+	public List<Plane> findAllPlaneByAirlineId(String airlineId) {
+		StringBuffer sql = new StringBuffer();
+		sql.append("select * from t_airrent_plane where airline_id='"
+				+ airlineId + "'");
+		
+		List<Plane> list = getJdbcTemplate().query(sql.toString(),
+				new PlaneMapper());
+		return list;
+	}
 }
