@@ -2,10 +2,7 @@ package com.eighth.airrent.controller;
 
 import com.eighth.airrent.domain.*;
 import com.eighth.airrent.proxy.exception.RemoteInvokeException;
-import com.eighth.airrent.proxy.service.AirlineService;
-import com.eighth.airrent.proxy.service.AirportService;
-import com.eighth.airrent.proxy.service.PlaneService;
-import com.eighth.airrent.proxy.service.UserService;
+import com.eighth.airrent.proxy.service.*;
 import com.eighth.airrent.util.CommonUtils;
 import com.eighth.airrent.util.JsonResult;
 import org.apache.commons.lang3.StringUtils;
@@ -40,6 +37,10 @@ public class ManageController {
     private AirlineService airlineService;
     @Autowired
     private PlaneService planeService;
+    @Autowired
+    private UserOrderService userOrderService;
+    @Autowired
+    private SettingService settingService;
 
     @RequestMapping("/login")
     public ModelAndView login() {
@@ -113,18 +114,25 @@ public class ManageController {
     @RequestMapping("/menu/{page}")
     public ModelAndView menuItem(@PathVariable String page) {
         ModelAndView mv = new ModelAndView();
+        if(page.equals("setting")) {
+            Setting setting = settingService.loadSetting();
+            mv.addObject("setting", setting);
+        }
         return render(mv, page);
     }
 
     @RequestMapping("/{page}/add")
     public ModelAndView addPage(@PathVariable String page,
-                                @RequestParam (required = false) String airlineId) {
+                                @RequestParam (required = false) String airlineId,
+                                @RequestParam(required = false)String userId)throws Exception{
         ModelAndView mv = new ModelAndView();
         if (page.equals("airline")) {
             List<Airport> airports = airportService.findAllAirport();
             mv.addObject("airports", airports);
         }else if (page.equals("plane")) {
             mv.addObject("airlineId", airlineId);
+        }else if(page.equals("user")) {
+            mv.addObject("user", userService.getById(userId));
         }
         return render(mv, page + "Add");
     }
@@ -226,6 +234,7 @@ public class ManageController {
         MultipartFile file = request.getFile("planeImage");
         String imgPath=saveFile(file, httpServletRequest);
         Plane plane=new Plane();
+        plane.setPlaneId(request.getParameter("planeId"));
         plane.setPlaneImage(imgPath);
         plane.setPlaneImageName(file.getOriginalFilename());
         plane.setAirlineId(request.getParameter("airlineId"));
@@ -243,6 +252,41 @@ public class ManageController {
         plane.setFlyUnitCost(new BigDecimal(request.getParameter("flyUnitCost")));
         plane.setShowUnitCost(new BigDecimal(request.getParameter("showUnitCost")));
         String result = planeService.savePlane(plane);
+        jsonResult.setSuccess(StringUtils.equals("SUCCESS", result));
+        return jsonResult;
+    }
+
+    @RequestMapping("/menu/plane/view")
+    public ModelAndView planeView(@RequestParam String planeId) throws Exception{
+        ModelAndView mv = new ModelAndView();
+        Plane plane = planeService.findPlaneById(planeId);
+        mv.addObject("plane", plane);
+        return render(mv, "planeView");
+    }
+    /**
+     * 飞机管理：修改状态、删除
+     * @param opt
+     * @param planeId
+     * @param status
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping("/menu/plane/{opt}")
+    public
+    @ResponseBody
+    JsonResult changePlane(@PathVariable String opt,
+                             @RequestParam String planeId,
+                             @RequestParam(required = false) String status)throws Exception{
+        JsonResult jsonResult = new JsonResult();
+        String result = "";
+        if (opt.equals("change")) {
+            Plane plane=new Plane();
+            plane.setPlaneId(planeId);
+            plane.setStatus(status);
+            result=planeService.updatePlaneStatus(plane);
+        } else if (opt.equals("delete")) {
+            result=planeService.deletePlane(planeId);
+        }
         jsonResult.setSuccess(StringUtils.equals("SUCCESS", result));
         return jsonResult;
     }
@@ -275,6 +319,107 @@ public class ManageController {
         return jsonResult;
     }
 
+    @RequestMapping("/user/list")
+    public ModelAndView userList(@ModelAttribute OpenPage page,@ModelAttribute UserInfo userInfo) {
+        ModelAndView mv = new ModelAndView();
+        page = userService.findUserByPage(page, userInfo);
+        mv.addObject("page", page);
+        return render(mv, "userList");
+    }
+
+    @RequestMapping("/user/save")
+    public  @ResponseBody JsonResult userSave(MultipartHttpServletRequest request, HttpServletRequest httpServletRequest) {
+        JsonResult jsonResult = new JsonResult();
+        MultipartFile file = request.getFile("avatar");
+        String imgPath = saveFile(file, httpServletRequest);
+
+        UserInfo user = new UserInfo();
+        user.setUserId(request.getParameter("userId"));
+        user.setMobile(request.getParameter("mobile"));
+        user.setAvatar(imgPath);
+        user.setLoginName(request.getParameter("loginName"));
+        user.setUserName(request.getParameter("userName"));
+        user.setIdentityCard(request.getParameter("identityCard"));
+        user.setSex(request.getParameter("sex"));
+        user.setAge(request.getParameter("age"));
+        user.setAddress(request.getParameter("address"));
+        user.setWorkOrg(request.getParameter("workOrg"));
+        user.setLevel(request.getParameter("level"));
+        user.setZhifubao(request.getParameter("zhifubao"));
+        user.setHome(request.getParameter("home"));
+        user.setCommonAddress(request.getParameter("commonAddress"));
+        String result = userService.saveUser(user);
+        jsonResult.setSuccess(StringUtils.equals("SUCCESS", result));
+        return jsonResult;
+    }
+
+    /**
+     * 会员管理：修改状态、删除
+     * @param opt
+     * @param userId
+     * @param status
+     * @return
+     */
+    @RequestMapping("/menu/user/{opt}")
+    public
+    @ResponseBody
+    JsonResult changeUser(@PathVariable String opt,
+                           @RequestParam String userId,
+                           @RequestParam(required = false) String status){
+        JsonResult jsonResult = new JsonResult();
+        String result = "";
+        if (opt.equals("change")) {
+            UserInfo user=new UserInfo();
+            user.setUserId(userId);
+            user.setStatus(status);
+            result=userService.updateUserStatus(user);
+        } else if (opt.equals("delete")) {
+            result = userService.deleteUser(userId);
+        }
+        jsonResult.setSuccess(StringUtils.equals("SUCCESS", result));
+        return jsonResult;
+    }
+
+    @RequestMapping("/userOrder/list")
+    public ModelAndView userOrderList(@ModelAttribute OpenPage page,@ModelAttribute UserOrder userOrder) {
+        ModelAndView mv = new ModelAndView();
+        page = userOrderService.findUserOrders(page, userOrder);
+        mv.addObject("page", page);
+        return render(mv, "userOrderList");
+    }
+
+    @RequestMapping("/userOrder/view")
+    public ModelAndView userOrderView(@RequestParam String orderId)throws Exception{
+        ModelAndView mv = new ModelAndView();
+        UserOrder userOrder = userOrderService.findOrderById(orderId);
+        userOrder.setUserInfo(userService.getById(userOrder.getUserId()));
+        Plane plane=planeService.findPlaneById(userOrder.getPlaneId());
+        userOrder.setPlane(plane);
+        userOrder.setAirport(airportService.findAirportById(userOrder.getAirportId()));
+        userOrder.setAirline(airlineService.findAirlineById(plane.getAirlineId()));
+        mv.addObject("userOrder", userOrder);
+        return render(mv, "userOrderView");
+    }
+
+    @RequestMapping("/setting/save")
+    public
+    @ResponseBody
+    JsonResult saveSetting(@ModelAttribute Setting setting) {
+        JsonResult jsonResult = new JsonResult();
+        String result=settingService.saveSetting(setting);
+        jsonResult.setSuccess(StringUtils.equals("SUCCESS", result));
+        return jsonResult;
+    }
+
+    @RequestMapping
+    public JsonResult changePass(@RequestParam String userId,
+                                 @RequestParam String originalPass,
+                                 @RequestParam String changePass) throws Exception {
+        JsonResult jsonResult = new JsonResult();
+        String result = userService.resetPassword("", changePass);
+        jsonResult.setSuccess(StringUtils.equals("SUCCESS", result));
+        return jsonResult;
+    }
 
     private String saveFile(MultipartFile file,HttpServletRequest httpServletRequest) {
         String originalFilename=file.getOriginalFilename();
@@ -282,9 +427,9 @@ public class ManageController {
 
         String dirname = new SimpleDateFormat("yyyyMMdd").format(new Date());
         String upload = httpServletRequest.getSession().getServletContext().getRealPath("upload");
-        String filePath=upload+File.separator+dirname+File.separator+CommonUtils.genUUID()+fileSuffix;
+        String filePath=dirname+File.separator+CommonUtils.genUUID()+fileSuffix;
 
-        File targetFile = new File(filePath);
+        File targetFile = new File(upload+File.separator+filePath);
         if(!targetFile.exists()){
             targetFile.mkdirs();
         }

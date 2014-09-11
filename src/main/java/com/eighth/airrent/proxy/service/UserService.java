@@ -1,5 +1,6 @@
 package com.eighth.airrent.proxy.service;
 
+import com.eighth.airrent.domain.OpenPage;
 import com.eighth.airrent.domain.UserInfo;
 import com.eighth.airrent.domain.VerifyCode;
 import com.eighth.airrent.proxy.annotation.RemoteMethod;
@@ -83,4 +84,18 @@ public interface UserService {
 	UserInfo getById(String userId) throws RemoteInvokeException;
 
     public UserInfo findUser(UserInfo userInfo);
+
+    /**
+     * 分页查询userInfo
+     * @param page
+     * @param userInfo
+     * @return
+     */
+    OpenPage findUserByPage(OpenPage page, UserInfo userInfo);
+
+    String updateUserStatus(UserInfo user);
+
+    String deleteUser(String userId);
+
+    String saveUser(UserInfo user);
 }

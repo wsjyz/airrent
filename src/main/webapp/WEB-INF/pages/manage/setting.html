@@ -1,0 +1,55 @@
+<#assign ctx=request.contextPath>
+<form class="form-horizontal" role="form" id="settingForm">
+    <div class="form-group">
+        <label for="message" class="col-sm-2 control-label">首页消息</label>
+        <div class="col-sm-6">
+            <input type="text" class="form-control input-sm" id="message">
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="choice" class="col-sm-2 control-label">业务选择</label>
+        <div class="col-sm-6">
+            <textarea class="form-control" name="choice" id="choice" cols="30" rows="8"></textarea>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="info" class="col-sm-2 control-label">费用详细说明</label>
+        <div class="col-sm-6">
+            <textarea class="form-control" name="choice" id="info" cols="30" rows="8"></textarea>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="content" class="col-sm-2 control-label">推送内容设置</label>
+        <div class="col-sm-6">
+            <input type="text" class="form-control" id="content">
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="days" class="col-sm-2 control-label">推送周期</label>
+        <div class="col-sm-6">
+            <div class="input-group">
+                <input type="text" class="form-control" id="days" name="days">
+                <span class="input-group-addon">天</span>
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="time" class="col-sm-2 control-label">推送时间设置</label>
+        <div class="col-sm-6">
+            <input type="text" class="form-control" id="time">
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-6">
+            <button type="submit" class="btn btn-default">保存</button>
+        </div>
+    </div>
+</form>
+<script>
+    $(function(){
+        var json=$('settingForm').serializeJson();
+        $.post('${ctx}/manage/setting/save',json,function(data){
+
+        })
+    })
+</script>

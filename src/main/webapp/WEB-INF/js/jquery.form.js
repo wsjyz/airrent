@@ -318,16 +318,15 @@
 					// doc = io.contentWindow ? io.contentWindow.document : io.contentDocument ? io.contentDocument : io.document;
 					doc = io.contentDocument;
 					body = doc.body;
-                    console.log(doc);
-                    console.log(body);
-                    console.log(doc.body.innerHTML);
 					xhr.responseText = doc.body ? doc.body.innerHTML : null;
 					xhr.responseXML = doc.XMLDocument ? doc.XMLDocument : doc;
 
 					if (opts.dataType == 'json' || opts.dataType == 'script') {
 						data = xhr.responseText;
+                        var jsonData=data.toString().replace(/<[^>]+>/g,'');
+
 						if (opts.dataType == 'json')
-							eval("data = " + data);
+							eval("data = " + jsonData);
 						else
 							$.globalEval(data);
 					}

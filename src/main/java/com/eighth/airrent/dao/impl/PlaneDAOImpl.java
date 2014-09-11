@@ -40,6 +40,7 @@ public class PlaneDAOImpl extends BaseDAO implements PlaneDAO{
 				plane.setAirportId(rs.getString("airport_id"));
 				plane.setColour(rs.getString("colour"));
 				plane.setDrivingMile(rs.getBigDecimal("driving_mile"));
+				plane.setUnitCost(rs.getBigDecimal("unit_cost"));
 				plane.setFlyUnitCost(rs.getBigDecimal("fly_unit_cost"));
 				plane.setPlaneId(rs.getString("plane_id"));
 				plane.setPlaneImage(rs.getString("plane_image"));
@@ -178,28 +179,66 @@ public class PlaneDAOImpl extends BaseDAO implements PlaneDAO{
     public String savePlane(Plane plane) {
         StringBuffer sql = new StringBuffer();
         Object[] params = new Object[16];
-        String planeId = CommonUtils.genUUID();
-        sql.append("insert into t_airrent_plane(plane_id,plane_name,plane_image,plane_image_name," +
-                "plane_no,unit_cost,fly_unit_cost,plane_type,time_in_product,product_area,driving_mile," +
-                "speed,colour,show_unit_cost,plane_price,airline_id) " +
-                "values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
-        params[0]=planeId;
-        params[1]=plane.getPlaneName();
-        params[2]=plane.getPlaneImage();
-        params[3]=plane.getPlaneImageName();
-        params[4]=plane.getPlaneNo();
-        params[5]=plane.getUnitCost();
-        params[6]=plane.getFlyUnitCost();
-        params[7]=plane.getPlaneType();
-        params[8]=plane.getTimeInProduct();
-        params[9]=plane.getProductArea();
-        params[10]=plane.getDrivingMile();
-        params[11]=plane.getSpeed();
-        params[12]=plane.getColour();
-        params[13]=plane.getShowUnitCost();
-        params[14]=plane.getPlanePrice();
-        params[15]=plane.getAirlineId();
-        int update = getJdbcTemplate().update(sql.toString(),params);
+        if(StringUtils.isBlank(plane.getPlaneId())) {
+            String planeId = CommonUtils.genUUID();
+            sql.append("insert into t_airrent_plane(plane_id,plane_name,plane_image,plane_image_name," +
+                    "plane_no,unit_cost,fly_unit_cost,plane_type,time_in_product,product_area,driving_mile," +
+                    "speed,colour,show_unit_cost,plane_price,airline_id) " +
+                    "values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+            params[0] = planeId;
+            params[1] = plane.getPlaneName();
+            params[2] = plane.getPlaneImage();
+            params[3] = plane.getPlaneImageName();
+            params[4] = plane.getPlaneNo();
+            params[5] = plane.getUnitCost();
+            params[6] = plane.getFlyUnitCost();
+            params[7] = plane.getPlaneType();
+            params[8] = plane.getTimeInProduct();
+            params[9] = plane.getProductArea();
+            params[10] = plane.getDrivingMile();
+            params[11] = plane.getSpeed();
+            params[12] = plane.getColour();
+            params[13] = plane.getShowUnitCost();
+            params[14] = plane.getPlanePrice();
+            params[15] = plane.getAirlineId();
+        }else{
+            sql.append("update t_airrent_plane set plane_name=?,plane_image=?,plane_image_name=?," +
+                    "plane_no=?,unit_cost=?,fly_unit_cost=?,plane_type=?,time_in_product=?,product_area=?,driving_mile=?," +
+                    "speed=?,colour=?,show_unit_cost=?,plane_price=?,airline_id=? " +
+                    "where plane_id=?");
+            params[0] = plane.getPlaneName();
+            params[1] = plane.getPlaneImage();
+            params[3] = plane.getPlaneImageName();
+            params[4] = plane.getPlaneNo();
+            params[5] = plane.getUnitCost();
+            params[6] = plane.getFlyUnitCost();
+            params[7] = plane.getPlaneType();
+            params[8] = plane.getTimeInProduct();
+            params[9] = plane.getProductArea();
+            params[10] = plane.getDrivingMile();
+            params[11] = plane.getSpeed();
+            params[12] = plane.getColour();
+            params[13] = plane.getShowUnitCost();
+            params[14] = plane.getPlanePrice();
+            params[15] = plane.getAirlineId();
+            params[15] = plane.getPlaneId();
+        }
+        int update = getJdbcTemplate().update(sql.toString(), params);
+        if (update > 0) {
+            return "SUCCESS";
+        } else {
+            return "FAIL";
+        }
+    }
+
+    @Override
+    public String updatePlaneStatus(Plane plane) {
+        StringBuffer sql = new StringBuffer();
+        String[] params = new String[2];
+        sql.append("update t_airrent_plane set status=? where plane_id=? ");
+        params[0] = plane.getStatus();
+        params[1] = plane.getPlaneId();
+        int update = getJdbcTemplate().update(sql.toString(), params);
         if (update > 0) {
             return "SUCCESS";
         } else {

@@ -9,6 +9,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.eighth.airrent.dao.UserDAO;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -33,6 +35,8 @@ public class UserOrderDAOImpl extends BaseDAO implements UserOrderDAO{
 
 	@Autowired
 	AirportDAO airportDao;
+    @Autowired
+    UserDAO userInfoDao;
 	@SuppressWarnings({ "rawtypes", "deprecation", "unchecked" })
 	@Override
 	public OpenPage<UserOrder> findUserOrder(OpenPage openPage, String userId) {
@@ -74,7 +78,10 @@ public class UserOrderDAOImpl extends BaseDAO implements UserOrderDAO{
 			    //支付状态 ONLINE_PAYED线上已支付 OFFLINE_PAYED线下已支付 NOT_PAY未支付
 			    userOrder.setOrderStatus(rs.getString("order_status"));
 			    userOrder.setDescription(rs.getString("description"));//备注
-			return userOrder;
+                userOrder.setPlaneId(rs.getString("plane_id"));
+                userOrder.setOrderLetter(rs.getString("order_letter"));
+                userOrder.setOrderNumber(rs.getString("order_number"));
+             return userOrder;
 			}
 	    }
 	@Override
@@ -212,5 +219,49 @@ public class UserOrderDAOImpl extends BaseDAO implements UserOrderDAO{
 		return new UserOrder();
 	}
 
-   
+    @Override
+    public OpenPage findUserOrders(OpenPage openPage, UserOrder userOrder) {
+        StringBuffer sql=new StringBuffer();
+        StringBuffer wheresql=new StringBuffer();
+        List<String> params = new ArrayList<>();
+        wheresql.append("from t_airrent_user_order uo inner join t_airrent_plane ap on uo.plane_id=ap.plane_id ");
+        wheresql.append(" inner join t_airrent_user_info ui on uo.user_id=ui.user_id where 1=1 ");
+        if (StringUtils.isNotBlank(userOrder.getOrderLetter())) {
+            wheresql.append("and uo.order_letter = ? ");
+            params.add(userOrder.getOrderLetter());
+        }
+        if (StringUtils.isNotBlank(userOrder.getOrderNumber())) {
+            wheresql.append("and uo.order_number = ? ");
+            params.add(userOrder.getOrderNumber());
+        }
+        if(StringUtils.isNotBlank(userOrder.getLoginName())){
+            wheresql.append("and ui.login_name = ? ");
+            params.add(userOrder.getLoginName());
+        }
+        if(StringUtils.isNotBlank(userOrder.getPlaneName())){
+            wheresql.append("and ap.plane_name = ? ");
+            params.add(userOrder.getPlaneName());
+        }
+        sql.append("select count(*) ").append(wheresql);
+        int count = getJdbcTemplate().queryForInt(sql.toString());
+        if(count>0){
+            openPage.setTotal(count);
+            sql=new StringBuffer();
+            sql.append("select * ").append(wheresql).append(" limit "+openPage.getPageSize()+" OFFSET "+(openPage.getFirst() - 1));
+            List<UserOrder> list=getJdbcTemplate().query(sql.toString(), new UserOrderMapper());
+            for (UserOrder uo : list) {
+                String userId=uo.getUserId();
+                uo.setUserInfo(userInfoDao.getById(userId));
+            }
+            openPage.setRows(list);
+        }else{
+            openPage.setTotal(count);
+            openPage.setRows(new ArrayList<UserOrder>());
+
+        }
+        return openPage;
+
+    }
+
+
 }

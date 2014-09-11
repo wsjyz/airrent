@@ -136,8 +136,6 @@
                 dataType:'json',
                 url:'${ctx}/manage/plane/save',
                 success:function(data){
-                    console.log(data);
-                    console.log(data.success);
                     if(data.success){
                         $.mhtMsg('保存成功!');
                     }else{
@@ -154,7 +152,7 @@
         });
 
         $('#return').click(function(){
-            $('#content').load('${ctx}/manage/menu/planes?airlineId=${airlineId}');
+            $('#content').load('${ctx}/manage/menu/airline/manage?airlineId=${airlineId}');
         })
     })
 </script>

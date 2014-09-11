@@ -21,6 +21,12 @@ public class UserInfo extends BaseDomain {
 	private String loginTip;// 登录提示信息
 	private String hint;// LOGIN_INFO_NULL请输入用户名密码 ，NAME_PASSWORD_ERROR 用户名或密码错误
     private String type;
+    private String status;
+
+    private String commonAddress;
+    private String avatar;
+    private String level;
+    private String home;
 
     public void setHint(String hint) {
 		this.hint = hint;
@@ -140,5 +146,45 @@ public class UserInfo extends BaseDomain {
 
     public String getType() {
         return type;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public String getCommonAddress() {
+        return commonAddress;
+    }
+
+    public void setCommonAddress(String commonAddress) {
+        this.commonAddress = commonAddress;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
+
+    public String getLevel() {
+        return level;
+    }
+
+    public void setLevel(String level) {
+        this.level = level;
+    }
+
+    public String getHome() {
+        return home;
+    }
+
+    public void setHome(String home) {
+        this.home = home;
     }
 }

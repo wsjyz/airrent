@@ -1,0 +1,52 @@
+<#include "/common/webUtils.ftl">
+<#assign ctx=request.contextPath>
+<table class="table table-bordered table-responsive table-striped" id="table">
+    <thead>
+    <tr>
+        <th class="col-md-1">序号</th>
+        <th class="col-md-1">用户名</th>
+        <th class="col-md-1">手机号</th>
+        <th class="col-md-2">业务种类</th>
+        <th class="col-md-2">订单编号字母</th>
+        <th class="col-md-2">订单编号数字</th>
+        <th class="col-md-2">订单实付金额</th>
+        <th class="col-md-1">操作</th>
+    </tr>
+    </thead>
+    <tbody>
+    <#list page.getRows() as userOrder>
+        <tr>
+            <td>${userOrder_index+1}</td>
+            <td>${userOrder.userInfo.loginName!}</td>
+            <td>${userOrder.userInfo.mobile!}</td>
+            <td>${userOrder.orderUse!}</td>
+            <td>${userOrder.orderLetter!}</td>
+            <td>${userOrder.orderNumber!}</td>
+            <td>${userOrder.downPayment!}</td>
+            <td>
+                <a href="javascript:void(0);" data-id="${userOrder.orderId}" class="view">查看</a>
+                <a href="javascript:void(0);" data-id="${userOrder.orderId}" class="delete">删除</a>
+            </td>
+        </tr>
+    </#list>
+    </tbody>
+</table>
+<@emptyPage page=page msg="没有任何订单"/>
+<@pageParam/>
+
+<script>
+    $(function(){
+        $('#table')
+        .on('click','a.view',function(){
+            var orderId=$(this).data('id');
+            $('#content').load('${ctx}/manage/userOrder/view?orderId='+orderId);
+        })
+        .on('click','a.delete',function(){
+            var userOrderId=$(this).data('id');
+            $.post('${ctx}/manage/menu/userOrder/delete',{userOrderId:userOrderId},function(){
+                $('#findUser').trigger('click');
+                $.mhtMsg('操作成功!');
+            })
+        })
+    })
+</script>

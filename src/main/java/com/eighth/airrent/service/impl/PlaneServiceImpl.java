@@ -47,4 +47,9 @@ public class PlaneServiceImpl implements PlaneService {
         return planeDAO.savePlane(plane);
     }
 
+    @Override
+    public String updatePlaneStatus(Plane plane) {
+        return planeDAO.updatePlaneStatus(plane);
+    }
+
 }

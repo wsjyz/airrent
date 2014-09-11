@@ -1,5 +1,6 @@
 package com.eighth.airrent.dao;
 
+import com.eighth.airrent.domain.OpenPage;
 import com.eighth.airrent.domain.UserInfo;
 import com.eighth.airrent.domain.VerifyCode;
 import com.eighth.airrent.proxy.exception.RemoteInvokeException;
@@ -66,4 +67,18 @@ public interface UserDAO {
      * @return
      */
     UserInfo find(UserInfo userInfo);
+
+    /**
+     * 分页查询
+     * @param page
+     * @param userInfo
+     * @return
+     */
+    OpenPage findUserByPage(OpenPage page, UserInfo userInfo);
+
+    String updateUserStatus(UserInfo user);
+
+    String deleteUser(String userId);
+
+    String saveUser(UserInfo user);
 }

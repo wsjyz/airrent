@@ -40,10 +40,10 @@
             <ul class="nav nav-sidebar">
                 <li class="active"><a href="javascript:void(0);" id="airports">机场管理</a></li>
                 <li><a href="javascript:void(0);" id="airlines">机构管理</a></li>
-                <li><a href="javascript:void(0);" id="user" >会员管理</a></li>
-                <li><a href="javascript:void(0);" id="userOrder">订单管理</a></li>
+                <li><a href="javascript:void(0);" id="users" >会员管理</a></li>
+                <li><a href="javascript:void(0);" id="userOrders">订单管理</a></li>
                 <li><a href="javascript:void(0);" id="setting">数据设置</a></li>
-                <li><a href="javascript:void(0);" id="passwordchange">修改密码</a></li>
+                <li><a href="javascript:void(0);" id="changePass">修改密码</a></li>
                 <li><a href="javascript:void(0);" id="exit">退出</a></li>
             </ul>
         </div>
@@ -71,7 +71,7 @@
             $(this).parent('li').addClass('active');
             $('#content').load('${ctx}/manage/airports');
         })
-        $('#airlines,#user,#userOrder,#setting,#passwordchange').click(function(){
+        $('#airlines,#users,#userOrders,#setting,#changePass').click(function(){
             $('.active').removeClass('active');
             $(this).parent('li').addClass('active');
             var id = $(this).attr('id');
@@ -79,7 +79,7 @@
         })
 
         $('#exit').click(function(){
-            location.href='${ctx}/manage/exit';
+            location.href='${ctx}/manage/login';
         });
 
         $('#airports').trigger('click');

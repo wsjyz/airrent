@@ -41,4 +41,9 @@ public class PlaneServiceImpl implements PlaneService {
     public String savePlane(Plane plane) {
         return null;
     }
+
+    @Override
+    public String updatePlaneStatus(Plane plane) {
+        return null;
+    }
 }

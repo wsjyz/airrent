@@ -93,14 +93,14 @@
                 $('.col-sm-6 input,select').removeClass('hidden').show();
                 eml.text('保存');
             }else{
-                $('.col-sm-6 span').show();
-                $('.col-sm-6 input,select').hide();
-
                 var json=$('#addAirline').serializeJson();
                 $.post('${ctx}/manage/airline/save',json,function(data){
                     if(data.success){
                         $('#content').load('${ctx}/manage/menu/airline/view?airlineId=${airline.airlineId}');
                         $.mhtMsg('保存成功!');
+
+                        $('.col-sm-6 span').show();
+                        $('.col-sm-6 input,select').hide();
                         eml.text('修改');
                     }else{
                         $.mhtMsg('保存失败，请重新提交!');

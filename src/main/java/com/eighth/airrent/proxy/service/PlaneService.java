@@ -55,4 +55,10 @@ public interface PlaneService {
      * @return
      */
     String savePlane(Plane plane);
+
+    /**
+     * 修改状态
+     * @param plane
+     */
+    String updatePlaneStatus(Plane plane);
 }

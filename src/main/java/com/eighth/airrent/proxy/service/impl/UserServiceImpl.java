@@ -1,5 +1,6 @@
 package com.eighth.airrent.proxy.service.impl;
 
+import com.eighth.airrent.domain.OpenPage;
 import com.eighth.airrent.domain.UserInfo;
 import com.eighth.airrent.domain.VerifyCode;
 import com.eighth.airrent.proxy.exception.RemoteInvokeException;
@@ -45,6 +46,26 @@ public class UserServiceImpl implements UserService {
 	}
 
     public UserInfo findUser(UserInfo userInfo) {
+        return null;
+    }
+
+    @Override
+    public OpenPage findUserByPage(OpenPage page, UserInfo userInfo) {
+        return null;
+    }
+
+    @Override
+    public String updateUserStatus(UserInfo user) {
+        return null;
+    }
+
+    @Override
+    public String deleteUser(String userId) {
+        return null;
+    }
+
+    @Override
+    public String saveUser(UserInfo user) {
         return null;
     }
 }
