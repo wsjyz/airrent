@@ -64,8 +64,8 @@ public class AirportDAOImpl extends BaseDAO implements AirportDAO {
 				throws SQLException {
 			Airport airport = new Airport();
 			airport.setAirportId(rs.getString("airport_id"));
-			airport.setAirportImage(rs.getString("airport_name"));
-			airport.setAirportName(rs.getString("airport_image"));
+			airport.setAirportName(rs.getString("airport_name"));
+			airport.setAirportImage(rs.getString("airport_image"));
 			airport.setDescription(rs.getString("description"));
 			airport.setLat(rs.getString("lat"));
 			airport.setLng(rs.getString("lng"));

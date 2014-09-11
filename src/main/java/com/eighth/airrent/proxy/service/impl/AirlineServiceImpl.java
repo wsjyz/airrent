@@ -45,4 +45,10 @@ public class AirlineServiceImpl implements AirlineService {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public List<Plane> findPlaneByAirlineId(String airlineId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
