@@ -51,4 +51,10 @@ public class AirlineServiceImpl implements AirlineService{
 		return airlineDAO.deleteAirline(airlineId);
 	}
 
+	@Override
+	public List<Plane> findPlaneByAirlineId(String airlineId) {
+		return airlineDAO.findPlaneByAirlineId(airlineId);
+
+	}
+
 }

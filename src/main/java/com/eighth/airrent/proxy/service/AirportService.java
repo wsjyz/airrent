@@ -39,7 +39,7 @@ public interface AirportService {
      * @return
      * @throws RemoteInvokeException
      */
-    @RemoteMethod(methodVarNames={ "openPage","airlineId" })
+    @RemoteMethod(methodVarNames={ "openPage","airportId" })
     OpenPage<Plane> findPlaneByAirportId(OpenPage openPage,String airportId)throws RemoteInvokeException;
     
    /**

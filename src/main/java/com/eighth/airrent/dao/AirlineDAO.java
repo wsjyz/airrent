@@ -28,5 +28,6 @@ public interface AirlineDAO {
 	String updateAirline(Airline airline);
 
 	String deleteAirline(String airlineId);
+	List<Plane> findPlaneByAirlineId(String airlineId);
 
 }
