@@ -1,5 +1,6 @@
 package com.eighth.airrent.proxy.service.impl;
 
+import com.eighth.airrent.domain.OpenPage;
 import com.eighth.airrent.domain.Plane;
 import com.eighth.airrent.proxy.exception.RemoteInvokeException;
 import com.eighth.airrent.proxy.service.PlaneService;
@@ -30,4 +31,9 @@ public class PlaneServiceImpl implements PlaneService {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+    @Override
+    public OpenPage findPlaneList(OpenPage page, Plane plane) {
+        return null;
+    }
 }

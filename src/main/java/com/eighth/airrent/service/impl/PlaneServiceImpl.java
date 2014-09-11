@@ -1,5 +1,6 @@
 package com.eighth.airrent.service.impl;
 
+import com.eighth.airrent.domain.OpenPage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -35,5 +36,10 @@ public class PlaneServiceImpl implements PlaneService {
 	public String updatePlane(Plane plane) throws RemoteInvokeException {
 		return planeDAO.updatePlane(plane);
 	}
+
+    @Override
+    public OpenPage findPlaneList(OpenPage page, Plane plane) {
+        return planeDAO.findPlaneList(page, plane);
+    }
 
 }

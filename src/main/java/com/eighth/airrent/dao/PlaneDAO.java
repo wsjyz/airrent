@@ -1,5 +1,6 @@
 package com.eighth.airrent.dao;
 
+import com.eighth.airrent.domain.OpenPage;
 import com.eighth.airrent.domain.Plane;
 import com.eighth.airrent.proxy.exception.RemoteInvokeException;
 
@@ -22,4 +23,5 @@ public interface PlaneDAO {
 
 	String updatePlane(Plane plane);
 
+    OpenPage findPlaneList(OpenPage page, Plane plane);
 }

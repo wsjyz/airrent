@@ -1,5 +1,6 @@
 package com.eighth.airrent.proxy.service;
 
+import com.eighth.airrent.domain.OpenPage;
 import com.eighth.airrent.domain.Plane;
 import com.eighth.airrent.proxy.annotation.RemoteMethod;
 import com.eighth.airrent.proxy.exception.RemoteInvokeException;
@@ -44,4 +45,6 @@ public interface PlaneService {
 	 * @throws RemoteInvokeException
 	 */
 	String updatePlane(Plane plane) throws RemoteInvokeException;
+
+    OpenPage findPlaneList(OpenPage page, Plane plane);
 }

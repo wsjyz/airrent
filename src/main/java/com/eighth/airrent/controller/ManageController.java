@@ -1,12 +1,10 @@
 package com.eighth.airrent.controller;
 
-import com.eighth.airrent.domain.Airline;
-import com.eighth.airrent.domain.Airport;
-import com.eighth.airrent.domain.OpenPage;
-import com.eighth.airrent.domain.UserInfo;
+import com.eighth.airrent.domain.*;
 import com.eighth.airrent.proxy.exception.RemoteInvokeException;
 import com.eighth.airrent.proxy.service.AirlineService;
 import com.eighth.airrent.proxy.service.AirportService;
+import com.eighth.airrent.proxy.service.PlaneService;
 import com.eighth.airrent.proxy.service.UserService;
 import com.eighth.airrent.util.JsonResult;
 import org.apache.commons.lang3.StringUtils;
@@ -31,19 +29,23 @@ public class ManageController {
     private AirportService airportService;
     @Autowired
     private AirlineService airlineService;
+    @Autowired
+    private PlaneService planeService;
 
     @RequestMapping("/login")
     public ModelAndView login() {
         ModelAndView mv = new ModelAndView();
-        return render(mv,"login");
+        return render(mv, "login");
     }
 
     @RequestMapping("/toLogin")
-    public @ResponseBody JsonResult toLogin(@ModelAttribute UserInfo user){
-        JsonResult jsonResult=new JsonResult();
+    public
+    @ResponseBody
+    JsonResult toLogin(@ModelAttribute UserInfo user) {
+        JsonResult jsonResult = new JsonResult();
         ModelAndView mv = new ModelAndView();
         user.setType("ADMIN");
-        user=userService.findUser(user);
+        user = userService.findUser(user);
         jsonResult.setSuccess(user != null);
         return jsonResult;
     }
@@ -51,47 +53,51 @@ public class ManageController {
     @RequestMapping("/index")
     public ModelAndView manageIndex() {
         ModelAndView mv = new ModelAndView();
-        return render(mv,"index");
+        return render(mv, "index");
     }
 
     @RequestMapping("/airports")
     public ModelAndView airports() {
         ModelAndView mv = new ModelAndView();
-        return render(mv,"airports");
+        return render(mv, "airports");
     }
 
     @RequestMapping("/airports/list")
     public ModelAndView airportList(@ModelAttribute OpenPage page,
-                                    @RequestParam String airportName,@RequestParam String address) {
+                                    @RequestParam String airportName, @RequestParam String address) {
         ModelAndView mv = new ModelAndView();
         page = airportService.findAirportList(page, airportName, address);
         mv.addObject("page", page);
-        return render(mv,"airportList");
+        return render(mv, "airportList");
     }
 
     @RequestMapping("/airports/add")
     public ModelAndView addAirport() {
         ModelAndView mv = new ModelAndView();
-        return render(mv,"airportAdd");
+        return render(mv, "airportAdd");
     }
 
     @RequestMapping("/airports/delete")
-    public @ResponseBody JsonResult deleteAirport(@RequestParam String airportId) throws Exception{
+    public
+    @ResponseBody
+    JsonResult deleteAirport(@RequestParam String airportId) throws Exception {
         JsonResult jsonResult = new JsonResult();
-        String result=airportService.deleteAirprot(airportId);
-        jsonResult.setSuccess(StringUtils.equals("SUCCESS",result));
+        String result = airportService.deleteAirprot(airportId);
+        jsonResult.setSuccess(StringUtils.equals("SUCCESS", result));
         return jsonResult;
     }
 
-    @RequestMapping(value = "/airports/save",method = RequestMethod.POST)
-    public @ResponseBody JsonResult saveAirport(@RequestParam String airportName,@RequestParam String address){
+    @RequestMapping(value = "/airports/save", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    JsonResult saveAirport(@RequestParam String airportName, @RequestParam String address) {
         JsonResult jsonResult = new JsonResult();
-        Airport airport=new Airport();
+        Airport airport = new Airport();
         airport.setAirportName(airportName);
         airport.setAddress(address);
         airport.setDescription(address);
-        String result=airportService.saveAirport(airport);
-        jsonResult.setSuccess(StringUtils.equals("SUCCESS",result));
+        String result = airportService.saveAirport(airport);
+        jsonResult.setSuccess(StringUtils.equals("SUCCESS", result));
         return jsonResult;
     }
 
@@ -105,14 +111,15 @@ public class ManageController {
     public ModelAndView addPage(@PathVariable String page) {
         ModelAndView mv = new ModelAndView();
         if (page.equals("airline")) {
-            List<Airport> airports=airportService.findAllAirport();
-            mv.addObject("airports",airports);
+            List<Airport> airports = airportService.findAllAirport();
+            mv.addObject("airports", airports);
         }
-        return render(mv,page+"Add");
+        return render(mv, page + "Add");
     }
 
     /**
      * 机构管理列表
+     *
      * @param page
      * @param airlineName
      * @param loginName
@@ -120,26 +127,27 @@ public class ManageController {
      */
     @RequestMapping("/airlines/list")
     public ModelAndView airlineList(@ModelAttribute OpenPage page,
-                                    @RequestParam String airlineName,@RequestParam String loginName) {
+                                    @RequestParam String airlineName, @RequestParam String loginName) {
         ModelAndView mv = new ModelAndView();
-        page=airlineService.findAirlineList(page, airlineName, loginName);
+        page = airlineService.findAirlineList(page, airlineName, loginName);
         mv.addObject("page", page);
         return render(mv, "airlineList");
     }
 
     /**
      * 查看公司机构
+     *
      * @param airlineId
      * @return
      * @throws Exception
      */
     @RequestMapping("/menu/airline/view")
-    public ModelAndView viewAirline(@RequestParam String airlineId) throws Exception{
+    public ModelAndView viewAirline(@RequestParam String airlineId) throws Exception {
         ModelAndView mv = new ModelAndView();
-        List<Airport> airports=airportService.findAllAirport();
-        mv.addObject("airports",airports);
+        List<Airport> airports = airportService.findAllAirport();
+        mv.addObject("airports", airports);
         Airline airline = airlineService.findAirlineById(airlineId);
-        if(StringUtils.isNotBlank(airline.getAirportId())){
+        if (StringUtils.isNotBlank(airline.getAirportId())) {
             airline.setAirportName(airportService.findAirportById(airline.getAirportId()).getAirportName());
         }
         mv.addObject("airline", airline);
@@ -149,6 +157,7 @@ public class ManageController {
 
     /**
      * 新增公司机构
+     *
      * @param airline
      * @return
      */
@@ -157,11 +166,38 @@ public class ManageController {
     @ResponseBody
     JsonResult saveAirline(@ModelAttribute Airline airline) {
         JsonResult jsonResult = new JsonResult();
-        String result =  airlineService.saveAirline(airline);
-        jsonResult.setSuccess(StringUtils.equals("SUCCESS",result));
+        String result = airlineService.saveAirline(airline);
+        jsonResult.setSuccess(StringUtils.equals("SUCCESS", result));
         return jsonResult;
     }
 
+    /**
+     * 管理公司机构 :飞机列表
+     *
+     * @param airlineId
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping("/menu/airline/manage")
+    public ModelAndView manageAirline(@RequestParam String airlineId){
+        ModelAndView mv = new ModelAndView();
+        mv.addObject("airlineId", airlineId);
+        return render(mv, "planes");
+    }
+
+    /**
+     * 飞机列表数据
+     * @param page
+     * @param plane
+     * @return
+     */
+    @RequestMapping("/planes/list")
+    public ModelAndView planesList(@ModelAttribute OpenPage page,@ModelAttribute Plane plane) {
+        ModelAndView mv = new ModelAndView();
+        page = planeService.findPlaneList(page, plane);
+        mv.addObject("page", page);
+        return render(mv, "planeList");
+    }
     /**
      * 机构管理：修改状态、删除
      * @param opt

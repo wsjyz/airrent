@@ -1,0 +1,67 @@
+<#include "/common/webUtils.ftl">
+<#assign ctx=request.contextPath>
+<table class="table table-bordered table-responsive table-striped" id="table">
+    <thead>
+    <tr>
+        <th class="col-md-1">序号</th>
+        <th class="col-md-3">名称</th>
+        <th class="col-md-2">飞机型号</th>
+        <th class="col-md-2">飞机类型</th>
+        <th class="col-md-2">操作</th>
+    </tr>
+    </thead>
+    <tbody>
+    <#list page.getRows() as plane>
+        <tr>
+            <td>${plane_index+1}</td>
+            <td>${plane.planeName}</td>
+            <td>${plane.planeNo}</td>
+            <td>${plane.planeType}</td>
+            <td>
+                <a href="javascript:void(0);" data-id="${plane.planeId}" class="view">查看</a>
+                <a href="javascript:void(0);" data-id="${plane.planeId}" class="change">
+                    <#if plane.status=='on'>禁用<#else>启用</#if>
+                </a>
+                <a href="javascript:void(0);" data-id="${plane.planeId}" class="delete">删除</a>
+            </td>
+        </tr>
+    </#list>
+    </tbody>
+</table>
+<@emptyPage page=page msg="没有任何飞机"/>
+<@pageParam/>
+
+<script>
+    $(function(){
+        $('#table')
+        .on('click','a.manage',function(){
+            var planeId=$(this).data('id');
+            $('#content').load('${ctx}/manage/menu/plane/manage?planeId='+planeId);
+        })
+        .on('click','a.view',function(){
+            var planeId=$(this).data('id');
+            $('#content').load('${ctx}/manage/menu/plane/view?planeId='+planeId);
+        })
+        .on('click','a.change',function(){
+            var json={
+                planeId : $(this).data('id'),
+                status : $(this).text()=='禁用'?'off':'on'
+            }
+            $.post('${ctx}/manage/menu/plane/change',json,function(data){
+                if(data.success){
+                    $('#findAirline').trigger('click');
+                    $.mhtMsg('操作成功!');
+                }
+            })
+        })
+        .on('click','a.delete',function(){
+            var planeId=$(this).data('id');
+            $.post('${ctx}/manage/menu/plane/delete',{planeId:planeId},function(data){
+                if(data.success){
+                    $('#findAirline').trigger('click');
+                    $.mhtMsg('操作成功!');
+                }
+            })
+        })
+    })
+</script>

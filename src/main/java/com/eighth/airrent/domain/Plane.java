@@ -24,6 +24,9 @@ public class Plane extends BaseDomain{
     private String airportId;//所属机场
     private int sitCounts;//总座位数
     private int reminderSitCounts;//剩余座位数
+    private String status;//状态
+
+    private String airlineName;//隶属公司名称
 
     public String getPlaneId() {
         return planeId;
@@ -167,5 +170,21 @@ public class Plane extends BaseDomain{
 
     public void setReminderSitCounts(int reminderSitCounts) {
         this.reminderSitCounts = reminderSitCounts;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getAirlineName() {
+        return airlineName;
+    }
+
+    public void setAirlineName(String airlineName) {
+        this.airlineName = airlineName;
     }
 }

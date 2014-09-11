@@ -2,8 +2,11 @@ package com.eighth.airrent.dao.impl;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
+import com.eighth.airrent.domain.OpenPage;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.CollectionUtils;
@@ -51,6 +54,7 @@ public class PlaneDAOImpl extends BaseDAO implements PlaneDAO{
 				plane.setSitCounts(rs.getInt("sit_counts"));
 				plane.setSpeed(rs.getBigDecimal("speed"));
 				plane.setTimeInProduct(rs.getString("time_in_product"));
+				plane.setStatus(rs.getString("status"));
 				return plane;
 			}
 	    	
@@ -129,4 +133,42 @@ public class PlaneDAOImpl extends BaseDAO implements PlaneDAO{
 			return "FAIL";
 		}
 	}
+
+    @Override
+    public OpenPage findPlaneList(OpenPage page, Plane plane) {
+        StringBuffer sql = new StringBuffer();
+        StringBuffer fromWhere = new StringBuffer();
+        fromWhere.append("from t_airrent_plane ap inner join ");
+        fromWhere.append("t_airrent_airline al on ap.airline_id=al.airline_id where 1=1 ");
+        List<String> params = new ArrayList<String>();
+        if (StringUtils.isNotBlank(plane.getPlaneName())) {
+            fromWhere.append("and ap.plane_name like ? ");
+            params.add("%"+plane.getPlaneName()+"%");
+        }
+        if (StringUtils.isNotBlank(plane.getAirlineName())) {
+            fromWhere.append("and al.airline_name like ? ");
+            params.add("%"+plane.getAirlineName()+"%");
+        }
+        if (StringUtils.isNotBlank(plane.getAirlineName())) {
+            fromWhere.append("and al.airline_id = ? ");
+            params.add(plane.getAirlineId());
+        }
+
+        sql.append("select count(*) ");
+        long count = getJdbcTemplate().queryForObject(sql.append(fromWhere).toString(),params.toArray(),Long.class);
+        if (count > 0) {
+            page.setTotal(count);
+            sql = new StringBuffer();
+            sql.append("select * ");
+            sql.append(fromWhere);
+            sql.append(" limit " + page.getPageSize() + " OFFSET " + (page.getFirst() - 1) + "");
+            List<Plane> list = getJdbcTemplate().query(sql.toString(),params.toArray(), new PlaneMapper());
+            page.setRows(list);
+        } else {
+            page.setTotal(count);
+            page.setRows(new ArrayList<Plane>());
+
+        }
+        return page;
+    }
 }
