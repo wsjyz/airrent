@@ -47,4 +47,12 @@ public interface PlaneService {
 	String updatePlane(Plane plane) throws RemoteInvokeException;
 
     OpenPage findPlaneList(OpenPage page, Plane plane);
+
+    /**
+     * 保存飞机
+     *
+     * @param plane
+     * @return
+     */
+    String savePlane(Plane plane);
 }

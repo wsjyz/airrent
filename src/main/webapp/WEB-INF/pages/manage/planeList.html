@@ -34,10 +34,6 @@
 <script>
     $(function(){
         $('#table')
-        .on('click','a.manage',function(){
-            var planeId=$(this).data('id');
-            $('#content').load('${ctx}/manage/menu/plane/manage?planeId='+planeId);
-        })
         .on('click','a.view',function(){
             var planeId=$(this).data('id');
             $('#content').load('${ctx}/manage/menu/plane/view?planeId='+planeId);
@@ -49,7 +45,7 @@
             }
             $.post('${ctx}/manage/menu/plane/change',json,function(data){
                 if(data.success){
-                    $('#findAirline').trigger('click');
+                    $('#findPlane').trigger('click');
                     $.mhtMsg('操作成功!');
                 }
             })
@@ -58,7 +54,7 @@
             var planeId=$(this).data('id');
             $.post('${ctx}/manage/menu/plane/delete',{planeId:planeId},function(data){
                 if(data.success){
-                    $('#findAirline').trigger('click');
+                    $('#findPlane').trigger('click');
                     $.mhtMsg('操作成功!');
                 }
             })

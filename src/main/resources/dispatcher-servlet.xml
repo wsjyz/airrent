@@ -34,6 +34,8 @@
     <mvc:resources mapping="/css/**" location="/WEB-INF/css/"/>
     <mvc:resources mapping="/js/**" location="/WEB-INF/js/"/>
     <mvc:resources mapping="/fonts/**" location="/WEB-INF/fonts/"/>
+    <mvc:resources mapping="/upload/**" location="/upload/"/>
+
     <mvc:default-servlet-handler/>
     <bean class="org.springframework.web.servlet.view.BeanNameViewResolver" p:order="0"/>
     <!-- Content Negotiating View Resolver -->
@@ -112,5 +114,10 @@
                 <prop key="template_exception_handler">ignore</prop>
             </props>
         </property>
+    </bean>
+
+    <!-- 支持上传文件 -->
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <property name="maxUploadSize" value="10000000"/>
     </bean>
 </beans>

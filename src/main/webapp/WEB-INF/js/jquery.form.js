@@ -251,8 +251,9 @@
 			var id = 'jqFormIO' + $.fn.ajaxSubmit.counter++;
 			var $io = $('<iframe id="' + id + '" name="' + id + '" />');
 			var io = $io[0];
-			var op8 = $.browser.opera && window.opera.version() < 9;
-			if ($.browser.msie || op8) io.src = 'javascript:false;document.write("");';
+			//var op8 = $.browser.opera && window.opera.version() < 9;
+			//if ($.browser.msie || op8) io.src = 'javascript:false;document.write("");';
+            $io.attr('src', 'javascript:false;document.write("");');
 			$io.css({ position: 'absolute', top: '-1000px', left: '-1000px' });
 
 			var xhr = { // mock object
@@ -317,12 +318,14 @@
 					// doc = io.contentWindow ? io.contentWindow.document : io.contentDocument ? io.contentDocument : io.document;
 					doc = io.contentDocument;
 					body = doc.body;
+                    console.log(doc);
+                    console.log(body);
+                    console.log(doc.body.innerHTML);
 					xhr.responseText = doc.body ? doc.body.innerHTML : null;
 					xhr.responseXML = doc.XMLDocument ? doc.XMLDocument : doc;
 
 					if (opts.dataType == 'json' || opts.dataType == 'script') {
-						var ta = doc.getElementsByTagName('textarea')[0];
-						data = ta ? ta.value : xhr.responseText;
+						data = xhr.responseText;
 						if (opts.dataType == 'json')
 							eval("data = " + data);
 						else
@@ -339,7 +342,7 @@
 				}
 				catch(e) {
 					ok = true;
-					$.handleError(opts, xhr, 'error', e);
+					console.log(e);
 				}
 
 				// ordering of these callbacks/triggers is odd, but that's how $.ajax does it

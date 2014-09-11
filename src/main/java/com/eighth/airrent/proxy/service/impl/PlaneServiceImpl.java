@@ -36,4 +36,9 @@ public class PlaneServiceImpl implements PlaneService {
     public OpenPage findPlaneList(OpenPage page, Plane plane) {
         return null;
     }
+
+    @Override
+    public String savePlane(Plane plane) {
+        return null;
+    }
 }

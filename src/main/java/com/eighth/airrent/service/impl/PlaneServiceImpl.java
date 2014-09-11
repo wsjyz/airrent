@@ -42,4 +42,9 @@ public class PlaneServiceImpl implements PlaneService {
         return planeDAO.findPlaneList(page, plane);
     }
 
+    @Override
+    public String savePlane(Plane plane) {
+        return planeDAO.savePlane(plane);
+    }
+
 }

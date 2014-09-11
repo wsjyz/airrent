@@ -1,0 +1,160 @@
+<#assign ctx=request.contextPath>
+<div class="container-fluid">
+<div class="well well-sm">
+    <span>新增飞机</span>
+    <a class="btn btn-info btn-xs pull-right" href="#" id="return">返回</a>
+</div>
+<div class="container-fluid">
+    <div class="row">
+    <form class="form-horizontal row" enctype="multipart/form-data" method="post" id="addPlaneForm" role="form">
+        <input name="airlineId" value="${airlineId}" type="hidden"/>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="planeName" class="col-sm-4 control-label">名称</label>
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control" id="planeName" name="planeName">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="planeNo" class="col-sm-4 control-label">飞机型号</label>
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control" id="planeNo" name="planeNo">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="unitCost" class="col-sm-4 control-label">单价</label>
+                    <div class="col-sm-6">
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="unitCost" name="unitCost">
+                            <span class="input-group-addon">￥/h</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="planeType" class="col-sm-4 control-label">飞机类型</label>
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control" id="planeType" name="planeType">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="productArea" class="col-sm-4 control-label">飞机产地</label>
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control" id="productArea" name="productArea">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="drivingMile" class="col-sm-4 control-label">续航里程</label>
+                    <div class="col-sm-6">
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="drivingMile" name="drivingMile">
+                            <span class="input-group-addon">km</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="planePrice" class="col-sm-4 control-label">飞机价值</label>
+                    <div class="col-sm-6">
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="planePrice" name="planePrice">
+                            <span class="input-group-addon">￥</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="planeImage" class="col-sm-3 control-label">展示图片</label>
+                    <div class="col-sm-6">
+                        <input id="planeImage" name="planeImage" type="file"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="sitCounts" class="col-sm-3 control-label">座位数</label>
+                    <div class="col-sm-6">
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="sitCounts" name="sitCounts">
+                            <span class="input-group-addon">人</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="timeInProduct" class="col-sm-3 control-label">生产年代</label>
+                    <div class="col-sm-6">
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="timeInProduct" name="timeInProduct">
+                            <span class="input-group-addon">年代</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="colour" class="col-sm-3 control-label">飞机颜色</label>
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control" id="colour" name="colour">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="speed" class="col-sm-3 control-label">巡航速度</label>
+                    <div class="col-sm-6">
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="speed" name="speed">
+                            <span class="input-group-addon">km/h</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="flyUnitCost" class="col-sm-3 control-label">飞行小时价格</label>
+                    <div class="col-sm-6">
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="flyUnitCost" name="flyUnitCost">
+                            <span class="input-group-addon">￥/h</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="showUnitCost" class="col-sm-3 control-label">静态展示价格</label>
+                    <div class="col-sm-6">
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="showUnitCost" name="showUnitCost">
+                            <span class="input-group-addon">￥/h</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <div class="col-sm-offset-5 col-sm-4">
+            <button type="submit" id="savePlane" class="btn btn-primary btn-lg">保存</button>
+        </div>
+    </form>
+    </div>
+</div>
+</div>
+<script src="${ctx}/js/jquery.form.js"></script>
+<script>
+    $(function(){
+        $("#savePlane").on("click",function(){
+            $("#addPlaneForm").ajaxSubmit({
+                type:'post',
+                dataType:'json',
+                url:'${ctx}/manage/plane/save',
+                success:function(data){
+                    console.log(data);
+                    console.log(data.success);
+                    if(data.success){
+                        $.mhtMsg('保存成功!');
+                    }else{
+                        $.mhtMsg('保存失败，请修改数据格式重新提交!');
+                    }
+                },
+                error:function(XmlHttpRequest,textStatus,errorThrown){
+                    console.log(XmlHttpRequest);
+                    console.log(textStatus);
+                    console.log(errorThrown);
+                }
+            });
+            return false;
+        });
+
+        $('#return').click(function(){
+            $('#content').load('${ctx}/manage/menu/planes?airlineId=${airlineId}');
+        })
+    })
+</script>

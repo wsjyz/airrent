@@ -24,4 +24,6 @@ public interface PlaneDAO {
 	String updatePlane(Plane plane);
 
     OpenPage findPlaneList(OpenPage page, Plane plane);
+
+    String savePlane(Plane plane);
 }

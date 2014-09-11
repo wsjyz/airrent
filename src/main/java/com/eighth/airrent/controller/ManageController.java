@@ -6,14 +6,23 @@ import com.eighth.airrent.proxy.service.AirlineService;
 import com.eighth.airrent.proxy.service.AirportService;
 import com.eighth.airrent.proxy.service.PlaneService;
 import com.eighth.airrent.proxy.service.UserService;
+import com.eighth.airrent.util.CommonUtils;
 import com.eighth.airrent.util.JsonResult;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.View;
 
+import javax.servlet.http.HttpServletRequest;
+import java.io.File;
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -108,11 +117,14 @@ public class ManageController {
     }
 
     @RequestMapping("/{page}/add")
-    public ModelAndView addPage(@PathVariable String page) {
+    public ModelAndView addPage(@PathVariable String page,
+                                @RequestParam (required = false) String airlineId) {
         ModelAndView mv = new ModelAndView();
         if (page.equals("airline")) {
             List<Airport> airports = airportService.findAllAirport();
             mv.addObject("airports", airports);
+        }else if (page.equals("plane")) {
+            mv.addObject("airlineId", airlineId);
         }
         return render(mv, page + "Add");
     }
@@ -179,9 +191,10 @@ public class ManageController {
      * @throws Exception
      */
     @RequestMapping("/menu/airline/manage")
-    public ModelAndView manageAirline(@RequestParam String airlineId){
+    public ModelAndView manageAirline(@RequestParam String airlineId) throws Exception{
         ModelAndView mv = new ModelAndView();
         mv.addObject("airlineId", airlineId);
+        mv.addObject("airlineName", airlineService.findAirlineById(airlineId).getAirlineName());
         return render(mv, "planes");
     }
 
@@ -198,6 +211,42 @@ public class ManageController {
         mv.addObject("page", page);
         return render(mv, "planeList");
     }
+
+    /**
+     * 新增飞机
+     *
+     * @param request
+     * @return
+     */
+    @RequestMapping("/plane/save")
+    public
+    @ResponseBody
+    JsonResult savePlane(MultipartHttpServletRequest request,HttpServletRequest httpServletRequest) throws Exception{
+        JsonResult jsonResult = new JsonResult();
+        MultipartFile file = request.getFile("planeImage");
+        String imgPath=saveFile(file, httpServletRequest);
+        Plane plane=new Plane();
+        plane.setPlaneImage(imgPath);
+        plane.setPlaneImageName(file.getOriginalFilename());
+        plane.setAirlineId(request.getParameter("airlineId"));
+        plane.setPlaneName(request.getParameter("planeName"));
+        plane.setPlaneNo(request.getParameter("planeNo"));
+        plane.setUnitCost(new BigDecimal(request.getParameter("unitCost")));
+        plane.setPlaneType(request.getParameter("planeType"));
+        plane.setProductArea(request.getParameter("productArea"));
+        plane.setDrivingMile(new BigDecimal(request.getParameter("drivingMile")));
+        plane.setPlanePrice(new BigDecimal(request.getParameter("planePrice")));
+        plane.setSitCounts(Integer.valueOf(request.getParameter("sitCounts")));
+        plane.setTimeInProduct(request.getParameter("timeInProduct"));
+        plane.setColour(request.getParameter("colour"));
+        plane.setSpeed(new BigDecimal(request.getParameter("speed")));
+        plane.setFlyUnitCost(new BigDecimal(request.getParameter("flyUnitCost")));
+        plane.setShowUnitCost(new BigDecimal(request.getParameter("showUnitCost")));
+        String result = planeService.savePlane(plane);
+        jsonResult.setSuccess(StringUtils.equals("SUCCESS", result));
+        return jsonResult;
+    }
+
     /**
      * 机构管理：修改状态、删除
      * @param opt
@@ -227,8 +276,25 @@ public class ManageController {
     }
 
 
+    private String saveFile(MultipartFile file,HttpServletRequest httpServletRequest) {
+        String originalFilename=file.getOriginalFilename();
+        String fileSuffix = originalFilename.substring(originalFilename.indexOf("."),originalFilename.length());
 
+        String dirname = new SimpleDateFormat("yyyyMMdd").format(new Date());
+        String upload = httpServletRequest.getSession().getServletContext().getRealPath("upload");
+        String filePath=upload+File.separator+dirname+File.separator+CommonUtils.genUUID()+fileSuffix;
 
+        File targetFile = new File(filePath);
+        if(!targetFile.exists()){
+            targetFile.mkdirs();
+        }
+        try {
+            file.transferTo(targetFile);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return filePath;
+    }
 
     private ModelAndView render(ModelAndView mv,String viewName) {
         mv.setViewName("manage/"+viewName);

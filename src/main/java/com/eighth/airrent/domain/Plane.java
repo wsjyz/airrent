@@ -9,7 +9,9 @@ public class Plane extends BaseDomain{
     private String planeId;
     private String planeName;//飞机名称
     private String planeImage;//飞机图片
+    private String planeImageName;//飞机图片文件名
     private String planeNo;//飞机编号
+    private BigDecimal unitCost;//单价
     private BigDecimal flyUnitCost;//飞行单价
     private String planeType;//飞机类型
     private String timeInProduct;//生产年代
@@ -52,12 +54,28 @@ public class Plane extends BaseDomain{
         this.planeImage = planeImage;
     }
 
+    public String getPlaneImageName() {
+        return planeImageName;
+    }
+
+    public void setPlaneImageName(String planeImageName) {
+        this.planeImageName = planeImageName;
+    }
+
     public String getPlaneNo() {
         return planeNo;
     }
 
     public void setPlaneNo(String planeNo) {
         this.planeNo = planeNo;
+    }
+
+    public BigDecimal getUnitCost() {
+        return unitCost;
+    }
+
+    public void setUnitCost(BigDecimal unitCost) {
+        this.unitCost = unitCost;
     }
 
     public BigDecimal getFlyUnitCost() {

@@ -43,6 +43,7 @@ public class PlaneDAOImpl extends BaseDAO implements PlaneDAO{
 				plane.setFlyUnitCost(rs.getBigDecimal("fly_unit_cost"));
 				plane.setPlaneId(rs.getString("plane_id"));
 				plane.setPlaneImage(rs.getString("plane_image"));
+				plane.setPlaneImageName(rs.getString("plane_image_name"));
 				plane.setPlaneName(rs.getString("plane_name"));
 				plane.setPlaneNo(rs.getString("plane_no"));
 				plane.setPlanePrice(rs.getBigDecimal("plane_price"));
@@ -63,12 +64,13 @@ public class PlaneDAOImpl extends BaseDAO implements PlaneDAO{
 	public String addPlane(Plane plane) {
 		StringBuffer sql = new StringBuffer();
 		String planeId = CommonUtils.genUUID();
-		sql.append("INSERT into t_airrent_plane(plane_id,plane_name,plane_image,plane_no,fly_unit_cost,plane_type,time_in_product,product_area,"
+		sql.append("INSERT into t_airrent_plane(plane_id,plane_name,plane_image,plane_no,unit_cost,fly_unit_cost,plane_type,time_in_product,product_area,"
 				+ "driving_mile,speed,colour,show_unit_cost,plane_price,product_org,airline_id,airport_id,sit_counts,reminder_sit_counts) values('"
 				+ planeId
 				+ "','"+plane.getPlaneName()
 				+ "','"+plane.getPlaneImage()
 				+ "','"+plane.getPlaneNo()
+				+ "','"+plane.getUnitCost()
 				+ "','"+plane.getFlyUnitCost()
 				+ "','"+plane.getPlaneType()
 				+ "','"+plane.getTimeInProduct()
@@ -149,7 +151,7 @@ public class PlaneDAOImpl extends BaseDAO implements PlaneDAO{
             fromWhere.append("and al.airline_name like ? ");
             params.add("%"+plane.getAirlineName()+"%");
         }
-        if (StringUtils.isNotBlank(plane.getAirlineName())) {
+        if (StringUtils.isNotBlank(plane.getAirlineId())) {
             fromWhere.append("and al.airline_id = ? ");
             params.add(plane.getAirlineId());
         }
@@ -170,5 +172,38 @@ public class PlaneDAOImpl extends BaseDAO implements PlaneDAO{
 
         }
         return page;
+    }
+
+    @Override
+    public String savePlane(Plane plane) {
+        StringBuffer sql = new StringBuffer();
+        Object[] params = new Object[16];
+        String planeId = CommonUtils.genUUID();
+        sql.append("insert into t_airrent_plane(plane_id,plane_name,plane_image,plane_image_name," +
+                "plane_no,unit_cost,fly_unit_cost,plane_type,time_in_product,product_area,driving_mile," +
+                "speed,colour,show_unit_cost,plane_price,airline_id) " +
+                "values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+        params[0]=planeId;
+        params[1]=plane.getPlaneName();
+        params[2]=plane.getPlaneImage();
+        params[3]=plane.getPlaneImageName();
+        params[4]=plane.getPlaneNo();
+        params[5]=plane.getUnitCost();
+        params[6]=plane.getFlyUnitCost();
+        params[7]=plane.getPlaneType();
+        params[8]=plane.getTimeInProduct();
+        params[9]=plane.getProductArea();
+        params[10]=plane.getDrivingMile();
+        params[11]=plane.getSpeed();
+        params[12]=plane.getColour();
+        params[13]=plane.getShowUnitCost();
+        params[14]=plane.getPlanePrice();
+        params[15]=plane.getAirlineId();
+        int update = getJdbcTemplate().update(sql.toString(),params);
+        if (update > 0) {
+            return "SUCCESS";
+        } else {
+            return "FAIL";
+        }
     }
 }

@@ -8,7 +8,7 @@
             </div>
             <div class="form-group">
                 <label for="airlineName">隶属公司：</label>
-                <input type="text" class="form-control" id="airlineName" name="airlineName">
+                <input type="text" class="form-control" id="airlineName" name="airlineName" value="${airlineName}">
                 <input id="airlineId" name="airlineId" value="${airlineId}" type="hidden"/>
             </div>
             <button id="findPlane" class="btn btn-primary">查找</button>
@@ -35,7 +35,7 @@
         })
 
         $('#addPlane').click(function(){
-            $('#content').load('${ctx}/manage/plane/add');
+            $('#content').load('${ctx}/manage/plane/add?airlineId=${airlineId}');
             return false;
         })
 
