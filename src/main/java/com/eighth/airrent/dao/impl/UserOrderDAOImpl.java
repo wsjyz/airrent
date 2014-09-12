@@ -223,7 +223,7 @@ public class UserOrderDAOImpl extends BaseDAO implements UserOrderDAO{
     public OpenPage findUserOrders(OpenPage openPage, UserOrder userOrder) {
         StringBuffer sql=new StringBuffer();
         StringBuffer wheresql=new StringBuffer();
-        List<String> params = new ArrayList<>();
+        List<String> params = new ArrayList<String>();
         wheresql.append("from t_airrent_user_order uo inner join t_airrent_plane ap on uo.plane_id=ap.plane_id ");
         wheresql.append(" inner join t_airrent_user_info ui on uo.user_id=ui.user_id where 1=1 ");
         if (StringUtils.isNotBlank(userOrder.getOrderLetter())) {
