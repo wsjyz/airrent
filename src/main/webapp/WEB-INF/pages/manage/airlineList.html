@@ -48,7 +48,7 @@
         .on('click','a.change',function(){
             var json={
                 airlineId : $(this).data('id'),
-                status : $(this).text()=='禁用'?'off':'on'
+                status : $.trim($(this).text())=='禁用'?'off':'on'
             }
             $.post('${ctx}/manage/menu/airline/change',json,function(data){
                 if(data.success){
