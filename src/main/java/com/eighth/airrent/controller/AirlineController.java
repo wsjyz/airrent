@@ -57,6 +57,13 @@ public class AirlineController {
 		return list;
 	}
 	
+	@RequestMapping(value = "/findAllPlaneByAirlineId")
+	@ResponseBody
+	public List<Plane> findPlaneByAirlineId(@RequestParam String airlineId) throws RemoteInvokeException {
+		
+		return airlineService.findPlaneByAirlineId(airlineId);
+	}
+	
 	/**
 	 * 新增公司
 	 * 

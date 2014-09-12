@@ -261,6 +261,11 @@ public class AirlineDAOImpl extends BaseDAO implements AirlineDAO {
 	}
 
     @Override
+    public List<Plane> findPlaneByAirlineId(String airlineId) {
+        return null;
+    }
+
+    @Override
     public OpenPage findAirlineList(OpenPage page, String airlineName, String loginName) {
         StringBuffer sql = new StringBuffer();
         StringBuffer where = new StringBuffer();

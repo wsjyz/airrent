@@ -61,5 +61,10 @@ public class AirlineServiceImpl implements AirlineService{
     public String saveAirline(Airline airline) {
         return airlineDAO.saveAirline(airline);
     }
+	@Override
+	public List<Plane> findPlaneByAirlineId(String airlineId) {
+		return airlineDAO.findPlaneByAirlineId(airlineId);
+
+	}
 
 }

@@ -28,7 +28,12 @@ public class AirlineServiceImpl implements AirlineService {
 		return null;
 	}
 
-	@Override
+    @Override
+    public List<Plane> findPlaneByAirlineId(String airlineId) {
+        return null;
+    }
+
+    @Override
 	public String addAirline(Airline airline) throws RemoteInvokeException {
 		// TODO Auto-generated method stub
 		return null;
