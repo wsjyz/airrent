@@ -52,7 +52,7 @@ public class AirlineServiceImpl implements AirlineService{
 	}
 
 	@Override
-	public List<Plane> findAllPlaneByAirlineId(String airlineId) {
+	public List<Plane> findAllPlaneByAirlineId(String airlineId) throws RemoteInvokeException {
 		return airlineDAO.findAllPlaneByAirlineId(airlineId);
 
 	}

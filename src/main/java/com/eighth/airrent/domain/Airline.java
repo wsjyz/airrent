@@ -20,7 +20,6 @@ public class Airline extends BaseDomain {
 	private String airportId;
 	private String lat;// 纬度
 	private String lng;// 经度
-
 	private List<Plane> planeList;
 
 	public void setPlaneList(List<Plane> planeList) {

@@ -6,18 +6,26 @@ package com.eighth.airrent.domain;
 public class UserCollection extends BaseDomain {
 
 	private String userId;
-	private String airportId;
+	private String airlineId;
 	private String planeId;
 
 	private String planeName;
-	private String airportName;
+	private String airlineName;
 
-	public void setAirportName(String airportName) {
-		this.airportName = airportName;
+	public String getAirlineId() {
+		return airlineId;
 	}
 
-	public String getAirportName() {
-		return airportName;
+	public void setAirlineId(String airlineId) {
+		this.airlineId = airlineId;
+	}
+
+	public String getAirlineName() {
+		return airlineName;
+	}
+
+	public void setAirlineName(String airlineName) {
+		this.airlineName = airlineName;
 	}
 
 	public String getPlaneName() {
@@ -34,14 +42,6 @@ public class UserCollection extends BaseDomain {
 
 	public void setUserId(String userId) {
 		this.userId = userId;
-	}
-
-	public String getAirportId() {
-		return airportId;
-	}
-
-	public void setAirportId(String airportId) {
-		this.airportId = airportId;
 	}
 
 	public String getPlaneId() {
