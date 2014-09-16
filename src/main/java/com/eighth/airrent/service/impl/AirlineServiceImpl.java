@@ -62,9 +62,8 @@ public class AirlineServiceImpl implements AirlineService{
         return airlineDAO.saveAirline(airline);
     }
 	@Override
-	public List<Plane> findPlaneByAirlineId(String airlineId) {
-		return airlineDAO.findPlaneByAirlineId(airlineId);
-
+	public List<Plane> findAllPlaneByAirlineId(String airlineId) {
+		return airlineDAO.findAllPlaneByAirlineId(airlineId);
 	}
 
 }

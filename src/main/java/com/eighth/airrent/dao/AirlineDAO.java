@@ -28,9 +28,9 @@ public interface AirlineDAO {
 	String updateAirline(Airline airline);
 
 	String deleteAirline(String airlineId);
-	List<Plane> findPlaneByAirlineId(String airlineId);
 
     OpenPage findAirlineList(OpenPage page, String airlineName, String address);
 
     String saveAirline(Airline airline);
+	List<Plane> findAllPlaneByAirlineId(String airlineId);
 }

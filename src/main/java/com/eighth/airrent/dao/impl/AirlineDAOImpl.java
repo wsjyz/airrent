@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.eighth.airrent.domain.Airport;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.RowMapper;
@@ -261,11 +262,6 @@ public class AirlineDAOImpl extends BaseDAO implements AirlineDAO {
 	}
 
     @Override
-    public List<Plane> findPlaneByAirlineId(String airlineId) {
-        return null;
-    }
-
-    @Override
     public OpenPage findAirlineList(OpenPage page, String airlineName, String loginName) {
         StringBuffer sql = new StringBuffer();
         StringBuffer where = new StringBuffer();
@@ -344,4 +340,15 @@ public class AirlineDAOImpl extends BaseDAO implements AirlineDAO {
             return "FAIL";
         }
     }
+
+	@Override
+	public List<Plane> findAllPlaneByAirlineId(String airlineId) {
+		StringBuffer sql = new StringBuffer();
+		sql.append("select * from t_airrent_plane where airline_id='"
+				+ airlineId + "'");
+		
+		List<Plane> list = getJdbcTemplate().query(sql.toString(),
+				new PlaneMapper());
+		return list;
+	}
 }
