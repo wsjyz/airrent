@@ -1,0 +1,128 @@
+<#assign ctx=request.contextPath>
+<div class="container-fluid">
+    <div class="well well-sm">
+        <span>新增用户</span>
+        <a class="btn btn-info btn-xs pull-right" href="#" id="return">返回</a>
+    </div>
+    <div class="container-fluid">
+        <div class="row">
+            <form class="form-horizontal row" enctype="multipart/form-data" method="post" id="addUserForm" role="form">
+                <input name="userId" value="${user.userId!}" type="hidden"/>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="mobile" class="col-sm-4 control-label">手机号</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" id="mobile" name="mobile" value="${user.mobile!}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="loginName" class="col-sm-4 control-label">用户名</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" id="loginName" name="loginName" value="${user.loginName!}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="identityCard" class="col-sm-4 control-label">身份证号</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" id="identityCard" name="identityCard" value="${user.identityCard!}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="age" class="col-sm-4 control-label">年龄</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" id="age" name="age" value="${user.age!}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="workOrg" class="col-sm-4 control-label">工作单位</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" id="workOrg" name="workOrg" value="${user.workOrg!}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="zhifubao" class="col-sm-4 control-label">绑定支付宝</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" id="zhifubao" name="zhifubao" value="${user.zhifubao!}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="commonAddress" class="col-sm-4 control-label">常用地址</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" id="commonAddress" name="commonAddress" value="${user.commonAddress!}">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="avatar" class="col-sm-3 control-label">头像</label>
+                        <div class="col-sm-6">
+                            <input id="avatar" name="avatar" type="file"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="userName" class="col-sm-3 control-label">真实姓名</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" id="userName" name="userName" value="${user.userName!}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="sex" class="col-sm-3 control-label">性别</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" id="sex" name="sex" value="${user.sex!}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="address" class="col-sm-3 control-label">居住地址</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" id="address" name="address" value="${user.address!}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="level" class="col-sm-3 control-label">会员等级</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" id="level" name="level" value="${user.level!}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="home" class="col-sm-3 control-label">home</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" id="home" name="home" value="${user.home!}">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-offset-5 col-sm-4">
+                    <button type="submit" id="saveUser" class="btn btn-primary btn-lg">保存</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script src="${ctx}/js/jquery.form.js"></script>
+<script>
+    $(function(){
+        $("#saveUser").on("click",function(){
+            $("#addUserForm").ajaxSubmit({
+                type:'post',
+                dataType:'json',
+                url:'${ctx}/manage/user/save',
+                success:function(data){
+                    if(data.success){
+                        $.mhtMsg('保存成功!');
+                    }else{
+                        $.mhtMsg('保存失败，请修改数据格式重新提交!');
+                    }
+                },
+                error:function(XmlHttpRequest,textStatus,errorThrown){
+                    console.log(XmlHttpRequest);
+                    console.log(textStatus);
+                    console.log(errorThrown);
+                }
+            });
+            return false;
+        });
+
+        $('#return').click(function(){
+            $('#content').load('${ctx}/manage/menu/users');
+        })
+    })
+</script>

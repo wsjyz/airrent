@@ -1,0 +1,94 @@
+<#assign ctx=request.contextPath>
+<div class="container-fluid">
+<div class="well well-sm">
+    <span>新增航空公司</span>
+    <a class="btn btn-info btn-xs pull-right" href="#" id="return">返回</a>
+</div>
+<div class="container-fluid">
+    <div class="row">
+    <form class="form-horizontal row" id="addAirline" role="form">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="airlineName" class="col-sm-4 control-label">公司名称</label>
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control" id="airlineName" name="airlineName">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="loginName" class="col-sm-4 control-label">公司账号</label>
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control" id="loginName" name="loginName">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="status" class="col-sm-4 control-label">显示状态</label>
+                    <div class="col-sm-6">
+                        <select class="form-control" id="status" name="status">
+                            <option>on</option>
+                            <option>off</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="weixin" class="col-sm-4 control-label">微信号</label>
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control" id="weixin" name="weixin">
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="airportId" class="col-sm-3 control-label">位于</label>
+                    <div class="col-sm-6">
+                        <select class="form-control" id="airportId" name="airportId">
+                            <#list airports as airport>
+                                <option value="${airport.airportId}">${airport.airportName}</option>
+                            </#list>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="password" class="col-sm-3 control-label">密码</label>
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control" id="password" name="password">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="address" class="col-sm-3 control-label">地址</label>
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control" id="address" name="address">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="phone" class="col-sm-3 control-label">联系电话</label>
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control" id="phone" name="phone">
+                    </div>
+                </div>
+            </div>
+        <div class="col-sm-offset-5 col-sm-4">
+            <button type="submit" id="saveAirline" class="btn btn-primary btn-lg">保存</button>
+        </div>
+    </form>
+    </div>
+</div>
+</div>
+<script>
+    $(function(){
+        $('#saveAirline').click(function(){
+            var json=$('#addAirline').serializeJson();
+            $.post('${ctx}/manage/airline/save',json,function(data){
+                if(data.success){
+                    $.mhtMsg('保存成功!');
+                }else{
+                    $.mhtMsg('保存失败，请重新提交!');
+                }
+            });
+            return false;
+        })
+
+        $('#return').click(function(){
+            $('#content').load('${ctx}/manage/menu/airlines');
+        })
+    })
+</script>

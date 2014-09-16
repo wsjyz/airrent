@@ -28,7 +28,12 @@ public class AirlineServiceImpl implements AirlineService {
 		return null;
 	}
 
-	@Override
+    @Override
+    public List<Plane> findPlaneByAirlineId(String airlineId) {
+        return null;
+    }
+
+    @Override
 	public String addAirline(Airline airline) throws RemoteInvokeException {
 		// TODO Auto-generated method stub
 		return null;
@@ -46,9 +51,13 @@ public class AirlineServiceImpl implements AirlineService {
 		return null;
 	}
 
-	@Override
-	public List<Plane> findPlaneByAirlineId(String airlineId) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public OpenPage findAirlineList(OpenPage page, String airlineName, String address) {
+        return null;
+    }
+
+    @Override
+    public String saveAirline(Airline airline) {
+        return null;
+    }
 }

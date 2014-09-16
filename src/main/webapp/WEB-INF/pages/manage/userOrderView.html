@@ -1,0 +1,116 @@
+<#assign ctx=request.contextPath>
+<div class="container-fluid">
+<div class="well well-sm">
+    <span>${userOrder.userInfo.loginName}</span>
+    <a class="btn btn-info btn-xs pull-right" href="#" id="return">返回</a>
+</div>
+<div class="container-fluid">
+    <div class="row">
+    <form class="form-horizontal row" id="addUserOrder" role="form">
+        <input value="${userOrder.userOrderId}" name="userOrderId" type="hidden"/>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="mobile" class="col-sm-4 control-label">手机号</label>
+                <div class="col-sm-6">
+                    <span id="mobile">${userOrder.userInfo.mobile}</span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="orderStatus" class="col-sm-4 control-label">订单状态</label>
+                <div class="col-sm-6">
+                    <span id="orderStatus">${userOrder.orderStatus}</span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="startDate" class="col-sm-4 control-label">出发日期</label>
+                <div class="col-sm-6">
+                    <span id="startDate">${userOrder.startDate}</span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="stayHour" class="col-sm-4 control-label">停留时间</label>
+                <div class="col-sm-6">
+                    <span id="stayHour">${userOrder.stayHour}</span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="starting" class="col-sm-4 control-label">出发地点</label>
+                <div class="col-sm-6">
+                    <span id="starting">${userOrder.starting!}</span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="userCounts" class="col-sm-4 control-label">登机人数</label>
+                <div class="col-sm-6">
+                    <span id="userCounts">${userOrder.userCounts}</span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="planeNo" class="col-sm-4 control-label">飞机型号</label>
+                <div class="col-sm-6">
+                    <span id="planeNo">${userOrder.plane.planeNo}</span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="airportName" class="col-sm-4 control-label">机场名称</label>
+                <div class="col-sm-6">
+                    <span id="airportName">${userOrder.airport.airportName!}</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="orderUse" class="col-sm-3 control-label">业务种类</label>
+                <div class="col-sm-6">
+                    <span id="orderUse">${userOrder.orderUse!}</span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="orderStatus1" class="col-sm-3 control-label">支付方式</label>
+                <div class="col-sm-6">
+                    <span id="orderStatus1">${userOrder.orderStatus}</span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="endDate" class="col-sm-3 control-label">返程日期</label>
+                <div class="col-sm-6">
+                    <span id="endDate">${userOrder.endDate}</span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="flyHour" class="col-sm-3 control-label">飞行时间</label>
+                <div class="col-sm-6">
+                    <span id="flyHour">${userOrder.flyHour}</span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="destination" class="col-sm-3 control-label">前往地点</label>
+                <div class="col-sm-6">
+                    <span id="destination">${userOrder.destination}</span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="description" class="col-sm-3 control-label">备注</label>
+                <div class="col-sm-6">
+                    <span id="description">${userOrder.description}</span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="airlineName" class="col-sm-3 control-label">公司名称</label>
+                <div class="col-sm-6">
+                    <span id="airlineName">${userOrder.airline.airlineName!}</span>
+                </div>
+            </div>
+        </div>
+    </form>
+    </div>
+</div>
+</div>
+<style>.col-sm-6{padding-top: 7px;}</style>
+<script>
+    $(function(){
+        $('#return').click(function(){
+            $('#content').load('${ctx}/manage/menu/userOrders');
+        })
+    })
+</script>

@@ -51,4 +51,6 @@ public interface UserOrderDAO {
 	String deleteOrderById(String orderId);
 
 	UserOrder addUserOrder(UserOrder order);
+
+    OpenPage findUserOrders(OpenPage page, UserOrder userOrder);
 }

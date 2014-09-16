@@ -25,6 +25,17 @@ public class UserOrder extends BaseDomain{
     private String orderStatus;
     private String description;//备注
 
+    private String orderLetter;
+    private String orderNumber;
+    private String planeId;
+    private String loginName;
+    private String planeName;
+
+    private UserInfo userInfo;
+    private Plane plane;
+    private Airport airport;
+    private Airline airline;
+
     public BigDecimal getStayHour() {
         return stayHour;
     }
@@ -126,4 +137,75 @@ public class UserOrder extends BaseDomain{
 		this.description = description;
 	}
 
+    public String getOrderLetter() {
+        return orderLetter;
+    }
+
+    public void setOrderLetter(String orderLetter) {
+        this.orderLetter = orderLetter;
+    }
+
+    public String getOrderNumber() {
+        return orderNumber;
+    }
+
+    public void setOrderNumber(String orderNumber) {
+        this.orderNumber = orderNumber;
+    }
+
+    public String getPlaneId() {
+        return planeId;
+    }
+
+    public void setPlaneId(String planeId) {
+        this.planeId = planeId;
+    }
+
+    public String getLoginName() {
+        return loginName;
+    }
+
+    public void setLoginName(String loginName) {
+        this.loginName = loginName;
+    }
+
+    public String getPlaneName() {
+        return planeName;
+    }
+
+    public void setPlaneName(String planeName) {
+        this.planeName = planeName;
+    }
+
+    public UserInfo getUserInfo() {
+        return userInfo;
+    }
+
+    public void setUserInfo(UserInfo userInfo) {
+        this.userInfo = userInfo;
+    }
+
+    public Plane getPlane() {
+        return plane;
+    }
+
+    public void setPlane(Plane plane) {
+        this.plane = plane;
+    }
+
+    public Airport getAirport() {
+        return airport;
+    }
+
+    public void setAirport(Airport airport) {
+        this.airport = airport;
+    }
+
+    public Airline getAirline() {
+        return airline;
+    }
+
+    public void setAirline(Airline airline) {
+        this.airline = airline;
+    }
 }

@@ -49,4 +49,6 @@ public interface UserOrderService {
      * @throws RemoteInvokeException
      */
     String deleteOrderById(String orderId)throws RemoteInvokeException;
+
+    OpenPage findUserOrders(OpenPage page, UserOrder userOrder);
 }

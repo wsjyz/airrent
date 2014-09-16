@@ -9,7 +9,9 @@ public class Plane extends BaseDomain{
     private String planeId;
     private String planeName;//飞机名称
     private String planeImage;//飞机图片
+    private String planeImageName;//飞机图片文件名
     private String planeNo;//飞机编号
+    private BigDecimal unitCost;//单价
     private BigDecimal flyUnitCost;//飞行单价
     private String planeType;//飞机类型
     private String timeInProduct;//生产年代
@@ -24,6 +26,9 @@ public class Plane extends BaseDomain{
     private String airportId;//所属机场
     private int sitCounts;//总座位数
     private int reminderSitCounts;//剩余座位数
+    private String status;//状态
+
+    private String airlineName;//隶属公司名称
 
     public String getPlaneId() {
         return planeId;
@@ -49,12 +54,28 @@ public class Plane extends BaseDomain{
         this.planeImage = planeImage;
     }
 
+    public String getPlaneImageName() {
+        return planeImageName;
+    }
+
+    public void setPlaneImageName(String planeImageName) {
+        this.planeImageName = planeImageName;
+    }
+
     public String getPlaneNo() {
         return planeNo;
     }
 
     public void setPlaneNo(String planeNo) {
         this.planeNo = planeNo;
+    }
+
+    public BigDecimal getUnitCost() {
+        return unitCost;
+    }
+
+    public void setUnitCost(BigDecimal unitCost) {
+        this.unitCost = unitCost;
     }
 
     public BigDecimal getFlyUnitCost() {
@@ -167,5 +188,21 @@ public class Plane extends BaseDomain{
 
     public void setReminderSitCounts(int reminderSitCounts) {
         this.reminderSitCounts = reminderSitCounts;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getAirlineName() {
+        return airlineName;
+    }
+
+    public void setAirlineName(String airlineName) {
+        this.airlineName = airlineName;
     }
 }

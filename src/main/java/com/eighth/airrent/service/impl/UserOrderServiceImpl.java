@@ -39,7 +39,13 @@ public class UserOrderServiceImpl implements UserOrderService {
 		return userOrderDAO.deleteOrderById(orderId);
 	}
 
-	@Override
+    @Override
+    public OpenPage findUserOrders(OpenPage page, UserOrder userOrder) {
+
+        return userOrderDAO.findUserOrders(page,userOrder);
+    }
+
+    @Override
 	public UserOrder addUserOrder(UserOrder order) throws RemoteInvokeException {
 		return userOrderDAO.addUserOrder(order);
 	}

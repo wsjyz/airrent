@@ -64,11 +64,12 @@ public class AirportDAOImpl extends BaseDAO implements AirportDAO {
 				throws SQLException {
 			Airport airport = new Airport();
 			airport.setAirportId(rs.getString("airport_id"));
-			airport.setAirportName(rs.getString("airport_name"));
 			airport.setAirportImage(rs.getString("airport_image"));
+			airport.setAirportName(rs.getString("airport_name"));
 			airport.setDescription(rs.getString("description"));
 			airport.setLat(rs.getString("lat"));
 			airport.setLng(rs.getString("lng"));
+			airport.setAddress(rs.getString("address"));
 			return airport;
 		}
     }
@@ -210,4 +211,66 @@ public class AirportDAOImpl extends BaseDAO implements AirportDAO {
 				new AirportMapper());
 		return list;
 	}
+
+    @Override
+    public OpenPage<Airport> findAirportList(OpenPage<Airport> page, String airportName, String address) {
+        StringBuffer sql = new StringBuffer();
+        StringBuffer where = new StringBuffer();
+        List<String> params = new ArrayList<String>();
+        sql.append("select count(*) from t_airrent_airport where 1=1 ");
+        if (StringUtils.isNotBlank(airportName)) {
+            where.append("and airport_name like ? ");
+            params.add("%"+airportName+"%");
+        }
+        if (StringUtils.isNotBlank(address)) {
+            where.append("and address like ? ");
+            params.add("%"+address+"%");
+        }
+
+        long count = getJdbcTemplate().queryForObject(sql.append(where).toString(),params.toArray(),Long.class);
+        if (count > 0) {
+            page.setTotal(count);
+            sql = new StringBuffer();
+            sql.append("select * from t_airrent_airport where 1=1 ");
+            sql.append(where);
+            sql.append(" limit "
+                    + page.getPageSize()
+                    + " OFFSET " + (page.getFirst() - 1) + "");
+            List<Airport> list = getJdbcTemplate().query(sql.toString(),params.toArray(),
+                    new AirportMapper());
+            page.setRows(list);
+        } else {
+            page.setTotal(count);
+            page.setRows(new ArrayList<Airport>());
+
+        }
+        return page;
+    }
+
+    @Override
+    public String saveAirport(Airport airport) {
+        StringBuffer sql = new StringBuffer();
+        String[] params = new String[6];
+        String airportId = CommonUtils.genUUID();
+        getPoint(airport);
+        sql.append("INSERT into t_airrent_airport(airport_id,airport_name,description,address,lat,lng) values(?,?,?,?,?,?)");
+        params[0]=airportId;
+        params[1]=airport.getAirportName();
+        params[2]=airport.getDescription();
+        params[3]=airport.getAddress();
+        params[4]=airport.getLat();
+        params[5]=airport.getLng();
+        int update = getJdbcTemplate().update(sql.toString(),params);
+        if (update > 0) {
+            return "SUCCESS";
+        } else {
+            return "FAIL";
+        }
+    }
+
+    public List<Airport> findAllAirport() {
+        StringBuffer sql = new StringBuffer("select * from t_airrent_airport");
+        List<Airport> list = getJdbcTemplate().query(sql.toString(),new AirportMapper());
+        return list;
+    }
 }

@@ -29,7 +29,12 @@ public class UserOrderServiceImpl implements UserOrderService {
         return null;
     }
 
-	public UserOrder addUserOrder(UserOrder order) throws RemoteInvokeException {
+    @Override
+    public OpenPage findUserOrders(OpenPage page, UserOrder userOrder) {
+        return null;
+    }
+
+    public UserOrder addUserOrder(UserOrder order) throws RemoteInvokeException {
 		return null;
 	}
 }
