@@ -40,7 +40,7 @@ public interface AirlineService {
     /**
 	 * 新增公司
 	 * 
-	 * @param Airline
+	 * @param airline
 	 * @return
 	 * @throws RemoteInvokeException
 	 */
@@ -51,7 +51,7 @@ public interface AirlineService {
 	/**
 	 * 修改公司基本信息
 	 * 
-	 * @param Airline
+	 * @param airline
 	 * @return
 	 * @throws RemoteInvokeException
 	 */
@@ -60,7 +60,7 @@ public interface AirlineService {
 	/**
 	 * 删除公司
 	 * 
-	 * @param AirlineId
+	 * @param airlineId
 	 * @return
 	 * @throws RemoteInvokeException
 	 */
