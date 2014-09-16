@@ -201,14 +201,17 @@ public class UserOrderDAOImpl extends BaseDAO implements UserOrderDAO{
 		StringBuffer sql=new StringBuffer();
 		String orderId=CommonUtils.genUUID();
 		sql.append("INSERT into t_airrent_user_order(order_id,user_id,airport_id,order_use,start_time,end_time,"
-				+ "starting,destination,user_counts,opt_time,down_payment,order_counts,order_status,description,fly_hour,stay_hour) values('"
+				+ "starting,destination,user_counts,opt_time,down_payment,order_counts,order_status,description,fly_hour,stay_hour,order_letter,order_number,plane_id) values('"
 				+orderId+ "','"+ order.getUserId()
 				+ "','" + order.getAirportId()+ "','" + order.getOrderUse()+ "','" 
 				+ order.getStartDate()+ "','" + order.getEndDate()
 				+ "','" + order.getStarting()+ "','" + order.getDestination()
 				+ "','" + order.getUserCounts()+ "','" + order.getOptTime()
 				+ "','" + order.getDownPayment()+ "','" + order.getOrderCounts()
-				+ "','" + order.getOrderStatus()+ "','" + order.getDescription()+ "','" + order.getFlyHour()+ "','" + order.getStayHour()+ "')");
+				+ "','" + order.getOrderStatus()+ "','" + order.getDescription()+ "','" 
+				+ order.getFlyHour()+ "','" + order.getStayHour()+ "','" 
+				+ order.getOrderLetter()+ "','" + UtilDate.getOrderNum()+ "','"
+				+ order.getPlaneId()+ "')");
 		int update = getJdbcTemplate().update(sql.toString());
 		if (update>0) {
 			StringBuffer sql1=new StringBuffer();

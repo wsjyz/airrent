@@ -32,7 +32,7 @@ public class AirportDAOImpl extends BaseDAO implements AirportDAO {
 		StringBuffer sql = new StringBuffer();
 		sql.append("select count(*) from t_airrent_airport");
 		if (!StringUtils.isEmpty(airportName)) {
-			sql.append("where airport_name like '%"
+			sql.append(" where airport_name like '%"
 				+ airportName + "%'");
 		}
 		 
@@ -42,7 +42,7 @@ public class AirportDAOImpl extends BaseDAO implements AirportDAO {
 			sql = new StringBuffer();
 			sql.append("select * from t_airrent_airport");
 			if (!StringUtils.isEmpty(airportName)) {
-				sql.append("where airport_name like '%"
+				sql.append(" where airport_name like '%"
 					+ airportName + "%'");
 			}
 			sql.append(" limit "

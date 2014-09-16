@@ -20,6 +20,11 @@
 <%@ page import="java.util.Map"%>
 <%@ page import="com.alipay.util.*"%>
 <%@ page import="com.alipay.config.*"%>
+<%@ page import="com.eighth.housekeeping.proxy.service.OrderService"%>
+<%@ page import="org.springframework.context.ApplicationContext"%>
+<%@ page import="org.springframework.web.context.support.WebApplicationContextUtils"%>
+
+
 <html>
   <head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -59,23 +64,17 @@
 	boolean verify_result = AlipayNotify.verifyReturn(params);
 	
 	if(verify_result){//验证成功
-		//////////////////////////////////////////////////////////////////////////////////////////
-		//请在这里加上商户的业务逻辑程序代码
-
-		//——请根据您的业务逻辑来编写程序（以下代码仅作参考）——
-		
-			//判断该笔订单是否在商户网站中已经做过处理
-				//如果没有做过处理，根据订单号（out_trade_no）在商户网站的订单系统中查到该笔订单的详细，并执行商户的业务程序
-				//如果有做过处理，不执行商户的业务程序
-
-		
-		//该页面可做页面美工编辑
+		ApplicationContext ctx = WebApplicationContextUtils.getWebApplicationContext(request.getSession().getServletContext());
+		OrderService orderService = (OrderService) ctx.getBean("OrderService");
+		orderService.updateOrderByOrderNo(trade_no, "ONLINE_PAYED");
 		out.println("验证成功<br />");
 		//——请根据您的业务逻辑来编写程序（以上代码仅作参考）——
 
 		//////////////////////////////////////////////////////////////////////////////////////////
 	}else{
-		//该页面可做页面美工编辑
+		ApplicationContext ctx = WebApplicationContextUtils.getWebApplicationContext(request.getSession().getServletContext());
+		OrderService orderService = (OrderService) ctx.getBean("OrderService");
+		orderService.updateOrderByOrderNo(trade_no, "NOT_PAY");
 		out.println("验证失败");
 	}
 %>
