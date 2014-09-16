@@ -19,4 +19,18 @@ public class UserCollectionServiceImpl implements UserCollectionService {
     public String addUserCollection(UserCollection collection) throws RemoteInvokeException {
         return null;
     }
+
+	@Override
+	public boolean checkUserCollection(String userId, String objId,
+			String collectionType) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean deleteUserCollection(String userId, String objId,
+			String collectionType) {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }

@@ -29,4 +29,16 @@ public class UserCollectionServiceImpl implements UserCollectionService{
 		return userCollectionDAO.addUserCollection(collection);
 	}
 
+	@Override
+	public boolean checkUserCollection(String userId, String objId,
+			String collectionType) {
+		return userCollectionDAO.checkUserCollection(userId, objId, collectionType);
+	}
+
+	@Override
+	public boolean deleteUserCollection(String userId, String objId,
+			String collectionType) {
+		return userCollectionDAO.deleteUserCollection(userId, objId, collectionType);
+	}
+
 }
