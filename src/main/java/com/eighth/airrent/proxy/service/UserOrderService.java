@@ -55,4 +55,9 @@ public interface UserOrderService {
     String deleteOrderById(String orderId)throws RemoteInvokeException;
 
     OpenPage findUserOrders(OpenPage page, UserOrder userOrder);
+
+	UserOrder findOrderByOrderNo(String orderNo);
+
+	void updateOrderByOrderNo(String orderNo, String string);
+
 }

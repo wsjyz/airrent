@@ -37,4 +37,16 @@ public class UserOrderServiceImpl implements UserOrderService {
     public UserOrder addUserOrder(UserOrder order) throws RemoteInvokeException {
 		return null;
 	}
+
+	@Override
+	public UserOrder findOrderByOrderNo(String orderNo) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void updateOrderByOrderNo(String orderNo, String string) {
+		// TODO Auto-generated method stub
+		
+	}
 }

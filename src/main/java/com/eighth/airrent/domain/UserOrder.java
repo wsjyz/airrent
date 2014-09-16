@@ -208,4 +208,6 @@ public class UserOrder extends BaseDomain{
     public void setAirline(Airline airline) {
         this.airline = airline;
     }
+
+
 }

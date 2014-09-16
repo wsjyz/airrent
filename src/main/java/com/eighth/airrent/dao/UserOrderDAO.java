@@ -53,4 +53,8 @@ public interface UserOrderDAO {
 	UserOrder addUserOrder(UserOrder order);
 
     OpenPage findUserOrders(OpenPage page, UserOrder userOrder);
+
+	UserOrder findOrderByOrderNo(String orderNo);
+
+	void updateOrderByOrderNo(String orderNo, String type);
 }

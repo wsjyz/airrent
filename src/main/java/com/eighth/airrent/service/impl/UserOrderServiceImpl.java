@@ -50,4 +50,14 @@ public class UserOrderServiceImpl implements UserOrderService {
 		return userOrderDAO.addUserOrder(order);
 	}
 
+	@Override
+	public UserOrder findOrderByOrderNo(String orderNo) {
+		return userOrderDAO.findOrderByOrderNo(orderNo);
+	}
+
+	@Override
+	public void updateOrderByOrderNo(String orderNo, String type) {
+		userOrderDAO.updateOrderByOrderNo( orderNo,  type);
+	}
+
 }

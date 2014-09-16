@@ -109,20 +109,20 @@ public class UserOrderController {
 		return view;
 	}
 
-//	@RequestMapping("/toNotify")
-//	public void toNotify(@RequestParam String orderNo) {
-//		UserOrder userOrder  = userOrderService.findOrderByOrderNo(orderNo);
-//		if (userOrder != null) {
-//			userOrder.updateOrderByOrderNo(orderNo, "ONLINE_PAYED");
-//		}
-//	}
-//
-//	@RequestMapping("/tocallbackurl")
-//	public void tocallbackurl(@RequestParam String orderNo) {
-//		UserOrder userOrder  = userOrderService.findOrderByOrderNo(orderNo);
-//		if (userOrder != null) {
-//			userOrder.updateOrderByOrderNo(orderNo, "ONLINE_PAYED");
-//		}
-//	}
+	@RequestMapping("/toNotify")
+	public void toNotify(@RequestParam String orderNo) {
+		UserOrder userOrder  = userOrderService.findOrderByOrderNo(orderNo);
+		if (userOrder != null) {
+			userOrderService.updateOrderByOrderNo(orderNo, "ONLINE_PAYED");
+		}
+	}
+
+	@RequestMapping("/tocallbackurl")
+	public void tocallbackurl(@RequestParam String orderNo) {
+		UserOrder userOrder  = userOrderService.findOrderByOrderNo(orderNo);
+		if (userOrder != null) {
+			userOrderService.updateOrderByOrderNo(orderNo, "ONLINE_PAYED");
+		}
+	}
 
 }
