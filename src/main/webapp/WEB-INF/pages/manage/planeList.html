@@ -41,7 +41,7 @@
         .on('click','a.change',function(){
             var json={
                 planeId : $(this).data('id'),
-                status : $(this).text()=='禁用'?'off':'on'
+                status : $.trim($(this).text())=='禁用'?'off':'on'
             }
             $.post('${ctx}/manage/menu/plane/change',json,function(data){
                 if(data.success){
