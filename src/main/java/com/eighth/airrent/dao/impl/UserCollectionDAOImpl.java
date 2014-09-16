@@ -12,7 +12,6 @@ import java.util.List;
 
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
-import org.springframework.util.CollectionUtils;
 
 /**
  * Created by dam on 2014/7/2.
@@ -25,48 +24,30 @@ public class UserCollectionDAOImpl extends BaseDAO implements UserCollectionDAO 
 			String collectionType) {
 		StringBuffer sql = new StringBuffer();
 		if ("PLANE".equals(collectionType)) {
-			sql.append("select auc.user_id,auc.plane_id,ap.plane_name from t_airrent_user_collection auc left join t_airrent_plane ap on auc.plane_id=ap.plane_id and (auc.airline_id is null or auc.airline_id ='' or auc.airline_id='null')");
+			sql.append("select auc.user_id,auc.plane_id,ap.plane_name from t_airrent_user_collection auc left join t_airrent_plane ap on auc.plane_id=ap.plane_id ");
 		} else {
-			sql.append("select auc.user_id,auc.airline_id,aa.airline_name from t_airrent_user_collection auc left join t_airrent_airline aa on auc.airline_id=aa.airline_id and (auc.plane_id is null or auc.plane_id ='' or auc.plane_id='null')");
+			sql.append("select auc.user_id,auc.airport_id,aa.airport_name from t_airrent_user_collection auc left join t_airrent_airport aa on auc.airport_id=aa.airport_id ");
 		}
 		sql.append(" where auc.user_id='" + userId + "' ");
-		if ("PLANE".equals(collectionType)) {
-			sql.append(" and (auc.airline_id is null or auc.airline_id ='' or auc.airline_id='null')");
-		} else {
-			sql.append(" and (auc.plane_id is null or auc.plane_id ='' or auc.plane_id='null')");
-		}
 		List<UserCollection> list = new ArrayList<UserCollection>();
 		if ("PLANE".equals(collectionType)) {
 			list = getJdbcTemplate().query(sql.toString(),
-					new UserPlaneCollectionMapper());
+					new UserCollectionMapper());
 		} else {
 			list = getJdbcTemplate().query(sql.toString(),
-					new UserAirlineCollectionMapper());
+					new UserCollectionMapper());
 		}
 		return list;
 	}
-	 public class UserAirlineCollectionMapper implements RowMapper<UserCollection>{
+	 public class UserCollectionMapper implements RowMapper<UserCollection>{
 		 @Override
 			public UserCollection mapRow(ResultSet rs, int rowNum)
 					throws SQLException {
 				UserCollection userCollection = new UserCollection();
-				userCollection.setAirlineId(rs
-						.getString("airline_id"));
-				userCollection.setAirlineName(rs
-						.getString("airline_name"));
-				userCollection.setUserId(rs.getString("user_id"));
-				return userCollection;
-			}
-	    }
-	 public class UserPlaneCollectionMapper implements RowMapper<UserCollection>{
-		 @Override
-			public UserCollection mapRow(ResultSet rs, int rowNum)
-					throws SQLException {
-				UserCollection userCollection = new UserCollection();
-				userCollection.setPlaneId(rs
-						.getString("plane_id"));
-				userCollection.setPlaneName(rs
-						.getString("plane_name"));
+				userCollection.setAirportId(rs
+						.getString("airport_id"));
+				userCollection.setAirportName(rs
+						.getString("airport_name"));
 				userCollection.setUserId(rs.getString("user_id"));
 				return userCollection;
 			}
@@ -74,67 +55,16 @@ public class UserCollectionDAOImpl extends BaseDAO implements UserCollectionDAO 
 	@Override
 	public String addUserCollection(UserCollection collection) {
 		StringBuffer sql = new StringBuffer();
-		sql.append("INSERT into t_airrent_user_collection(user_id,plane_id,airline_id) values('"
+		sql.append("INSERT into t_airrent_user_collection(user_id,plane_id,airport_id) values('"
 				+ collection.getUserId()
 				+ "','"
 				+ collection.getPlaneId()
-				+ "','" + collection.getAirlineId() + "')");
+				+ "','" + collection.getAirportId() + "')");
 		int update = getJdbcTemplate().update(sql.toString());
 		if (update>0) {
 			return "SUCCESS";
 		}else{
 			return "FAIL";
 		}
-	}
-	@Override
-	public boolean checkUserCollection(String userId, String objId,
-			String collectionType) {
-		StringBuffer sql = new StringBuffer();
-			sql.append("select * from t_airrent_user_collection where  user_id='" + userId + "' ");
-		if("PLANE".equals(collectionType)){
-			sql.append(" and plane_id='"+objId+"'");
-		}else{
-			sql.append(" and airline_id='"+objId+"'");
-		}
-		List<UserCollection> list = new ArrayList<UserCollection>();
-		if ("PLANE".equals(collectionType)) {
-			list = getJdbcTemplate().query(sql.toString(),
-					new UserPlaneCollectionMapper());
-		} else {
-			list = getJdbcTemplate().query(sql.toString(),
-					new UserCollectionMapper());
-		}
-		if (CollectionUtils.isEmpty(list)) {
-			return false;
-		}else{
-			return true;
-		}
-	}
-	 public class UserCollectionMapper implements RowMapper<UserCollection>{
-		 @Override
-			public UserCollection mapRow(ResultSet rs, int rowNum)
-					throws SQLException {
-				UserCollection userCollection = new UserCollection();
-				userCollection.setPlaneId(rs
-						.getString("plane_id"));
-				userCollection.setUserId(rs.getString("user_id"));
-				return userCollection;
-			}
-	    }
-	@Override
-	public boolean deleteUserCollection(String userId, String objId,
-			String collectionType) {
-		StringBuffer sql = new StringBuffer();
-		sql.append("delete  from t_airrent_user_collection where  user_id='" + userId + "' ");
-		if("PLANE".equals(collectionType)){
-			sql.append(" and plane_id='"+objId+"'");
-		}else{
-			sql.append(" and airline_id='"+objId+"'");
-		}
-		int update = getJdbcTemplate().update(sql.toString());
-		if (update>0) {
-			return true;
-		}
-		return false;
 	}
 }

@@ -29,4 +29,10 @@ public interface AirportDAO {
 	 */
 	
 	List<Airport> findAllAirport(String address);
+
+    OpenPage<Airport> findAirportList(OpenPage<Airport> page, String airportName, String address);
+
+    String saveAirport(Airport airport);
+
+    List<Airport> findAllAirport();
 }

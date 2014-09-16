@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.eighth.airrent.domain.Airport;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.RowMapper;
@@ -128,7 +129,7 @@ public class AirlineDAOImpl extends BaseDAO implements AirlineDAO {
 			sql.append(" and  airport_id='"+ airportId + "'");
 		}
 		if(StringUtils.isNotEmpty(address)){
-			sql.append(" and address like '%"+ address + "%'");
+			sql.append("and address like '%"+ address + "%'");
 		}
 		List<Airline> list = getJdbcTemplate().query(sql.toString(),
 				new AirlineMapper());
@@ -259,14 +260,88 @@ public class AirlineDAOImpl extends BaseDAO implements AirlineDAO {
 		}
 	}
 
-	@Override
-	public List<Plane> findAllPlaneByAirlineId(String airlineId) {
-		StringBuffer sql = new StringBuffer();
-		sql.append("select * from t_airrent_plane where airline_id='"
-				+ airlineId + "'");
-		
-		List<Plane> list = getJdbcTemplate().query(sql.toString(),
-				new PlaneMapper());
-		return list;
-	}
+    @Override
+    public List<Plane> findPlaneByAirlineId(String airlineId) {
+        return null;
+    }
+
+    @Override
+    public OpenPage findAirlineList(OpenPage page, String airlineName, String loginName) {
+        StringBuffer sql = new StringBuffer();
+        StringBuffer where = new StringBuffer();
+        List<String> params = new ArrayList<String>();
+        sql.append("select count(*) from t_airrent_airline where 1=1 ");
+        if (StringUtils.isNotBlank(airlineName)) {
+            where.append("and airline_name like ? ");
+            params.add("%"+airlineName+"%");
+        }
+        if (StringUtils.isNotBlank(loginName)) {
+            where.append("and login_name like ? ");
+            params.add("%"+loginName+"%");
+        }
+
+        long count = getJdbcTemplate().queryForObject(sql.append(where).toString(),params.toArray(),Long.class);
+        if (count > 0) {
+            page.setTotal(count);
+            sql = new StringBuffer();
+            sql.append("select * from t_airrent_airline where 1=1 ");
+            sql.append(where);
+            sql.append(" limit "
+                    + page.getPageSize()
+                    + " OFFSET " + (page.getFirst() - 1) + "");
+            List<Airline> list = getJdbcTemplate().query(sql.toString(),params.toArray(),
+                    new AirlineMapper());
+            page.setRows(list);
+        } else {
+            page.setTotal(count);
+            page.setRows(new ArrayList<Airline>());
+
+        }
+        return page;
+    }
+
+    @Override
+    public String saveAirline(Airline airline) {
+        StringBuffer sql = new StringBuffer();
+        String[] params = new String[12];
+        getPoint(airline);
+        if(StringUtils.isBlank(airline.getAirlineId())){
+            String corpId = CommonUtils.genUUID();
+            sql.append("INSERT into t_airrent_airline(airline_id,airline_name,airline_image,login_name,password,status,address,weixin,phone,airport_id,lat,lng) " +
+                    "values(?,?,?,?,?,?,?,?,?,?,?,?)");
+            params[0]=corpId;
+            params[1]=airline.getAirlineName();
+            params[2]=airline.getAirlineImage();
+            params[3]=airline.getLoginName();
+            params[4]=airline.getPassword();
+            params[5]=airline.getStatus();
+            params[6]=airline.getAddress();
+            params[7]=airline.getWeixin();
+            params[8]=airline.getPhone();
+            params[9]=airline.getAirportId();
+            params[10]=airline.getLat();
+            params[11]=airline.getLng();
+        }else{
+            sql.append("update t_airrent_airline set airline_name=?,airline_image=?,login_name=?,password=?,status=?,address=?,weixin=?,phone=?,airport_id=?,lat=?,lng=? " +
+                    "where airline_id=?");
+            params[0]=airline.getAirlineName();
+            params[1]=airline.getAirlineImage();
+            params[2]=airline.getLoginName();
+            params[3]=airline.getPassword();
+            params[4]=airline.getStatus();
+            params[5]=airline.getAddress();
+            params[6]=airline.getWeixin();
+            params[7]=airline.getPhone();
+            params[8]=airline.getAirportId();
+            params[9]=airline.getLat();
+            params[10]=airline.getLng();
+            params[11]=airline.getAirlineId();
+        }
+        int update = getJdbcTemplate().update(sql.toString(),params);
+        if (update > 0) {
+            return "SUCCESS";
+        } else {
+            return "FAIL";
+        }
+    }
 }

@@ -1,5 +1,6 @@
 package com.eighth.airrent.service.impl;
 
+import com.eighth.airrent.domain.OpenPage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -54,4 +55,32 @@ public class UserServiceImpl implements UserService {
 	public UserInfo getById(String userId) throws RemoteInvokeException {
 		return userDAO.getById(userId);
 	}
+
+    @Override
+    public UserInfo findUser(UserInfo userInfo) {
+        return userDAO.find(userInfo);
+    }
+
+    @Override
+    public OpenPage findUserByPage(OpenPage page, UserInfo userInfo) {
+        return userDAO.findUserByPage(page,userInfo);
+    }
+
+    @Override
+    public String updateUserStatus(UserInfo user) {
+
+        return userDAO.updateUserStatus(user);
+    }
+
+    @Override
+    public String deleteUser(String userId) {
+
+        return userDAO.deleteUser(userId);
+    }
+
+    @Override
+    public String saveUser(UserInfo user) {
+
+        return userDAO.saveUser(user);
+    }
 }

@@ -36,7 +36,7 @@ public interface AirlineService {
 	List<Airline> findAirlineAllById(String airportId,String address) throws RemoteInvokeException;
 
     @RemoteMethod(methodVarNames={"airlineId"})
-	List<Plane> findAllPlaneByAirlineId(String airlineId) throws RemoteInvokeException ;
+	List<Plane> findPlaneByAirlineId(String airlineId);
     /**
 	 * 新增公司
 	 * 
@@ -65,5 +65,8 @@ public interface AirlineService {
 	 * @throws RemoteInvokeException
 	 */
 	String deleteAirline(String airlineId) throws RemoteInvokeException;
-	
+
+    OpenPage findAirlineList(OpenPage page, String airlineName, String loginName);
+
+    String saveAirline(Airline airline);
 }

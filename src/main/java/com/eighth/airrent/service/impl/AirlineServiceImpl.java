@@ -51,9 +51,19 @@ public class AirlineServiceImpl implements AirlineService{
 		return airlineDAO.deleteAirline(airlineId);
 	}
 
+    @Override
+    public OpenPage findAirlineList(OpenPage page, String airlineName, String loginName) {
+
+        return airlineDAO.findAirlineList(page, airlineName, loginName);
+    }
+
+    @Override
+    public String saveAirline(Airline airline) {
+        return airlineDAO.saveAirline(airline);
+    }
 	@Override
-	public List<Plane> findAllPlaneByAirlineId(String airlineId) throws RemoteInvokeException {
-		return airlineDAO.findAllPlaneByAirlineId(airlineId);
+	public List<Plane> findPlaneByAirlineId(String airlineId) {
+		return airlineDAO.findPlaneByAirlineId(airlineId);
 
 	}
 

@@ -25,10 +25,4 @@ public interface UserCollectionDAO {
      * @throws RemoteInvokeException
      */
     String addUserCollection(UserCollection collection);
-
-	boolean checkUserCollection(String userId, String objId,
-			String collectionType);
-
-	boolean deleteUserCollection(String userId, String objId,
-			String collectionType);
 }

@@ -48,17 +48,5 @@ public class UserCollectionController {
 			throws RemoteInvokeException {
 		return UserCollectionService.addUserCollection(collection);
 	}
-	@RequestMapping(value = "/checkUserCollection")
-	@ResponseBody	
-	public boolean checkUserCollection(@RequestParam String userId,@RequestParam String objId,
-			@RequestParam String collectionType) throws RemoteInvokeException {
-		return UserCollectionService.checkUserCollection(userId,objId,collectionType);
-	}
-	
-	@RequestMapping(value = "/deleteUserCollection")
-	@ResponseBody	
-	public boolean deleteUserCollection(@RequestParam String userId,@RequestParam String objId,
-			@RequestParam String collectionType) throws RemoteInvokeException {
-		return UserCollectionService.deleteUserCollection(userId,objId,collectionType);
-	}
+
 }

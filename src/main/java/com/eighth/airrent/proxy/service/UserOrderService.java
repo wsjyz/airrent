@@ -2,7 +2,6 @@ package com.eighth.airrent.proxy.service;
 
 import com.eighth.airrent.domain.OpenPage;
 import com.eighth.airrent.domain.UserOrder;
-import com.eighth.airrent.proxy.annotation.RemoteMethod;
 import com.eighth.airrent.proxy.exception.RemoteInvokeException;
 
 /**
@@ -16,7 +15,6 @@ public interface UserOrderService {
      * @param userId
      * @return
      */
-    @RemoteMethod(methodVarNames={ "openPage","userId"})
     OpenPage<UserOrder> findUserOrder(OpenPage openPage,String userId)throws RemoteInvokeException;
 
     /**
@@ -24,7 +22,6 @@ public interface UserOrderService {
      * @return
      * @throws RemoteInvokeException
      */
-    @RemoteMethod(methodVarNames={ "order"})
     UserOrder addUserOrder(UserOrder order)throws RemoteInvokeException;
 
     /**
@@ -34,7 +31,6 @@ public interface UserOrderService {
      * @return
      * @throws RemoteInvokeException
      */
-    @RemoteMethod(methodVarNames={ "userId","orderId"})
     String payOrder(String userId,String orderId)throws Exception;
 
     /**
@@ -43,7 +39,6 @@ public interface UserOrderService {
      * @return
      * @throws RemoteInvokeException
      */
-    @RemoteMethod(methodVarNames={ "orderId"})
     UserOrder findOrderById(String orderId)throws RemoteInvokeException;
 
     /**
@@ -53,6 +48,7 @@ public interface UserOrderService {
      * @return SUCCESS成功，FAIL失败
      * @throws RemoteInvokeException
      */
-    @RemoteMethod(methodVarNames={ "orderId"})
     String deleteOrderById(String orderId)throws RemoteInvokeException;
+
+    OpenPage findUserOrders(OpenPage page, UserOrder userOrder);
 }
