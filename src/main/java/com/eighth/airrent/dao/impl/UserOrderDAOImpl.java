@@ -71,7 +71,7 @@ public class UserOrderDAOImpl extends BaseDAO implements UserOrderDAO{
 			    userOrder.setEndDate(rs.getString("end_date"));//结束时间
 			    userOrder.setStayHour(rs.getBigDecimal("stay_hour"));//停留时间
 			    userOrder.setFlyHour(rs.getBigDecimal("fly_hour"));//飞行时间
-			    userOrder.setStarting(rs.getString("starting"));//出发地
+			    userOrder.setStarting(rs.getString("start_ing"));//出发地
 			    userOrder.setDestination(rs.getString("destination"));//目的地
 			    userOrder.setUserCounts(rs.getInt("user_counts"));//人数
 			    userOrder.setOptTime(rs.getString("opt_time"));//产生时间
@@ -202,8 +202,8 @@ public class UserOrderDAOImpl extends BaseDAO implements UserOrderDAO{
 	public UserOrder addUserOrder(UserOrder order) {
 		StringBuffer sql=new StringBuffer();
 		String orderId=CommonUtils.genUUID();
-		sql.append("INSERT into t_airrent_user_order(order_id,user_id,airport_id,order_use,start_time,end_time,"
-				+ "starting,destination,user_counts,opt_time,down_payment,order_counts,order_status,description,fly_hour,stay_hour,order_letter,order_number,plane_id) values('"
+		sql.append("INSERT into t_airrent_user_order(order_id,user_id,airport_id,order_use,start_date,end_date,"
+				+ "start_ing,destination,user_counts,opt_time,down_payment,order_counts,order_status,description,fly_hour,stay_hour,order_letter,order_number,plane_id) values('"
 				+orderId+ "','"+ order.getUserId()
 				+ "','" + order.getAirportId()+ "','" + order.getOrderUse()+ "','" 
 				+ order.getStartDate()+ "','" + order.getEndDate()

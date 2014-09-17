@@ -21,7 +21,7 @@ public class UserOrder extends BaseDomain{
     private String optTime;//产生时间
     private BigDecimal downPayment;//定金
     private int orderCounts;//预定数量
-    //支付状态 ONLINE_PAYED线上已支付 OFFLINE_PAYED线下已支付 NOT_PAY未支付
+    //支付状态 ONLINE_PAYED线上已支付 OFFLINE_PAYED线下已支付 NOT_PAY_ONLINE 线上未支付  NOT_PAY_OFFLINE线下未支付
     private String orderStatus;
     private String description;//备注
 
