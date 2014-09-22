@@ -52,6 +52,7 @@ public interface UserOrderService {
      * @return SUCCESS成功，FAIL失败
      * @throws RemoteInvokeException
      */
+    @RemoteMethod(methodVarNames={ "orderId"})
     String deleteOrderById(String orderId)throws RemoteInvokeException;
 
     OpenPage findUserOrders(OpenPage page, UserOrder userOrder);
