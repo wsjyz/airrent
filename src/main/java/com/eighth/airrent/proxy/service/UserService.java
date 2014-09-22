@@ -48,8 +48,8 @@ public interface UserService {
      * @return RIGHT正确、FAULT错误、PAST过期
      * @throws RemoteInvokeException
      */
-    @RemoteMethod(methodVarNames={ "code"})
-    String checkVerifyCode(String code) throws RemoteInvokeException;
+    @RemoteMethod(methodVarNames={ "token"})
+    String checkVerifyCode(String token) throws RemoteInvokeException;
 
 	/**
 	 * 重置密码
