@@ -1,8 +1,10 @@
 package com.eighth.airrent.controller;
 
+import com.eighth.airrent.domain.APKVersion;
 import com.eighth.airrent.domain.UserInfo;
 import com.eighth.airrent.domain.VerifyCode;
 import com.eighth.airrent.proxy.exception.RemoteInvokeException;
+import com.eighth.airrent.proxy.service.ApkVersionService;
 import com.eighth.airrent.proxy.service.UserService;
 import com.eighth.airrent.web.FastJson;
 
@@ -21,7 +23,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class UserController {
 	@Autowired
 	UserService userService;
-
+	@Autowired
+	ApkVersionService apkVersionService;
 	/**
 	 * 已测试
 	 * 
@@ -111,5 +114,13 @@ public class UserController {
 	public UserInfo getById(@RequestParam String userId)
 			throws RemoteInvokeException {
 		return userService.getById(userId);
+	}
+	
+	
+	@RequestMapping(value = "/getApkVersion")
+	@ResponseBody
+	public APKVersion getApkVersion()
+			throws RemoteInvokeException {
+		return apkVersionService.getApkVersion();
 	}
 }
