@@ -29,7 +29,7 @@ public class AlipayConfig {
 	
 	// 交易安全检验码，由数字和字母组成的32位字符串
 	// 如果签名方式设置为“MD5”时，请设置该参数
-	public static String key = "yc42c5hwbtx5sny1xj367wpj75ocd42y";
+	public static String key = "y3un70nvlitvugizic58yks945m701lg";
 	
     // 商户的私钥
     // 如果签名方式设置为“0001”时，请设置该参数
@@ -39,9 +39,9 @@ public class AlipayConfig {
     // 支付宝的公钥
     // 如果签名方式设置为“0001”时，请设置该参数
 	//public static String ali_public_key = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCnVnzBOln5iWoebjtPVqnwNKPuLg+4iaW4OZvVDqZMh99w07rfF40ApSGtzrIgY9C4mlH8NZBBCcOwnXaLikWK0su2+FBEy1wz0LBGy/I78L74cHY0rWqZKmGPg6cfTC4k5sh51TOxnMQIAryvF+rGJs9eq9/7xyrmIhf1crKIOQIDAQAB";
-	public static String ali_public_key = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCnxj/9qwVfgoUh/y2W89L6BkRAFljhNhgPdyPuBV64bfQNN1PjbCzkIM6qRdKBoLPXmKKMiFYnkd6rAoprih3/PrQEB/VsW8OoM8fxn67UDYuyBTqA23MML9q1+ilIZwBC2AQ2UBVOrFXfFl75p6/B5KsiNG9zpgmLCUYuLkxpLQIDAQAB";
+	public static String ali_public_key = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQD4Uebo6AmcgKsY9R21iuZ5c7+/3PeKi4qc+OawE7h5/hvrkF+R/94ZqXdP+4+Z1cCg03HPDNYoGIvhPk7db1j5oszKwnoPcEfj+M+4OezmnAwiuU6sqAQvKUQUnNvg6z3i0Sf+OhQ8BOvwThwOFuJbgqcvfGkTxukO9Adu4QNTYwIDAQAB";
 	//↑↑↑↑↑↑↑↑↑↑请在这里配置您的基本信息↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑
-	
+	                                       
 
 	// 调试用，创建TXT日志文件夹路径
 	public static String log_path = "D:\\";

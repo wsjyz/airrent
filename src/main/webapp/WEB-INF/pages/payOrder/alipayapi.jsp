@@ -97,6 +97,7 @@
 		String sHtmlTextToken = AlipaySubmit.buildRequest(ALIPAY_GATEWAY_NEW,"", "",sParaTempToken);
 		//URLDECODE返回的信息
 		sHtmlTextToken = URLDecoder.decode(sHtmlTextToken,AlipayConfig.input_charset);
+		System.out.println(sHtmlTextToken);
 		//获取token
 		String request_token = AlipaySubmit.getRequestToken(sHtmlTextToken);
 		
