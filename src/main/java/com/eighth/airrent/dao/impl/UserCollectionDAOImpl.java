@@ -90,7 +90,13 @@ public class UserCollectionDAOImpl extends BaseDAO implements UserCollectionDAO 
 	public boolean checkUserCollection(String userId, String objId,
 			String collectionType) {
 		StringBuffer sql = new StringBuffer();
-			sql.append("select * from t_airrent_user_collection where  user_id='" + userId + "' ");
+			sql.append("select * from t_airrent_user_collection auc");
+			if("PLANE".equals(collectionType)){
+				sql.append(" left join t_airrent_plane   ap on and auc.plane_id=ap.plane_id ");
+			}else{
+				sql.append(" left join t_airrent_airline   aa on and auc.airline_id=aa.airline_id ");
+			}
+			sql.append(" where  user_id='" + userId + "'");
 		if("PLANE".equals(collectionType)){
 			sql.append(" and plane_id='"+objId+"'");
 		}else{
