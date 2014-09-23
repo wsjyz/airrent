@@ -25,23 +25,20 @@ public class AlipayConfig {
 	
 	//↓↓↓↓↓↓↓↓↓↓请在这里配置您的基本信息↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
 	// 合作身份者ID，以2088开头由16位纯数字组成的字符串
-	public static String partner = "2088002197126523";
+	public static String partner = "2088511925655681";
 	
 	// 交易安全检验码，由数字和字母组成的32位字符串
 	// 如果签名方式设置为“MD5”时，请设置该参数
-	public static String key = "y3un70nvlitvugizic58yks945m701lg";
+	public static String key = "visxmzhnkfu09v7f9dme7w4ftvrdgp6j";
 	
     // 商户的私钥
     // 如果签名方式设置为“0001”时，请设置该参数
-	//public static String private_key = "MIICdgIBADANBgkqhkiG9w0BAQEFAASCAmAwggJcAgEAAoGBAKdWfME6WfmJah5uO09WqfA0o+4uD7iJpbg5m9UOpkyH33DTut8XjQClIa3OsiBj0LiaUfw1kEEJw7CddouKRYrSy7b4UETLXDPQsEbL8jvwvvhwdjStapkqYY+Dpx9MLiTmyHnVM7GcxAgCvK8X6sYmz16r3/vHKuYiF/Vysog5AgMBAAECgYBsoQh7p5WhGEN7XbPC3U+UT5fblqs98J1T6pHuzYPHSq0SYWB+UpuGP6yNWBDqVeG49PUj9OGgVuZiUNYT378kQtPKepLr4evn22a8ZLhPSd+KZWb4lVkBT6Egm64JcxasMitqjU/d3MSNr7IAkE6xfPg3Z3wNZ28qN87R/mnewQJBANHQR8P5wjqNL6f2J/Jl+bYDEdUvJSrYhT5u94IktKi9bsyzgpgXq+vuKARtP/pwbyPHlSnc7tv1AFU51+hNKZMCQQDMLI1ArVAWZNxBq9MbeBzcY8gnQX0YXiUByay5gKcX7zkte+fIKq9ybv0LHfI68WxpUHMmPUS9BLC1tPI7kfaDAkA0lxtV8QWRPZBjblzm8k6cI7rVj8KmMa18T740XdT2srzSDHDAhLZwJbrcGTI/KO2Cr2UhICKy+X9C3YPT03uHAkBDWHqrF7+v80rXeoaiq+bRJzSRBj/t9re8NDp94Zq8AVNZ1mHom3PNiiB7N0B8AsAgqMGinlj7A/4JoYq47XdjAkEAprnppgNivo8300nGO4jlkp/pV2S3Mlzc9lBivMuKQUTaMIJWTGVKwavQTItkt8cSf1hvELhLxnF9bjNHYAFy4w==";
-	public static String private_key = "MIICdgIBADANBgkqhkiG9w0BAQEFAASCAmAwggJcAgEAAoGBAPhR5ujoCZyAqxj1HbWK5nlzv7/c94qLipz45rATuHn+G+uQX5H/3hmpd0/7j5nVwKDTcc8M1igYi+E+Tt1vWPmizMrCeg9wR+P4z7g57OacDCK5TqyoBC8pRBSc2+DrPeLRJ/46FDwE6/BOHA4W4luCpy98aRPG6Q70B27hA1NjAgMBAAECgYEAu6KfmeQjxxdOsggdj91KNAGrpZ2hixXQArbtEaWFIuFJVaF9JcQyni94kX5jzvk+mgfMGoj3lcqef+/mBdqqXlKBLoMUGKdBxZQuE/mIIHUTS31uyxVNs+riXp8zoEKzy6XP6hJs+01/coXVcO4axPpZdZ6OdLIEIMuRqDcCr8kCQQD+nrLKEk54Nv+OxWAPBZFu656HFv1C9wC+Dqki2b5ReaXMa3WUfDprO683J2gDRxOt48NIw5mvHe+cfnhi3bS/AkEA+ap2Qtfh1HDK/aHQ2iZlUyfC2inel4xq7M6hrmfFUe+L/CmYh/I/MqqVS2qKe+iPM3Dhi3Cl9DPCfmGzkd/WXQJAKYg1XaSyzAUclms3ifu8hz1DtIFZekzUACxgBmFCHAQduURl/3xsAwXPRM3Wt4ImgZy/Q+Uz8k6NwRcYB/hl/QJAJw4vac1zmlP6rSp/DWEsQJHbvV0HYRWqNFkumaXKDEM41r17CukuUbK1oBKOj0uV+yoRXkrE6yqdpj+KY6tsUQJAFFfhcS1eCMZtx4wRhYS5PeYhyOjOSBTc9p+Zq7EuMgi4N70OS6/ulkplMJ2svDkhdlA/oADw0QELmg6bHEMMLQ==";
-
-    // 支付宝的公钥
+	public static String private_key = "MIICdgIBADANBgkqhkiG9w0BAQEFAASCAmAwggJcAgEAAoGBAK1nciy0qOfFzW2IGuGRmLDhSunH3zzrf+mZf9q7tsynHHab7MxTiDvamh0GLD3kzRAYz17RebGJS191gfX8LYAksxypLtHd8/yAOU83ZMV4K/9Wl2BNR9G2axCWkuU4FwHfIDjF2TdOZhTEVbZsUzwTUaVL1oyvcWXAHnUOi/YVAgMBAAECgYA24OdEeMR/3Zz/DjUbsF13lUWFKUlgWVO5FWheTEw1Bqo+a2iM3d7eundNujdkOzYe4ws2AeuWoVHmWyUPOYkYYDcmhyMgVoA6P57t7xDQif5+MKbwhzSyQQO8lWeBeAxIWyQif6nz+UGfkvqzaHmH0ZObaFwN2f8QRsym+vv13QJBAOSUZu1iW0+7MYMwIqJlYjrSS9tFOmkk9YBzoqVsSgsWLiKzbSKkHMzZ7GljsE3SJCebmyJZQ+3rOqYlOOQd2T8CQQDCNJ8Rnyv/dYv7FV/N5ovywC4ncDNE032ufj3NwDZwrmwW0R8ToaynRZJiTFr5G0yvOgIQz4Vh98q7ODKnbOerAkA8M+3sBeTA2i/POqVUmllF3s+F3/Tjbo2OmGY1JZFW3C+oihNrdUf0mE0Q8OWliXxmRjCU2mfuyO64hcM3KblnAkBfrQr85H0JksCOx132k3E4+8MBPP6VFthhQeJy3hIz+0pXB1mXE1x64ASZFuLuvKtP3HUuEP62YBxplesmnrmXAkEAp2/rqqQqfbPQ2/HChbezIXvPKlQMZIc1V8HatGgNcVvzlpbscC9+L0J0o4zq+yOiqht4hYdz5HtyvUMWxE6V9Q==";
+	// 支付宝的公钥
     // 如果签名方式设置为“0001”时，请设置该参数
-	//public static String ali_public_key = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCnVnzBOln5iWoebjtPVqnwNKPuLg+4iaW4OZvVDqZMh99w07rfF40ApSGtzrIgY9C4mlH8NZBBCcOwnXaLikWK0su2+FBEy1wz0LBGy/I78L74cHY0rWqZKmGPg6cfTC4k5sh51TOxnMQIAryvF+rGJs9eq9/7xyrmIhf1crKIOQIDAQAB";
-	public static String ali_public_key = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQD4Uebo6AmcgKsY9R21iuZ5c7+/3PeKi4qc+OawE7h5/hvrkF+R/94ZqXdP+4+Z1cCg03HPDNYoGIvhPk7db1j5oszKwnoPcEfj+M+4OezmnAwiuU6sqAQvKUQUnNvg6z3i0Sf+OhQ8BOvwThwOFuJbgqcvfGkTxukO9Adu4QNTYwIDAQAB";
+	public static String ali_public_key = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDMhWHkVDmgMTcAQnGx27kYta5mw50giyVWMZ9jVByJz25UVU/NbT0AFEj/2DqsSgZaOPz4GunWHnQa6FE3i9aKETlqm3Fjz2jPuQVqugXNVBc4MUzcgwM36l8QTiGIl5vhXrwWNnf1dWR+4oifWmja4HdD8cxn1H2YS3wCwvCScQIDAQAB";
 	//↑↑↑↑↑↑↑↑↑↑请在这里配置您的基本信息↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑
-	                                       
+	
 
 	// 调试用，创建TXT日志文件夹路径
 	public static String log_path = "D:\\";
