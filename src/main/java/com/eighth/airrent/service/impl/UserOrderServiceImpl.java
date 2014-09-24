@@ -1,10 +1,15 @@
 package com.eighth.airrent.service.impl;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.eighth.airrent.dao.AirportDAO;
+import com.eighth.airrent.dao.PlaneDAO;
 import com.eighth.airrent.dao.UserOrderDAO;
+import com.eighth.airrent.domain.Airport;
 import com.eighth.airrent.domain.OpenPage;
+import com.eighth.airrent.domain.Plane;
 import com.eighth.airrent.domain.UserOrder;
 import com.eighth.airrent.proxy.exception.RemoteInvokeException;
 import com.eighth.airrent.proxy.service.UserOrderService;
@@ -17,6 +22,10 @@ public class UserOrderServiceImpl implements UserOrderService {
 
 	@Autowired
 	UserOrderDAO userOrderDAO;
+	@Autowired
+	PlaneDAO planeDAO;
+	@Autowired
+	AirportDAO airportDAO;
 	@Override
 	public OpenPage<UserOrder> findUserOrder(OpenPage openPage, String userId)
 			throws RemoteInvokeException {
@@ -31,7 +40,16 @@ public class UserOrderServiceImpl implements UserOrderService {
 
 	@Override
 	public UserOrder findOrderById(String orderId) throws RemoteInvokeException {
-		return userOrderDAO.findOrderById(orderId);
+		UserOrder userOrder =userOrderDAO.findOrderById(orderId);
+		if (StringUtils.isNotEmpty(userOrder.getPlaneId())) {
+			Plane plane = planeDAO.findPlaneById(userOrder.getPlaneId());
+			userOrder.setPlane(plane);
+		}
+		if (StringUtils.isNotEmpty(userOrder.getAirportId())) {
+			Airport airport = airportDAO.findAirportById(userOrder.getAirportId());
+			userOrder.setAirport(airport);
+		}
+		return userOrder;
 	}
 
 	@Override
