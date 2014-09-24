@@ -4,9 +4,11 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.eighth.airrent.dao.AirlineDAO;
 import com.eighth.airrent.dao.AirportDAO;
 import com.eighth.airrent.dao.PlaneDAO;
 import com.eighth.airrent.dao.UserOrderDAO;
+import com.eighth.airrent.domain.Airline;
 import com.eighth.airrent.domain.Airport;
 import com.eighth.airrent.domain.OpenPage;
 import com.eighth.airrent.domain.Plane;
@@ -26,6 +28,8 @@ public class UserOrderServiceImpl implements UserOrderService {
 	PlaneDAO planeDAO;
 	@Autowired
 	AirportDAO airportDAO;
+	@Autowired
+	AirlineDAO airlineDAO;
 	@Override
 	public OpenPage<UserOrder> findUserOrder(OpenPage openPage, String userId)
 			throws RemoteInvokeException {
@@ -43,6 +47,10 @@ public class UserOrderServiceImpl implements UserOrderService {
 		UserOrder userOrder =userOrderDAO.findOrderById(orderId);
 		if (StringUtils.isNotEmpty(userOrder.getPlaneId())) {
 			Plane plane = planeDAO.findPlaneById(userOrder.getPlaneId());
+			if(plane!=null && StringUtils.isNotEmpty(plane.getAirlineId())){
+				Airline airline = airlineDAO.findAirlineById(plane.getAirlineId());
+				
+			}
 			userOrder.setPlane(plane);
 		}
 		if (StringUtils.isNotEmpty(userOrder.getAirportId())) {
