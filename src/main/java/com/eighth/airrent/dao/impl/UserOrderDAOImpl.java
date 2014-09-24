@@ -48,7 +48,7 @@ public class UserOrderDAOImpl extends BaseDAO implements UserOrderDAO{
 		if(count>0){
 			openPage.setTotal(count);
 			sql=new StringBuffer();
-			sql.append("select * from t_airrent_user_order where user_id='"+userId+"' limit "+openPage.getPageSize()+" OFFSET "+(openPage.getFirst() - 1)+"");
+			sql.append("select * from t_airrent_user_order where user_id='"+userId+"' order by opt_time desc limit "+openPage.getPageSize()+" OFFSET "+(openPage.getFirst() - 1)+"");
 			List<UserOrder> list=getJdbcTemplate().query(sql.toString(), new UserOrderMapper());
 			openPage.setRows(list);
 		}else{

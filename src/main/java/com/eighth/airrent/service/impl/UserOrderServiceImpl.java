@@ -3,6 +3,7 @@ package com.eighth.airrent.service.impl;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import com.eighth.airrent.dao.AirlineDAO;
 import com.eighth.airrent.dao.AirportDAO;
@@ -33,7 +34,25 @@ public class UserOrderServiceImpl implements UserOrderService {
 	@Override
 	public OpenPage<UserOrder> findUserOrder(OpenPage openPage, String userId)
 			throws RemoteInvokeException {
-		return userOrderDAO.findUserOrder(openPage, userId);
+		openPage= userOrderDAO.findUserOrder(openPage, userId);
+		if(openPage!=null && !CollectionUtils.isEmpty(openPage.getRows())){
+			for (Object obj : openPage.getRows()) {
+				UserOrder userOrder=(UserOrder) obj;
+				if (StringUtils.isNotEmpty(userOrder.getPlaneId())) {
+					Plane plane = planeDAO.findPlaneById(userOrder.getPlaneId());
+					if(plane!=null && StringUtils.isNotEmpty(plane.getAirlineId())){
+						Airline airline = airlineDAO.findAirlineById(plane.getAirlineId());
+						userOrder.setAirline(airline);
+					}
+					userOrder.setPlane(plane);
+				}
+				if (StringUtils.isNotEmpty(userOrder.getAirportId())) {
+					Airport airport = airportDAO.findAirportById(userOrder.getAirportId());
+					userOrder.setAirport(airport);
+				}
+			}
+		}
+		return openPage;
 	}
 
 	@Override
@@ -45,18 +64,6 @@ public class UserOrderServiceImpl implements UserOrderService {
 	@Override
 	public UserOrder findOrderById(String orderId) throws RemoteInvokeException {
 		UserOrder userOrder =userOrderDAO.findOrderById(orderId);
-		if (StringUtils.isNotEmpty(userOrder.getPlaneId())) {
-			Plane plane = planeDAO.findPlaneById(userOrder.getPlaneId());
-			if(plane!=null && StringUtils.isNotEmpty(plane.getAirlineId())){
-				Airline airline = airlineDAO.findAirlineById(plane.getAirlineId());
-				
-			}
-			userOrder.setPlane(plane);
-		}
-		if (StringUtils.isNotEmpty(userOrder.getAirportId())) {
-			Airport airport = airportDAO.findAirportById(userOrder.getAirportId());
-			userOrder.setAirport(airport);
-		}
 		return userOrder;
 	}
 
