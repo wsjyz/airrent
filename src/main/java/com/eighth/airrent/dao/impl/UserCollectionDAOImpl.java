@@ -96,11 +96,11 @@ public class UserCollectionDAOImpl extends BaseDAO implements UserCollectionDAO 
 			}else{
 				sql.append(" left join t_airrent_airline   aa on  auc.airline_id=aa.airline_id ");
 			}
-			sql.append(" where  user_id='" + userId + "'");
+			sql.append(" where  auc.user_id='" + userId + "'");
 		if("PLANE".equals(collectionType)){
-			sql.append(" and plane_id='"+objId+"'");
+			sql.append(" and auc.plane_id='"+objId+"'");
 		}else{
-			sql.append(" and airline_id='"+objId+"'");
+			sql.append(" and auc.airline_id='"+objId+"'");
 		}
 		List<UserCollection> list = new ArrayList<UserCollection>();
 		if ("PLANE".equals(collectionType)) {
