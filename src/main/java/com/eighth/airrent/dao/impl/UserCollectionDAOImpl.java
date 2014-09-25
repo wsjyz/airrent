@@ -153,7 +153,7 @@ public class UserCollectionDAOImpl extends BaseDAO implements UserCollectionDAO 
         }else{
             sql.append(" and airline_id='"+objId+"'");
         }
-        return  getJdbcTemplate().update(sql.toString());
+        return  getJdbcTemplate().queryForInt(sql.toString());
 
     }
 }

@@ -2,7 +2,20 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
          version="3.0" metadata-complete="false">
-
+	<listener>  
+	    <listener-class>  
+	        org.springframework.web.context.ContextLoaderListener  
+	    </listener-class>  
+	</listener>   
+	<!--contextConfigLocation在 ContextLoaderListener类中的默认值是 /WEB-INF/applicationContext.xml-->  
+	<context-param>  
+	    <param-name>contextConfigLocation</param-name>  
+	    <param-value>    
+	      		classpath:datasource.xml
+                classpath:spring-config.xml
+                classpath*:/dispatcher-*.xml
+                </param-value>  
+	</context-param>  
     <servlet>
         <servlet-name>dispatcher</servlet-name>
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>

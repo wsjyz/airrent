@@ -116,11 +116,4 @@ public class UserController {
 		return userService.getById(userId);
 	}
 	
-	
-	@RequestMapping(value = "/getApkVersion")
-	@ResponseBody
-	public APKVersion getApkVersion()
-			throws RemoteInvokeException {
-		return apkVersionService.getApkVersion();
-	}
 }

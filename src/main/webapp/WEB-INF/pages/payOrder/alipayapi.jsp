@@ -63,11 +63,11 @@
 		//付款金额
 		String total_fee = new String(request.getParameter("WIDtotal_fee").getBytes("ISO-8859-1"),"UTF-8");
 		//服务器异步通知页面路径
-		String notify_url = requestURLPrefix+"UserOrderService/toNotify?orderNo="+out_trade_no;
+		String notify_url = requestURLPrefix+"UserOrderService/toNotify";
 		//需http://格式的完整路径，不能加?id=123这类自定义参数
 
 		//页面跳转同步通知页面路径
-		String call_back_url =requestURLPrefix+"UserOrderService/tocallbackurl?orderNo="+out_trade_no;
+		String call_back_url =requestURLPrefix+"UserOrderService/tocallbackurl";
 		//需http://格式的完整路径，不能加?id=123这类自定义参数，不能写成http://localhost/
 
 		//操作中断返回地址

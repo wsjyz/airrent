@@ -29,7 +29,7 @@ public class InformationDAOImpl extends BaseDAO implements InformationDAO{
 		if(count>0){
 			openPage.setTotal(count);
 			sql=new StringBuffer();
-			sql.append("select * from t_airrent_information  limit "+openPage.getPageSize()+" OFFSET "+(openPage.getFirst() - 1)+"");
+			sql.append("select * from t_airrent_information  order by opt_time desc limit "+openPage.getPageSize()+" OFFSET "+(openPage.getFirst() - 1)+"");
 			List<Information> list = getJdbcTemplate().query(sql.toString(), new InformationMapper());
 			openPage.setRows(list);
 		}else{

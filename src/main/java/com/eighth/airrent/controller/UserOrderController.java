@@ -110,19 +110,17 @@ public class UserOrderController {
 	}
 
 	@RequestMapping("/toNotify")
-	public void toNotify(@RequestParam String orderNo) {
-		UserOrder userOrder  = userOrderService.findOrderByOrderNo(orderNo);
-		if (userOrder != null) {
-			userOrderService.updateOrderByOrderNo(orderNo, "ONLINE_PAYED");
-		}
+	public ModelAndView toNotify(@RequestParam String out_trade_no,@RequestParam String  result) {
+		ModelAndView view = new ModelAndView();
+		view.setViewName("payOrder/notify_url");
+		return view;
 	}
 
 	@RequestMapping("/tocallbackurl")
-	public void tocallbackurl(@RequestParam String orderNo) {
-		UserOrder userOrder  = userOrderService.findOrderByOrderNo(orderNo);
-		if (userOrder != null) {
-			userOrderService.updateOrderByOrderNo(orderNo, "ONLINE_PAYED");
-		}
+	public ModelAndView tocallbackurl(@RequestParam String out_trade_no,@RequestParam String  result) {
+		ModelAndView view = new ModelAndView();
+		view.setViewName("payOrder/call_back_url");
+		return view;
 	}
 
 }

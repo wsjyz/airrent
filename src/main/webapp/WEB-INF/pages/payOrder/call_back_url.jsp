@@ -20,10 +20,10 @@
 <%@ page import="java.util.Map"%>
 <%@ page import="com.alipay.util.*"%>
 <%@ page import="com.alipay.config.*"%>
-<%@ page import="com.eighth.housekeeping.proxy.service.OrderService"%>
 <%@ page import="org.springframework.context.ApplicationContext"%>
 <%@ page import="org.springframework.web.context.support.WebApplicationContextUtils"%>
 
+<%@page import="com.eighth.airrent.proxy.service.UserOrderService"%>
 
 <html>
   <head>
@@ -62,10 +62,9 @@
 	
 	//计算得出通知验证结果
 	boolean verify_result = AlipayNotify.verifyReturn(params);
-	
 	if(verify_result){//验证成功
 		ApplicationContext ctx = WebApplicationContextUtils.getWebApplicationContext(request.getSession().getServletContext());
-		OrderService orderService = (OrderService) ctx.getBean("OrderService");
+		UserOrderService orderService = (UserOrderService) ctx.getBean("UserOrderService");
 		orderService.updateOrderByOrderNo(trade_no, "ONLINE_PAYED");
 		out.println("验证成功<br />");
 		//——请根据您的业务逻辑来编写程序（以上代码仅作参考）——
@@ -73,7 +72,7 @@
 		//////////////////////////////////////////////////////////////////////////////////////////
 	}else{
 		ApplicationContext ctx = WebApplicationContextUtils.getWebApplicationContext(request.getSession().getServletContext());
-		OrderService orderService = (OrderService) ctx.getBean("OrderService");
+		UserOrderService orderService = (UserOrderService) ctx.getBean("UserOrderService");
 		orderService.updateOrderByOrderNo(trade_no, "NOT_PAY");
 		out.println("验证失败");
 	}

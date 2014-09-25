@@ -1,4 +1,5 @@
-﻿<%
+﻿<%@page import="com.eighth.airrent.proxy.service.UserOrderService"%>
+<%
 /* *
  功能：支付宝服务器异步通知页面
  版本：3.3
@@ -65,7 +66,10 @@
 	if(AlipayNotify.verifyNotify(params)){//验证成功
 		//////////////////////////////////////////////////////////////////////////////////////////
 		//请在这里加上商户的业务逻辑程序代码
-
+		ApplicationContext ctx = WebApplicationContextUtils.getWebApplicationContext(request.getSession().getServletContext());
+		UserOrderService orderService = (UserOrderService) ctx.getBean("UserOrderService");
+		orderService.updateOrderByOrderNo(trade_no, "ONLINE_PAYED");
+		out.println("验证成功<br />");
 		//——请根据您的业务逻辑来编写程序（以下代码仅作参考）——
 		
 		if(trade_status.equals("TRADE_FINISHED")){
@@ -95,6 +99,9 @@
 
 		//////////////////////////////////////////////////////////////////////////////////////////
 	}else{//验证失败
-		out.println("fail");
+		ApplicationContext ctx = WebApplicationContextUtils.getWebApplicationContext(request.getSession().getServletContext());
+		UserOrderService orderService = (UserOrderService) ctx.getBean("UserOrderService");
+		orderService.updateOrderByOrderNo(trade_no, "NOT_PAY");
+		out.println("验证失败");
 	}
 %>
