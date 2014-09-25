@@ -65,7 +65,7 @@
 	if(verify_result){//验证成功
 		ApplicationContext ctx = WebApplicationContextUtils.getWebApplicationContext(request.getSession().getServletContext());
 		UserOrderService orderService = (UserOrderService) ctx.getBean("UserOrderService");
-		orderService.updateOrderByOrderNo(trade_no, "ONLINE_PAYED");
+		orderService.updateOrderByOrderNo(out_trade_no, "ONLINE_PAYED");
 		out.println("验证成功<br />");
 		//——请根据您的业务逻辑来编写程序（以上代码仅作参考）——
 
@@ -73,7 +73,7 @@
 	}else{
 		ApplicationContext ctx = WebApplicationContextUtils.getWebApplicationContext(request.getSession().getServletContext());
 		UserOrderService orderService = (UserOrderService) ctx.getBean("UserOrderService");
-		orderService.updateOrderByOrderNo(trade_no, "NOT_PAY");
+		orderService.updateOrderByOrderNo(out_trade_no, "NOT_PAY");
 		out.println("验证失败");
 	}
 %>

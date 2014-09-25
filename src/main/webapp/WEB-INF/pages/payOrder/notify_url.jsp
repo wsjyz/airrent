@@ -68,7 +68,7 @@
 		//请在这里加上商户的业务逻辑程序代码
 		ApplicationContext ctx = WebApplicationContextUtils.getWebApplicationContext(request.getSession().getServletContext());
 		UserOrderService orderService = (UserOrderService) ctx.getBean("UserOrderService");
-		orderService.updateOrderByOrderNo(trade_no, "ONLINE_PAYED");
+		orderService.updateOrderByOrderNo(out_trade_no, "ONLINE_PAYED");
 		out.println("验证成功<br />");
 		//——请根据您的业务逻辑来编写程序（以下代码仅作参考）——
 		
@@ -101,7 +101,7 @@
 	}else{//验证失败
 		ApplicationContext ctx = WebApplicationContextUtils.getWebApplicationContext(request.getSession().getServletContext());
 		UserOrderService orderService = (UserOrderService) ctx.getBean("UserOrderService");
-		orderService.updateOrderByOrderNo(trade_no, "NOT_PAY");
+		orderService.updateOrderByOrderNo(out_trade_no, "NOT_PAY");
 		out.println("验证失败");
 	}
 %>
