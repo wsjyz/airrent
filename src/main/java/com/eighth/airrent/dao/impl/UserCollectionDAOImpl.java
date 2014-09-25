@@ -143,4 +143,17 @@ public class UserCollectionDAOImpl extends BaseDAO implements UserCollectionDAO 
 		}
 		return false;
 	}
+
+    @Override
+    public int getUserCollectionCount(String objId,String collectionType) {
+        StringBuffer sql = new StringBuffer();
+        sql.append("select count(*)  from t_airrent_user_collection where  1=1 ");
+        if("PLANE".equals(collectionType)){
+            sql.append(" and plane_id='"+objId+"'");
+        }else{
+            sql.append(" and airline_id='"+objId+"'");
+        }
+        return  getJdbcTemplate().update(sql.toString());
+
+    }
 }
