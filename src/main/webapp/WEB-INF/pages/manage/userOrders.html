@@ -3,11 +3,7 @@
     <div class="row">
         <form id="search" class="form-inline" role="form">
             <div class="form-group">
-                <label for="orderLetter">订单编号字母：</label>
-                <input type="text" class="form-control" id="orderLetter" name="orderLetter">
-            </div>
-            <div class="form-group">
-                <label for="orderNumber">订单编号数字：</label>
+                <label for="orderNumber">订单编号：</label>
                 <input type="text" class="form-control" id="orderNumber" name="orderNumber">
             </div>
             <br/>
@@ -43,7 +39,6 @@
         })
 
         $('#resetForm').click(function(){
-            $('#orderLetter').val('');
             $('#orderNumber').val('');
             $('#loginName').val('');
             $('#planeName').val('');
