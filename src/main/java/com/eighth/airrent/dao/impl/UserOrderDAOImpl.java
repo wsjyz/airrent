@@ -247,13 +247,17 @@ public class UserOrderDAOImpl extends BaseDAO implements UserOrderDAO{
             wheresql.append(" and ap.plane_name = ? ");
             params.add(userOrder.getPlaneName());
         }
+        if(StringUtils.isNotBlank(userOrder.getAirportId())){
+            wheresql.append(" and uo.airport_id = ? ");
+            params.add(userOrder.getAirportId());
+        }
         sql.append("select count(*) ").append(wheresql);
-        int count = getJdbcTemplate().queryForInt(sql.toString());
+        int count = getJdbcTemplate().queryForInt(sql.toString(),params.toArray());
         if(count>0){
             openPage.setTotal(count);
             sql=new StringBuffer();
             sql.append("select * ").append(wheresql).append(" limit "+openPage.getPageSize()+" OFFSET "+(openPage.getFirst() - 1));
-            List<UserOrder> list=getJdbcTemplate().query(sql.toString(), new UserOrderMapper());
+            List<UserOrder> list=getJdbcTemplate().query(sql.toString() ,params.toArray(), new UserOrderMapper());
             for (UserOrder uo : list) {
                 String userId=uo.getUserId();
                 uo.setUserInfo(userInfoDao.getById(userId));

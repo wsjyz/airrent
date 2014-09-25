@@ -64,6 +64,7 @@ public interface UserService {
 	String resetPassword(String mobile, String newPassword)
 			throws RemoteInvokeException;
 
+    String resetPasswordById(String userId, String newPassword);
 	/**
 	 * 修改个人信息
 	 * 

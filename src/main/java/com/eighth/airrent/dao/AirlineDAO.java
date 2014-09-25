@@ -33,4 +33,8 @@ public interface AirlineDAO {
 
     String saveAirline(Airline airline);
 	List<Plane> findAllPlaneByAirlineId(String airlineId);
+
+    Airline finAirline(String loginName, String password);
+
+    String resetPassword(String airlineId, String newPassword);
 }

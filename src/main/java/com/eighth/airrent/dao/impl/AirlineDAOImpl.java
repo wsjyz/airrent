@@ -7,6 +7,7 @@ import java.util.List;
 
 import com.eighth.airrent.domain.Airport;
 
+import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.RowMapper;
@@ -175,7 +176,8 @@ public class AirlineDAOImpl extends BaseDAO implements AirlineDAO {
 	public String addAirline(Airline airline) {
 		StringBuffer sql = new StringBuffer();
 		String corpId = CommonUtils.genUUID();
-		getPoint(airline);
+        airline.setPassword(DigestUtils.md5Hex(airline.getPassword()));
+        getPoint(airline);
 		sql.append("INSERT into t_airrent_airline(airline_id,airline_name,airline_image,login_name,password,status,address,weixin,phone,airport_id,lat,lng) values('"
 				+ corpId
 				+ "','"
@@ -211,7 +213,8 @@ public class AirlineDAOImpl extends BaseDAO implements AirlineDAO {
 	@Override
 	public String updateAirline(Airline airline) {
 		StringBuffer sql=new StringBuffer();
-		sql.append("update t_airrent_airline set ");
+        airline.setPassword(DigestUtils.md5Hex(airline.getPassword()));
+        sql.append("update t_airrent_airline set ");
 		if(StringUtils.isNotEmpty(airline.getAirlineName())){
 			sql.append(" airline_name='"+airline.getAirlineName()+"',");
 		}
@@ -300,6 +303,7 @@ public class AirlineDAOImpl extends BaseDAO implements AirlineDAO {
     public String saveAirline(Airline airline) {
         StringBuffer sql = new StringBuffer();
         String[] params = new String[12];
+        airline.setPassword(DigestUtils.md5Hex(airline.getPassword()));
         getPoint(airline);
         if(StringUtils.isBlank(airline.getAirlineId())){
             String corpId = CommonUtils.genUUID();
@@ -351,4 +355,36 @@ public class AirlineDAOImpl extends BaseDAO implements AirlineDAO {
 				new PlaneMapper());
 		return list;
 	}
+
+    @Override
+    public Airline finAirline(String loginName, String password) {
+        StringBuffer sql = new StringBuffer();
+        password = DigestUtils.md5Hex(password);
+        sql.append("select * from t_airrent_airline where 1=1 ");
+        if(StringUtils.isNotEmpty(loginName)){
+            sql.append(" and  login_name='"+ loginName + "'");
+        }
+        if(StringUtils.isNotEmpty(password)){
+            sql.append("and password = '"+ password + "'");
+        }
+        List<Airline> list = getJdbcTemplate().query(sql.toString(),
+                new AirlineMapper());
+        if(!CollectionUtils.isEmpty(list)) {
+            return list.get(0);
+        }
+        return null;
+    }
+
+    @Override
+    public String resetPassword(String airlineId, String newPassword) {
+        StringBuffer sql=new StringBuffer();
+        newPassword = DigestUtils.md5Hex(newPassword);
+        sql.append("update t_airrent_airline set password='"+newPassword+"' where airline_id='"+airlineId+"'");
+        int count=getJdbcTemplate().update(sql.toString());
+        String status="FAIL";
+        if (count>0) {
+            status="SUCCESS";
+        }
+        return status;
+    }
 }

@@ -70,5 +70,8 @@ public interface AirlineService {
 
     String saveAirline(Airline airline);
 
-	
+
+    Airline loginAirline(String loginName, String password);
+
+    String resetPassword(String airlineId, String newPassword);
 }

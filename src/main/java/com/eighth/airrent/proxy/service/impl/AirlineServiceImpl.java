@@ -57,7 +57,17 @@ public class AirlineServiceImpl implements AirlineService {
         return null;
     }
 
-	@Override
+    @Override
+    public Airline loginAirline(String loginName, String password) {
+        return null;
+    }
+
+    @Override
+    public String resetPassword(String airlineId, String newPassword) {
+        return null;
+    }
+
+    @Override
 	public List<Plane> findAllPlaneByAirlineId(String airlineId) {
 		// TODO Auto-generated method stub
 		return null;
