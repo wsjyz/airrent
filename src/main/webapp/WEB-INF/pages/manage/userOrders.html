@@ -3,15 +3,9 @@
     <div class="row">
         <form id="search" class="form-inline" role="form">
             <div class="form-group">
-                <label for="orderLetter">订单编号字母：</label>
-                <input type="text" class="form-control" id="orderLetter" name="orderLetter">
-            </div>
-            <div class="form-group">
-                <label for="orderNumber">订单编号数字：</label>
+                <label for="orderNumber">订单编号：</label>
                 <input type="text" class="form-control" id="orderNumber" name="orderNumber">
             </div>
-            <br/>
-            <div style="height:15px;"></div>
             <div class="form-group">
                 <label for="loginName">用户名：</label>
                 <input type="text" class="form-control" id="loginName" name="loginName">
@@ -20,15 +14,15 @@
                 <label for="planeName">飞机名称：</label>
                 <input type="text" class="form-control" id="planeName" name="planeName">
             </div>
-            <button id="findUser" class="btn btn-primary">查找</button>
-            <button id="resetForm" class="btn btn-warning">重置</button>
+                <button id="findUser" class="btn btn-primary">查找</button>
+                <button id="resetForm" class="btn btn-warning">重置</button>
         </form>
-        <div class="col-md-10" style="margin-top:20px;">
-            <div id="tds">
+    </div>
+    <div class="col-md-10" style="margin-top:20px;">
+        <div id="tds">
 
-            </div>
-            <div class="col-md-10 pagination pull-right"><ul id="pagination" class="pagination-sm pull-right"></ul></div>
         </div>
+        <div class="col-md-10 pagination pull-right"><ul id="pagination" class="pagination-sm pull-right"></ul></div>
     </div>
 </div>
 <script>
@@ -43,7 +37,6 @@
         })
 
         $('#resetForm').click(function(){
-            $('#orderLetter').val('');
             $('#orderNumber').val('');
             $('#loginName').val('');
             $('#planeName').val('');

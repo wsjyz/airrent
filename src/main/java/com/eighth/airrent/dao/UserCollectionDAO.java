@@ -31,4 +31,7 @@ public interface UserCollectionDAO {
 
 	boolean deleteUserCollection(String userId, String objId,
 			String collectionType);
+
+
+    int getUserCollectionCount(String objId,String collectionType);
 }

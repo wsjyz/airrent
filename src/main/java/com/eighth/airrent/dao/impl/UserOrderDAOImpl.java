@@ -10,10 +10,12 @@ import java.util.List;
 import java.util.Map;
 
 import com.eighth.airrent.dao.UserDAO;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
+import org.springframework.util.CollectionUtils;
 
 import com.alipay.config.AlipayConfig;
 import com.alipay.util.AlipaySubmit;
@@ -46,7 +48,7 @@ public class UserOrderDAOImpl extends BaseDAO implements UserOrderDAO{
 		if(count>0){
 			openPage.setTotal(count);
 			sql=new StringBuffer();
-			sql.append("select * from t_airrent_user_order where user_id='"+userId+"' limit "+openPage.getPageSize()+" OFFSET "+(openPage.getFirst() - 1)+"");
+			sql.append("select * from t_airrent_user_order where user_id='"+userId+"' order by opt_time desc limit "+openPage.getPageSize()+" OFFSET "+(openPage.getFirst() - 1)+"");
 			List<UserOrder> list=getJdbcTemplate().query(sql.toString(), new UserOrderMapper());
 			openPage.setRows(list);
 		}else{
@@ -69,7 +71,7 @@ public class UserOrderDAOImpl extends BaseDAO implements UserOrderDAO{
 			    userOrder.setEndDate(rs.getString("end_date"));//结束时间
 			    userOrder.setStayHour(rs.getBigDecimal("stay_hour"));//停留时间
 			    userOrder.setFlyHour(rs.getBigDecimal("fly_hour"));//飞行时间
-			    userOrder.setStarting(rs.getString("starting"));//出发地
+			    userOrder.setStarting(rs.getString("start_ing"));//出发地
 			    userOrder.setDestination(rs.getString("destination"));//目的地
 			    userOrder.setUserCounts(rs.getInt("user_counts"));//人数
 			    userOrder.setOptTime(rs.getString("opt_time"));//产生时间
@@ -200,15 +202,18 @@ public class UserOrderDAOImpl extends BaseDAO implements UserOrderDAO{
 	public UserOrder addUserOrder(UserOrder order) {
 		StringBuffer sql=new StringBuffer();
 		String orderId=CommonUtils.genUUID();
-		sql.append("INSERT into t_airrent_user_order(order_id,user_id,airport_id,order_use,start_time,end_time,"
-				+ "starting,destination,user_counts,opt_time,down_payment,order_counts,order_status,description,fly_hour,stay_hour) values('"
+		sql.append("INSERT into t_airrent_user_order(order_id,user_id,airport_id,order_use,start_date,end_date,"
+				+ "start_ing,destination,user_counts,opt_time,down_payment,order_counts,order_status,description,fly_hour,stay_hour,order_letter,order_number,plane_id) values('"
 				+orderId+ "','"+ order.getUserId()
 				+ "','" + order.getAirportId()+ "','" + order.getOrderUse()+ "','" 
 				+ order.getStartDate()+ "','" + order.getEndDate()
 				+ "','" + order.getStarting()+ "','" + order.getDestination()
 				+ "','" + order.getUserCounts()+ "','" + order.getOptTime()
 				+ "','" + order.getDownPayment()+ "','" + order.getOrderCounts()
-				+ "','" + order.getOrderStatus()+ "','" + order.getDescription()+ "','" + order.getFlyHour()+ "','" + order.getStayHour()+ "')");
+				+ "','" + order.getOrderStatus()+ "','" + order.getDescription()+ "','" 
+				+ order.getFlyHour()+ "','" + order.getStayHour()+ "','" 
+				+ order.getOrderLetter()+ "','" + UtilDate.getOrderNum()+ "','"
+				+ order.getPlaneId()+ "')");
 		int update = getJdbcTemplate().update(sql.toString());
 		if (update>0) {
 			StringBuffer sql1=new StringBuffer();
@@ -227,28 +232,32 @@ public class UserOrderDAOImpl extends BaseDAO implements UserOrderDAO{
         wheresql.append("from t_airrent_user_order uo inner join t_airrent_plane ap on uo.plane_id=ap.plane_id ");
         wheresql.append(" inner join t_airrent_user_info ui on uo.user_id=ui.user_id where 1=1 ");
         if (StringUtils.isNotBlank(userOrder.getOrderLetter())) {
-            wheresql.append("and uo.order_letter = ? ");
+            wheresql.append(" and uo.order_letter = ? ");
             params.add(userOrder.getOrderLetter());
         }
         if (StringUtils.isNotBlank(userOrder.getOrderNumber())) {
-            wheresql.append("and uo.order_number = ? ");
+            wheresql.append(" and uo.order_number = ? ");
             params.add(userOrder.getOrderNumber());
         }
         if(StringUtils.isNotBlank(userOrder.getLoginName())){
-            wheresql.append("and ui.login_name = ? ");
+            wheresql.append(" and ui.login_name = ? ");
             params.add(userOrder.getLoginName());
         }
         if(StringUtils.isNotBlank(userOrder.getPlaneName())){
-            wheresql.append("and ap.plane_name = ? ");
+            wheresql.append(" and ap.plane_name = ? ");
             params.add(userOrder.getPlaneName());
         }
+        if(StringUtils.isNotBlank(userOrder.getAirportId())){
+            wheresql.append(" and uo.airport_id = ? ");
+            params.add(userOrder.getAirportId());
+        }
         sql.append("select count(*) ").append(wheresql);
-        int count = getJdbcTemplate().queryForInt(sql.toString());
+        int count = getJdbcTemplate().queryForInt(sql.toString(),params.toArray());
         if(count>0){
             openPage.setTotal(count);
             sql=new StringBuffer();
             sql.append("select * ").append(wheresql).append(" limit "+openPage.getPageSize()+" OFFSET "+(openPage.getFirst() - 1));
-            List<UserOrder> list=getJdbcTemplate().query(sql.toString(), new UserOrderMapper());
+            List<UserOrder> list=getJdbcTemplate().query(sql.toString() ,params.toArray(), new UserOrderMapper());
             for (UserOrder uo : list) {
                 String userId=uo.getUserId();
                 uo.setUserInfo(userInfoDao.getById(userId));
@@ -262,6 +271,27 @@ public class UserOrderDAOImpl extends BaseDAO implements UserOrderDAO{
         return openPage;
 
     }
+
+    @Override
+	public void updateOrderByOrderNo(String orderNo, String orderStatus) {
+		   StringBuilder sql = new StringBuilder("update t_airrent_user_order set ");
+	        sql.append(" order_status='"+orderStatus+"'");
+	        sql.append(" where order_number='"+orderNo+"'");
+	        getJdbcTemplate().update(sql.toString());
+		
+	}
+
+	@Override
+	public UserOrder findOrderByOrderNo(String orderNo) {
+		   StringBuilder sql = new StringBuilder("select * from   t_airrent_user_order  ");
+	        sql.append(" where  order_number='"+orderNo+"'");
+	        List<UserOrder> orderList = getJdbcTemplate().query(sql.toString(),new UserOrderMapper());
+	        if(CollectionUtils.isEmpty(orderList)){
+	        	return null;
+	        }
+	        return orderList.get(0);
+	}
+
 
 
 }

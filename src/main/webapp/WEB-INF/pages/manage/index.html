@@ -38,13 +38,20 @@
     <div class="row">
         <div class="col-sm-3 col-md-2 sidebar">
             <ul class="nav nav-sidebar">
-                <li class="active"><a href="javascript:void(0);" id="airports">机场管理</a></li>
-                <li><a href="javascript:void(0);" id="airlines">机构管理</a></li>
-                <li><a href="javascript:void(0);" id="users" >会员管理</a></li>
-                <li><a href="javascript:void(0);" id="userOrders">订单管理</a></li>
-                <li><a href="javascript:void(0);" id="setting">数据设置</a></li>
-                <li><a href="javascript:void(0);" id="changePass">修改密码</a></li>
-                <li><a href="javascript:void(0);" id="exit">退出</a></li>
+                <#if role=="ADMIN">
+                    <li class="active"><a href="javascript:void(0);" id="airports">机场管理</a></li>
+                    <li><a href="javascript:void(0);" id="airlines">机构管理</a></li>
+                    <li><a href="javascript:void(0);" id="users" >会员管理</a></li>
+                    <li><a href="javascript:void(0);" id="userOrders">订单管理</a></li>
+                    <li><a href="javascript:void(0);" id="setting">数据设置</a></li>
+                    <li><a href="javascript:void(0);" id="changePass">修改密码</a></li>
+                    <li><a href="javascript:void(0);" id="exit">退出</a></li>
+                <#else>
+                    <li class="active"><a href="javascript:void(0);" id="planes">飞机管理</a></li>
+                    <li><a href="javascript:void(0);" id="userOrders">订单管理</a></li>
+                    <li><a href="javascript:void(0);" id="changePass">修改密码</a></li>
+                    <li><a href="javascript:void(0);" id="exit">退出</a></li>
+                </#if>
             </ul>
         </div>
         <div id="content" class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
@@ -71,7 +78,7 @@
             $(this).parent('li').addClass('active');
             $('#content').load('${ctx}/manage/airports');
         })
-        $('#airlines,#users,#userOrders,#setting,#changePass').click(function(){
+        $('#airlines,#users,#userOrders,#setting,#changePass,#planes').click(function(){
             $('.active').removeClass('active');
             $(this).parent('li').addClass('active');
             var id = $(this).attr('id');
@@ -79,10 +86,14 @@
         })
 
         $('#exit').click(function(){
-            location.href='${ctx}/manage/login';
+            location.href='${ctx}/manage/exit';
         });
 
+        <#if role=="ADMIN">
         $('#airports').trigger('click');
+        <#else>
+        $('#planes').trigger('click');
+        </#if>
     })
 </script>
 </html>

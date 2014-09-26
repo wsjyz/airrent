@@ -45,12 +45,14 @@ public interface UserDAO {
 
     /**
      * 重置密码
-     * @param mobile
+     * @param userId
      * @param newPassword 明文
      * @return SUCCESS密码重置成功，FAIL重置失败
      * @
      */
-    String resetPassword(String mobile,String newPassword);
+    String resetPassword(String userId,String newPassword);
+
+    String resetPasswordById(String userId, String newPassword);
 
     /**
      * 修改个人信息

@@ -3,6 +3,7 @@ package com.eighth.airrent.controller;
 import com.eighth.airrent.domain.*;
 import com.eighth.airrent.proxy.exception.RemoteInvokeException;
 import com.eighth.airrent.proxy.service.*;
+import com.eighth.airrent.util.AirrentUtils;
 import com.eighth.airrent.util.CommonUtils;
 import com.eighth.airrent.util.JsonResult;
 import org.apache.commons.lang3.StringUtils;
@@ -15,6 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.View;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -51,18 +53,35 @@ public class ManageController {
     @RequestMapping("/toLogin")
     public
     @ResponseBody
-    JsonResult toLogin(@ModelAttribute UserInfo user) {
+    JsonResult toLogin(@ModelAttribute UserInfo user,HttpSession session) {
         JsonResult jsonResult = new JsonResult();
         ModelAndView mv = new ModelAndView();
-        user.setType("ADMIN");
-        user = userService.findUser(user);
-        jsonResult.setSuccess(user != null);
+        if (user.getLoginName().equals("admin")) {
+            user.setType("ADMIN");
+            user = userService.findUser(user);
+            jsonResult.setSuccess(user != null);
+            if (user != null) {
+                session.setAttribute(AirrentUtils.SEESION_ROLE, "ADMIN");
+                session.setAttribute(AirrentUtils.SEESION_ROLE_ID,user.getUserId());
+            }
+        }else{
+            Airline airLine=airlineService.loginAirline(user.getLoginName(),user.getPassword());
+            jsonResult.setSuccess(airLine != null);
+            if (airLine != null) {
+                session.setAttribute(AirrentUtils.SEESION_ROLE, "GUEST");
+                session.setAttribute(AirrentUtils.SEESION_ROLE_ID,airLine.getAirlineId());
+            }
+        }
         return jsonResult;
     }
 
     @RequestMapping("/index")
-    public ModelAndView manageIndex() {
+    public ModelAndView manageIndex(HttpSession session) {
         ModelAndView mv = new ModelAndView();
+        Object role=session.getAttribute(AirrentUtils.SEESION_ROLE);
+        if (role!=null) {
+            mv.addObject("role", role);
+        }
         return render(mv, "index");
     }
 
@@ -203,6 +222,24 @@ public class ManageController {
         ModelAndView mv = new ModelAndView();
         mv.addObject("airlineId", airlineId);
         mv.addObject("airlineName", airlineService.findAirlineById(airlineId).getAirlineName());
+        return render(mv, "planes");
+    }
+    /**
+     * 合作机构首页 :飞机列表
+     *
+     * @param session
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping("/menu/planes")
+    public ModelAndView planes(HttpSession session) throws Exception{
+        ModelAndView mv = new ModelAndView();
+        Object sessionAirlineId = session.getAttribute(AirrentUtils.SEESION_ROLE_ID);
+        if (sessionAirlineId != null) {
+            String airlineId=sessionAirlineId.toString();
+            mv.addObject("airlineId", airlineId);
+            mv.addObject("airlineName", airlineService.findAirlineById(airlineId).getAirlineName());
+        }
         return render(mv, "planes");
     }
 
@@ -381,8 +418,16 @@ public class ManageController {
     }
 
     @RequestMapping("/userOrder/list")
-    public ModelAndView userOrderList(@ModelAttribute OpenPage page,@ModelAttribute UserOrder userOrder) {
+    public ModelAndView userOrderList(@ModelAttribute OpenPage page,
+                                      @ModelAttribute UserOrder userOrder,
+                                      HttpSession session) throws RemoteInvokeException {
         ModelAndView mv = new ModelAndView();
+        Object sessionAirlineId = session.getAttribute(AirrentUtils.SEESION_ROLE_ID);
+        if (sessionAirlineId != null) {
+            String airlineId=sessionAirlineId.toString();
+            Airline airline = airlineService.findAirlineById(airlineId);
+            userOrder.setAirportId(airline.getAirportId());
+        }
         page = userOrderService.findUserOrders(page, userOrder);
         mv.addObject("page", page);
         return render(mv, "userOrderList");
@@ -411,14 +456,43 @@ public class ManageController {
         return jsonResult;
     }
 
-    @RequestMapping
-    public JsonResult changePass(@RequestParam String userId,
-                                 @RequestParam String originalPass,
-                                 @RequestParam String changePass) throws Exception {
+    @RequestMapping("resetPass")
+    public @ResponseBody JsonResult resetPass(@RequestParam String originalPass,
+                                 @RequestParam String changePass,
+                                 HttpSession session) throws Exception {
         JsonResult jsonResult = new JsonResult();
-        String result = userService.resetPassword("", changePass);
+        Object role=session.getAttribute(AirrentUtils.SEESION_ROLE);
+        Object id=session.getAttribute(AirrentUtils.SEESION_ROLE_ID);
+        String result = "";
+        if (role!=null) {
+            if (role.equals("ADMIN")) {
+                UserInfo userInfo = userService.getById(id.toString());
+                if (userInfo.getPassword().equals(originalPass)) {
+                    jsonResult.setSuccess(false);
+                    jsonResult.setMessage("原密码不正确");
+                    return jsonResult;
+                }
+                result = userService.resetPasswordById(id.toString(), changePass);
+            }else {
+                Airline airline = airlineService.findAirlineById(id.toString());
+                if (airline.getPassword().equals(originalPass)) {
+                    jsonResult.setSuccess(false);
+                    jsonResult.setMessage("原密码不正确");
+                    return jsonResult;
+                }
+                result = airlineService.resetPassword(id.toString(), changePass);
+            }
+        }
         jsonResult.setSuccess(StringUtils.equals("SUCCESS", result));
         return jsonResult;
+    }
+
+    @RequestMapping("exit")
+    public ModelAndView exit(HttpSession session){
+        ModelAndView mv = new ModelAndView();
+        session.removeAttribute(AirrentUtils.SEESION_ROLE);
+        session.removeAttribute(AirrentUtils.SEESION_ROLE_ID);
+        return render(mv, "login");
     }
 
     private String saveFile(MultipartFile file,HttpServletRequest httpServletRequest) {

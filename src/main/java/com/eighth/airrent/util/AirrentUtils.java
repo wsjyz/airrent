@@ -28,4 +28,6 @@ public class AirrentUtils {
 	
 	public static final String LOGIN_SUCCESS = "LOGIN_SUCCESS";
 
+    public static final String SEESION_ROLE = "ROLE_CODE";
+    public static final String SEESION_ROLE_ID = "ROLE_ID";
 }

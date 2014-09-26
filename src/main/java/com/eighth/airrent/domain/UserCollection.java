@@ -12,6 +12,10 @@ public class UserCollection extends BaseDomain {
 	private String planeName;
 	private String airlineName;
 
+    private Integer planCount;
+    private String planePicUrl;
+    private String airlinePicUrl;
+
 	public String getAirlineId() {
 		return airlineId;
 	}
@@ -51,4 +55,28 @@ public class UserCollection extends BaseDomain {
 	public void setPlaneId(String planeId) {
 		this.planeId = planeId;
 	}
+
+    public Integer getPlanCount() {
+        return planCount;
+    }
+
+    public void setPlanCount(Integer planCount) {
+        this.planCount = planCount;
+    }
+
+    public String getPlanePicUrl() {
+        return planePicUrl;
+    }
+
+    public void setPlanePicUrl(String planePicUrl) {
+        this.planePicUrl = planePicUrl;
+    }
+
+    public String getAirlinePicUrl() {
+        return airlinePicUrl;
+    }
+
+    public void setAirlinePicUrl(String airlinePicUrl) {
+        this.airlinePicUrl = airlinePicUrl;
+    }
 }

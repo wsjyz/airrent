@@ -45,7 +45,12 @@ public class UserServiceImpl implements UserService {
 		return userDAO.resetPassword(mobile, newPassword);
 	}
 
-	@Override
+    @Override
+    public String resetPasswordById(String userId, String newPassword) {
+        return userDAO.resetPasswordById(userId,newPassword);
+    }
+
+    @Override
 	public UserInfo modifyUserInfo(UserInfo userInfo)
 			throws RemoteInvokeException {
 		return userDAO.modifyUserInfo(userInfo);

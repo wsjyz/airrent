@@ -61,10 +61,17 @@ public class AirlineServiceImpl implements AirlineService{
     public String saveAirline(Airline airline) {
         return airlineDAO.saveAirline(airline);
     }
-	@Override
-	public List<Plane> findPlaneByAirlineId(String airlineId) {
-		return airlineDAO.findPlaneByAirlineId(airlineId);
 
+    @Override
+    public Airline loginAirline(String loginName, String password) {
+        return airlineDAO.finAirline(loginName,password);
+    }
+
+    @Override
+	public List<Plane> findAllPlaneByAirlineId(String airlineId) {
+		return airlineDAO.findAllPlaneByAirlineId(airlineId);
 	}
 
+    @Override
+    public String resetPassword(String airlineId,String newPassword){return airlineDAO.resetPassword(airlineId,newPassword);}
 }

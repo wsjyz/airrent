@@ -9,6 +9,7 @@ import java.util.Calendar;
 import java.util.List;
 
 import com.eighth.airrent.domain.OpenPage;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -34,6 +35,7 @@ public class UserDAOImpl  extends BaseDAO implements UserDAO {
 		if (StringUtils.isEmpty(loginName) || StringUtils.isEmpty(password)) {
 			userInfo.setHint(AirrentUtils.LOGIN_INFO_NULL);
 		}
+        password= DigestUtils.md5Hex(password);
 		StringBuffer sql=new StringBuffer();
 		sql.append("select * from t_airrent_user_info where login_name='"+loginName+"' and password='"+password+"'");
 		List<UserInfo> list=getJdbcTemplate().query(sql.toString(), new UserInfoMapper());
@@ -83,7 +85,8 @@ public class UserDAOImpl  extends BaseDAO implements UserDAO {
 			userInfo.setHint(AirrentUtils.REGIST_EXISTS);
 		}else{
 			String userId=CommonUtils.genUUID();
-			sql.append("INSERT into t_airrent_user_info(user_id,login_name,password,mobile,user_name,identity_card,sex,age,address,work_org,zhifubao,registToken,login_tip) values('"
+            userInfo.setPassword(DigestUtils.md5Hex(userInfo.getPassword()));
+            sql.append("INSERT into t_airrent_user_info(user_id,login_name,password,mobile,user_name,identity_card,sex,age,address,work_org,zhifubao,registToken,login_tip) values('"
 					+userId+ "','"+ userInfo.getLoginName()
 					+ "','" + userInfo.getPassword()+ "','" + userInfo.getMobile()+ "','" 
 					+ userInfo.getUserName()+ "','" + userInfo.getIdentityCard()
@@ -161,7 +164,21 @@ public class UserDAOImpl  extends BaseDAO implements UserDAO {
 	@Override
 	public String resetPassword(String mobile, String newPassword) {
 		StringBuffer sql=new StringBuffer();
-		sql.append("update t_airrent_user_info set password='"+newPassword+"' where mobile='"+mobile+"'");
+        newPassword = DigestUtils.md5Hex(newPassword);
+        sql.append("update t_airrent_user_info set password='"+newPassword+"' where mobile='"+mobile+"'");
+		int count=getJdbcTemplate().update(sql.toString());
+		String status="FAIL";
+		if (count>0) {
+			status="SUCCESS";
+		}
+		return status;
+	}
+
+	@Override
+	public String resetPasswordById(String userId, String newPassword) {
+		StringBuffer sql=new StringBuffer();
+        newPassword = DigestUtils.md5Hex(newPassword);
+        sql.append("update t_airrent_user_info set password='"+newPassword+"' where user_id='"+userId+"'");
 		int count=getJdbcTemplate().update(sql.toString());
 		String status="FAIL";
 		if (count>0) {
@@ -173,7 +190,8 @@ public class UserDAOImpl  extends BaseDAO implements UserDAO {
 	@Override
 	public UserInfo modifyUserInfo(UserInfo userInfo) {
 		StringBuffer sql=new StringBuffer();
-		sql.append("update t_airrent_user_info set ");
+        userInfo.setPassword(DigestUtils.md5Hex(userInfo.getPassword()));
+        sql.append("update t_airrent_user_info set ");
 		  if(!StringUtils.isEmpty(userInfo.getLoginName())){
 	            sql.append("login_name='"+userInfo.getLoginName()+"',");
 	        }
@@ -245,6 +263,7 @@ public class UserDAOImpl  extends BaseDAO implements UserDAO {
     @Override
     public UserInfo find(UserInfo userInfo) {
         StringBuffer sql=new StringBuffer();
+        userInfo.setPassword(DigestUtils.md5Hex(userInfo.getPassword()));
         List<String> params = new ArrayList<String>();
         sql.append("select * from t_airrent_user_info where 1=1 ")
                 .append("and login_name=? ")

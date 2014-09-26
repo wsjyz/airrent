@@ -39,7 +39,7 @@ ul,ol{
 
 .new-btn-login{
     background-color: transparent;
-    background-image: url("images/new-btn-fixed.png");
+    background-image: url("<%=request.getContextPath()%>/images/new-btn-fixed.png");
     border: medium none;
 }
 .new-btn-login{
@@ -78,7 +78,7 @@ ul,ol{
 }
 #logo{
 	background-color: transparent;
-    background-image: url("${request.contextPath}/images/new-btn-fixed.png");
+    background-image: url("<%=request.getContextPath()%>/images/new-btn-fixed.png");
     border: medium none;
 	background-position:0 0;
 	width:166px;
@@ -168,31 +168,31 @@ ul,ol{
 				<li class="last">3、确认完成</li>
             </ol>
         </div>
-        <form name=alipayment action="${request.contextPath}/UserOrderService/toAlipayapi" method=post target="_blank">
+        <form name=alipayment action="<%=request.getContextPath()%>/UserOrderService/toAlipayapi" method=post target="_blank">
             <div id="body" style="clear:left">
                 <dl class="content">
                     <dt>卖家支付宝帐户：</dt>
 					<dd>
 						<span class="null-star">*</span>
-						<input size="30" name="WIDseller_email" />
+						<input size="30" name="WIDseller_email" readonly="readonly" value="<%=request.getAttribute("WIDseller_email")%>"/>
 						<span></span>
 					</dd>
 					<dt>商户订单号：</dt>
 					<dd>
 						<span class="null-star">*</span>
-						<input size="30" name="WIDout_trade_no" />
+						<input size="30" name="WIDout_trade_no" readonly="readonly"value="<%=request.getAttribute("WIDout_trade_no")%>" />
 						<span></span>
 					</dd>
 					<dt>订单名称：</dt>
 					<dd>
 						<span class="null-star">*</span>
-						<input size="30" name="WIDsubject" />
+						<input size="30" name="WIDsubject" readonly="readonly" value="<%=request.getAttribute("WIDsubject")%>" />
 						<span></span>
 					</dd>
                     <dt>付款金额：</dt>
                     <dd>
                         <span class="null-star">*</span>
-                        <input size="30" name="WIDtotal_fee" />
+                        <input size="30" name="WIDtotal_fee" readonly="readonly"  value="<%=request.getAttribute("WIDtotal_fee")%>"/>
                         <span></span>
                     </dd>
                     <dt></dt>

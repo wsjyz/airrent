@@ -59,9 +59,8 @@ public class AirlineController {
 	
 	@RequestMapping(value = "/findAllPlaneByAirlineId")
 	@ResponseBody
-	public List<Plane> findPlaneByAirlineId(@RequestParam String airlineId) throws RemoteInvokeException {
-		
-		return airlineService.findPlaneByAirlineId(airlineId);
+	public List<Plane> findAllPlaneByAirlineId(@RequestParam String airlineId) throws RemoteInvokeException {
+		return airlineService.findAllPlaneByAirlineId(airlineId);
 	}
 	
 	/**

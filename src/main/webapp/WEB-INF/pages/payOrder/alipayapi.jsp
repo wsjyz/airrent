@@ -33,7 +33,8 @@
 		String ALIPAY_GATEWAY_NEW = "http://wappaygw.alipay.com/service/rest.htm?";
 
 		////////////////////////////////////调用授权接口alipay.wap.trade.create.direct获取授权码token//////////////////////////////////////
-		
+		StringBuffer requestURL = request.getRequestURL();
+        String requestURLPrefix = requestURL.substring(0,requestURL.indexOf("ar")+3);
 		//返回格式
 		String format = "xml";
 		//必填，不需要修改
@@ -48,22 +49,9 @@
 		
 		//req_data详细信息
 		
-		//服务器异步通知页面路径
-		String notify_url = "${request.contextPath}/UserOrderService/toNotify";
-		//需http://格式的完整路径，不能加?id=123这类自定义参数
-
-		//页面跳转同步通知页面路径
-		String call_back_url = "${request.contextPath}/UserOrderService/tocallbackurl";
-		//需http://格式的完整路径，不能加?id=123这类自定义参数，不能写成http://localhost/
-
-		//操作中断返回地址
-		String merchant_url = "http://127.0.0.1:8080/WS_WAP_PAYWAP-JAVA-UTF-8/xxxxxx.jsp";
-		//用户付款中途退出返回商户的地址。需http://格式的完整路径，不允许加?id=123这类自定义参数
-
 		//卖家支付宝帐户
 		String seller_email = new String(request.getParameter("WIDseller_email").getBytes("ISO-8859-1"),"UTF-8");
 		//必填
-
 		//商户订单号
 		String out_trade_no = new String(request.getParameter("WIDout_trade_no").getBytes("ISO-8859-1"),"UTF-8");
 		//商户网站订单系统中唯一订单号，必填
@@ -74,6 +62,18 @@
 
 		//付款金额
 		String total_fee = new String(request.getParameter("WIDtotal_fee").getBytes("ISO-8859-1"),"UTF-8");
+		//服务器异步通知页面路径
+		String notify_url = requestURLPrefix+"UserOrderService/toNotify";
+		//需http://格式的完整路径，不能加?id=123这类自定义参数
+
+		//页面跳转同步通知页面路径
+		String call_back_url =requestURLPrefix+"UserOrderService/tocallbackurl";
+		//需http://格式的完整路径，不能加?id=123这类自定义参数，不能写成http://localhost/
+
+		//操作中断返回地址
+		String merchant_url = "http://127.0.0.1:8080/WS_WAP_PAYWAP-JAVA-UTF-8/xxxxxx.jsp";
+		//用户付款中途退出返回商户的地址。需http://格式的完整路径，不允许加?id=123这类自定义参数
+
 		//必填
 		
 		//请求业务参数详细
@@ -94,13 +94,12 @@
 		sParaTempToken.put("req_data", req_dataToken);
 		
 		//建立请求
+		//String sHtmlTextToken =  AlipaySubmit.buildRequest(sParaTempToken, "post", "确认");
 		String sHtmlTextToken = AlipaySubmit.buildRequest(ALIPAY_GATEWAY_NEW,"", "",sParaTempToken);
-
 		//URLDECODE返回的信息
 		sHtmlTextToken = URLDecoder.decode(sHtmlTextToken,AlipayConfig.input_charset);
 		//获取token
 		String request_token = AlipaySubmit.getRequestToken(sHtmlTextToken);
-		//out.println(request_token);
 		
 		////////////////////////////////////根据授权码token调用交易接口alipay.wap.auth.authAndExecute//////////////////////////////////////
 		

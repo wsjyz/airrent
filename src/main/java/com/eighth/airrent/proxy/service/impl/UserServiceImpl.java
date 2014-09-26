@@ -36,6 +36,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public String resetPasswordById(String userId, String newPassword) {
+        return null;
+    }
+
+    @Override
     public UserInfo modifyUserInfo(UserInfo userInfo) throws RemoteInvokeException {
         return null;
     }

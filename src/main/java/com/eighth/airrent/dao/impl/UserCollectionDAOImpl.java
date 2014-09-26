@@ -90,11 +90,17 @@ public class UserCollectionDAOImpl extends BaseDAO implements UserCollectionDAO 
 	public boolean checkUserCollection(String userId, String objId,
 			String collectionType) {
 		StringBuffer sql = new StringBuffer();
-			sql.append("select * from t_airrent_user_collection where  user_id='" + userId + "' ");
+			sql.append("select * from t_airrent_user_collection auc");
+			if("PLANE".equals(collectionType)){
+				sql.append(" left join t_airrent_plane   ap on  auc.plane_id=ap.plane_id ");
+			}else{
+				sql.append(" left join t_airrent_airline   aa on  auc.airline_id=aa.airline_id ");
+			}
+			sql.append(" where  auc.user_id='" + userId + "'");
 		if("PLANE".equals(collectionType)){
-			sql.append(" and plane_id='"+objId+"'");
+			sql.append(" and auc.plane_id='"+objId+"'");
 		}else{
-			sql.append(" and airline_id='"+objId+"'");
+			sql.append(" and auc.airline_id='"+objId+"'");
 		}
 		List<UserCollection> list = new ArrayList<UserCollection>();
 		if ("PLANE".equals(collectionType)) {
@@ -137,4 +143,17 @@ public class UserCollectionDAOImpl extends BaseDAO implements UserCollectionDAO 
 		}
 		return false;
 	}
+
+    @Override
+    public int getUserCollectionCount(String objId,String collectionType) {
+        StringBuffer sql = new StringBuffer();
+        sql.append("select count(*)  from t_airrent_user_collection where  1=1 ");
+        if("PLANE".equals(collectionType)){
+            sql.append(" and plane_id='"+objId+"'");
+        }else{
+            sql.append(" and airline_id='"+objId+"'");
+        }
+        return  getJdbcTemplate().queryForInt(sql.toString());
+
+    }
 }
