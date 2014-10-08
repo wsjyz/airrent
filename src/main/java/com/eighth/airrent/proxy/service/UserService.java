@@ -39,8 +39,8 @@ public interface UserService {
 	 * @return
 	 * @throws RemoteInvokeException
 	 */
-    @RemoteMethod()
-	String obtainVerifyCode() throws RemoteInvokeException;
+    @RemoteMethod(methodVarNames={ "mobile"})
+	String obtainVerifyCode(String mobile) throws RemoteInvokeException;
 
     /**
      * 验证注册码是否正确

@@ -30,4 +30,29 @@ public class AirrentUtils {
 
     public static final String SEESION_ROLE = "ROLE_CODE";
     public static final String SEESION_ROLE_ID = "ROLE_ID";
+    /**
+     * 普通卡
+     */
+    public static final String GENERAL_CARD="GENERAL_CARD";
+    /**
+     * 贵宾卡
+     */
+    public static final String DISTINGUISHED_CARD="DISTINGUISHED_CARD";
+    /**
+     * 银卡
+     */
+    public static final String SILVER_CARD="SILVER_CARD";
+    /**
+     * 金卡
+     */
+    public static final String GOLD_CARD="GOLD_CARD";
+    /**
+     * 铂金卡
+     */
+    public static final String PLATINUM_CARD="PLATINUM_CARD";
+    /**
+     * 金钻卡
+     */
+    public static final String GOLDEN_DIAMOND_CARD="GOLDEN_DIAMOND_CARD";
+
 }

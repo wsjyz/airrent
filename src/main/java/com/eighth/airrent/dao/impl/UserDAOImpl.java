@@ -190,13 +190,13 @@ public class UserDAOImpl  extends BaseDAO implements UserDAO {
 	@Override
 	public UserInfo modifyUserInfo(UserInfo userInfo) {
 		StringBuffer sql=new StringBuffer();
-        userInfo.setPassword(DigestUtils.md5Hex(userInfo.getPassword()));
         sql.append("update t_airrent_user_info set ");
 		  if(!StringUtils.isEmpty(userInfo.getLoginName())){
 	            sql.append("login_name='"+userInfo.getLoginName()+"',");
 	        }
 
 		  if(!StringUtils.isEmpty(userInfo.getPassword())){
+			  userInfo.setPassword(DigestUtils.md5Hex(userInfo.getPassword()));
 	            sql.append("password='"+userInfo.getPassword()+"',");
 	        }
 

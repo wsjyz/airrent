@@ -1,19 +1,22 @@
 package com.eighth.airrent.controller;
 
-import com.eighth.airrent.domain.APKVersion;
+import com.alipay.util.UtilDate;
+import com.eighth.airrent.domain.OrderPayRel;
 import com.eighth.airrent.domain.UserInfo;
-import com.eighth.airrent.domain.VerifyCode;
+import com.eighth.airrent.domain.UserOrder;
 import com.eighth.airrent.proxy.exception.RemoteInvokeException;
 import com.eighth.airrent.proxy.service.ApkVersionService;
+import com.eighth.airrent.proxy.service.OrderPayRelService;
 import com.eighth.airrent.proxy.service.UserService;
+import com.eighth.airrent.util.AirrentUtils;
 import com.eighth.airrent.web.FastJson;
 
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 /**
  * Created by dam on 2014/6/30.
@@ -25,6 +28,8 @@ public class UserController {
 	UserService userService;
 	@Autowired
 	ApkVersionService apkVersionService;
+	@Autowired
+	OrderPayRelService orderPayRelService;
 	/**
 	 * 已测试
 	 * 
@@ -62,8 +67,8 @@ public class UserController {
 	 */
 	@RequestMapping(value = "/obtainVerifyCode")
 	@ResponseBody
-	public String obtainVerifyCode() throws RemoteInvokeException {
-		return userService.obtainVerifyCode();
+	public String obtainVerifyCode(@RequestParam String mobile) throws RemoteInvokeException {
+		return userService.obtainVerifyCode(mobile);
 	}
 
 	/**
@@ -114,6 +119,70 @@ public class UserController {
 	public UserInfo getById(@RequestParam String userId)
 			throws RemoteInvokeException {
 		return userService.getById(userId);
+	}
+	
+	
+	@RequestMapping("/paymentByUser")
+	public ModelAndView paymentByUser(@RequestParam String userId,@RequestParam String card) {
+		ModelAndView view = new ModelAndView();
+		String orderNo = UtilDate.getOrderNum();
+		try {
+			OrderPayRel OrderPayRel=new OrderPayRel();
+			OrderPayRel.setCard(card);
+			OrderPayRel.setUserId(userId);
+			OrderPayRel.setOrderNum(orderNo);
+			orderPayRelService.save(OrderPayRel);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		String money="0";
+		if(card.equals(AirrentUtils.GENERAL_CARD)){
+			money="2500";
+		}else if(card.equals(AirrentUtils.DISTINGUISHED_CARD)){
+			money="5000";
+		}else if(card.equals(AirrentUtils.SILVER_CARD)){
+			money="10000";
+		}else if(card.equals(AirrentUtils.GOLD_CARD)){
+			money="15000";
+		}else if(card.equals(AirrentUtils.PLATINUM_CARD)){
+			money="20000";
+		}else if(card.equals(AirrentUtils.GOLDEN_DIAMOND_CARD)){
+			money="30000";
+		}
+		view.addObject("WIDseller_email", "geassccvip@163.com");
+		view.addObject("WIDout_trade_no", orderNo);
+		view.addObject("WIDsubject", orderNo);
+		view.addObject("WIDtotal_fee",money );
+
+		view.setViewName("payCard/index");
+		return view;
+	}
+
+	@RequestMapping("/toAlipayapi")
+	public ModelAndView toAlipayapi(@RequestParam String WIDseller_email,
+			@RequestParam String WIDout_trade_no,
+			@RequestParam String WIDsubject, @RequestParam String WIDtotal_fee) {
+		ModelAndView view = new ModelAndView();
+		view.addObject("WIDseller_email", WIDseller_email);
+		view.addObject("WIDout_trade_no", WIDout_trade_no);
+		view.addObject("WIDsubject", WIDsubject);
+		view.addObject("WIDtotal_fee", WIDtotal_fee);
+		view.setViewName("payCard/alipayapi");
+		return view;
+	}
+
+	@RequestMapping("/toNotify")
+	public ModelAndView toNotify(@RequestParam String out_trade_no,@RequestParam String  result) {
+		ModelAndView view = new ModelAndView();
+		view.setViewName("payCard/notify_url");
+		return view;
+	}
+
+	@RequestMapping("/tocallbackurl")
+	public ModelAndView tocallbackurl(@RequestParam String out_trade_no,@RequestParam String  result) {
+		ModelAndView view = new ModelAndView();
+		view.setViewName("payCard/call_back_url");
+		return view;
 	}
 	
 }
