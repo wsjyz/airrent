@@ -26,7 +26,7 @@ import java.io.InputStreamReader;
 public class SmsSendServiceImpl implements SmsSendService {
 
     //短信API
-    public final static String SMS_URL="http://sh2.ipyy.com/sms.aspx?action=send&userid=8H&account=A142563&password=2014&mobile=";
+    public final static String SMS_URL="http://sh2.ipyy.com/sms.aspx?action=send&userid=8H&account=jkwl015&password=a142563&mobile=";
   
     @Override
     public boolean sendSms(String tel, String authCode) {
