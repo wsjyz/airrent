@@ -26,12 +26,12 @@ import java.io.InputStreamReader;
 public class SmsSendServiceImpl implements SmsSendService {
 
     //短信API
-    public final static String SMS_URL="http://sms.uuvio.com:8001/sms.aspx?action=send&userid=8H&account=A142563&password=2014&mobile=";
+    public final static String SMS_URL="http://sh2.ipyy.com/sms.aspx?action=send&userid=8H&account=A142563&password=2014&mobile=";
   
     @Override
     public boolean sendSms(String tel, String authCode) {
     	
-        String message="&content=["+authCode+"]恭喜您已成功注册为本站会员【环球之翼航空】";
+        String message="&content=飞机租赁：["+authCode+"]您正在申请注册为本站会员【打飞的】";
         String url=SMS_URL+tel+message;
         HttpPost sendUrl = new HttpPost(url);
         HttpClient http = new DefaultHttpClient();

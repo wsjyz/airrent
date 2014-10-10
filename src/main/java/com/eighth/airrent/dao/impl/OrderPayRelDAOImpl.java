@@ -24,7 +24,7 @@ import com.eighth.airrent.domain.OrderPayRel;
 import com.eighth.airrent.domain.Plane;
 import com.eighth.airrent.util.CommonUtils;
 
-@Repository(value = "AirlineDAO")
+@Repository(value = "OrderPayRelDAO")
 public class OrderPayRelDAOImpl extends BaseDAO implements OrderPayRelDAO {
 
 	@Override
