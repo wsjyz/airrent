@@ -1,3 +1,4 @@
+<%@page import="com.eighth.airrent.util.AirrentUtils"%>
 <%@page import="com.eighth.airrent.domain.UserInfo"%>
 <%@page import="com.eighth.airrent.proxy.service.UserService"%>
 <%@page import="com.eighth.airrent.domain.OrderPayRel"%>
@@ -72,6 +73,22 @@
 		UserService userService =(UserService) ctx.getBean("UserService");
 		UserInfo userInfo= new UserInfo();
 		userInfo.setUserId(orderPayRel.getUserId());
+		String level="";
+		String card=orderPayRel.getCard();
+		if(card.equals(AirrentUtils.GENERAL_CARD)){
+			level="普通卡";
+		}else if(card.equals(AirrentUtils.DISTINGUISHED_CARD)){
+			level="贵宾卡";
+		}else if(card.equals(AirrentUtils.SILVER_CARD)){
+			level="银卡";
+		}else if(card.equals(AirrentUtils.GOLD_CARD)){
+			level="金卡";
+		}else if(card.equals(AirrentUtils.PLATINUM_CARD)){
+			level="铂金卡";
+		}else if(card.equals(AirrentUtils.GOLDEN_DIAMOND_CARD)){
+			level="金钻卡";
+		}
+		userInfo.setLevel(level);
 		userService.modifyUserInfo(userInfo);
 		out.println("验证成功<br />");
 		//——请根据您的业务逻辑来编写程序（以上代码仅作参考）——
