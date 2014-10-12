@@ -36,7 +36,7 @@ public class UserDAOImpl  extends BaseDAO implements UserDAO {
 			userInfo.setHint(AirrentUtils.LOGIN_INFO_NULL);
 		}
         password= DigestUtils.md5Hex(password);
-		StringBuffer sql=new StringBuffer();
+    	StringBuffer sql=new StringBuffer();
 		sql.append("select * from t_airrent_user_info where login_name='"+loginName+"' and password='"+password+"'");
 		List<UserInfo> list=getJdbcTemplate().query(sql.toString(), new UserInfoMapper());
 		if (CollectionUtils.isEmpty(list)) {
@@ -44,6 +44,16 @@ public class UserDAOImpl  extends BaseDAO implements UserDAO {
 		}else{
 			userInfo= list.get(0);
 			userInfo.setHint(AirrentUtils.LOGIN_SUCCESS);
+		}
+		if(StringUtils.isEmpty(userInfo.getUserId())){
+			sql.append("select * from t_airrent_user_info where mobile='"+loginName+"' and password='"+password+"'");
+			list=getJdbcTemplate().query(sql.toString(), new UserInfoMapper());
+			if (CollectionUtils.isEmpty(list)) {
+				userInfo.setHint(AirrentUtils.NAME_PASSWORD_ERROR);
+			}else{
+				userInfo= list.get(0);
+				userInfo.setHint(AirrentUtils.LOGIN_SUCCESS);
+			}
 		}
 		return userInfo;
 
