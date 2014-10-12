@@ -131,7 +131,7 @@ public class ManageController {
     }
 
     @RequestMapping("/menu/{page}")
-    public ModelAndView menuItem(@PathVariable String page) {
+    public ModelAndView menuItem(@PathVariable String page) throws RemoteInvokeException {
         ModelAndView mv = new ModelAndView();
         if(page.equals("setting")) {
             Setting setting = settingService.loadSetting();
@@ -450,7 +450,7 @@ public class ManageController {
     @RequestMapping("/setting/save")
     public
     @ResponseBody
-    JsonResult saveSetting(@ModelAttribute Setting setting) {
+    JsonResult saveSetting(@ModelAttribute Setting setting) throws RemoteInvokeException {
         JsonResult jsonResult = new JsonResult();
         String result=settingService.saveSetting(setting);
         jsonResult.setSuccess(StringUtils.equals("SUCCESS", result));

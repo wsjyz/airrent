@@ -2,7 +2,9 @@ package com.eighth.airrent.service.impl;
 
 import com.eighth.airrent.dao.SettingDao;
 import com.eighth.airrent.domain.Setting;
+import com.eighth.airrent.proxy.exception.RemoteInvokeException;
 import com.eighth.airrent.proxy.service.SettingService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,15 +18,13 @@ public class SettingServiceImpl implements SettingService {
     @Autowired
     SettingDao settingDao;
 
-    @Override
-    public Setting loadSetting() {
+	@Override
+	public Setting loadSetting() throws RemoteInvokeException {
+		  return settingDao.loadSetting();
+	}
+	@Override
+	public String saveSetting(Setting setting) throws RemoteInvokeException {
 
-        return settingDao.loadSetting();
-    }
-
-    @Override
-    public String saveSetting(Setting setting) {
-
-        return settingDao.saveSetting(setting);
-    }
+     return settingDao.saveSetting(setting);
+	}
 }
