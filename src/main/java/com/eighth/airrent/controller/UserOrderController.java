@@ -87,7 +87,7 @@ public class UserOrderController {
 			e.printStackTrace();
 		}
 		String orderNo = userOrder.getOrderNumber();
-		view.addObject("WIDseller_email", "geassccvip@163.com");
+		view.addObject("WIDseller_email", "globalwings.cn@gmail.com");
 		view.addObject("WIDout_trade_no", orderNo);
 		view.addObject("WIDsubject", orderNo);
 		view.addObject("WIDtotal_fee", userOrder.getDownPayment());
