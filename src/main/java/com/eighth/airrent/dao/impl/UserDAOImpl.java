@@ -344,11 +344,11 @@ public class UserDAOImpl  extends BaseDAO implements UserDAO {
     @Override
     public String saveUser(UserInfo user) {
         StringBuffer sql = new StringBuffer();
-        Object[] params = new Object[14];
+        Object[] params = new Object[15];
         if(StringUtils.isBlank(user.getUserId())) {
             String userId = CommonUtils.genUUID();
             sql.append("insert into t_airrent_user_info(user_id,mobile,avatar,login_name,user_name,identity_card," +
-                    "sex,age,address,work_org,level,zhifubao,home,common_address) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?) ");
+                    "sex,age,address,work_org,level,zhifubao,home,common_address,password) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) ");
             params[0] = userId;
             params[1] = user.getMobile();
             params[2] = user.getAvatar();
@@ -363,9 +363,10 @@ public class UserDAOImpl  extends BaseDAO implements UserDAO {
             params[11] = user.getZhifubao();
             params[12] = user.getHome();
             params[13] = user.getCommonAddress();
+            params[14] = user.getPassword();
         }else{
             sql.append("update t_airrent_user_info set mobile=?,avatar=?,login_name=?,user_name=?,identity_card=?," +
-                    "sex=?,age=?,address=?,work_org=?,level=?,zhifubao=?,home=?,common_address=? where user_id=?");
+                    "sex=?,age=?,address=?,work_org=?,level=?,zhifubao=?,home=?,common_address=?,password=? where user_id=?");
             params[0] = user.getMobile();
             params[1] = user.getAvatar();
             params[2] = user.getLoginName();
@@ -380,6 +381,7 @@ public class UserDAOImpl  extends BaseDAO implements UserDAO {
             params[11] = user.getHome();
             params[12] = user.getCommonAddress();
             params[13] = user.getUserId();
+            params[14] = user.getPassword();
 
         }
         int update = getJdbcTemplate().update(sql.toString(), params);

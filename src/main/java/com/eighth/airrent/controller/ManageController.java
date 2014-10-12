@@ -376,6 +376,7 @@ public class ManageController {
         user.setAvatar(imgPath);
         user.setLoginName(request.getParameter("loginName"));
         user.setUserName(request.getParameter("userName"));
+        user.setPassword(request.getParameter("password"));
         user.setIdentityCard(request.getParameter("identityCard"));
         user.setSex(request.getParameter("sex"));
         user.setAge(request.getParameter("age"));

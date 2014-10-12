@@ -48,7 +48,7 @@ public class SettingDaoImpl extends BaseDAO implements SettingDao {
             params[5] = setting.getTime();
             params[6] = setting.getChoice();
         }else{
-            sql.append("update t_airrent_setting set setting_id=?,index_message=?,fee_info=?," +
+            sql.append("update t_airrent_setting set index_message=?,fee_info=?," +
                     "content=?,cycle=?,time=?,choice=? " +
                     "where setting_id=?");
             params[0] = setting.getIndexMessage();
