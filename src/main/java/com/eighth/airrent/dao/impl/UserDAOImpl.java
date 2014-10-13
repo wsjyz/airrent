@@ -35,7 +35,7 @@ public class UserDAOImpl  extends BaseDAO implements UserDAO {
 		if (StringUtils.isEmpty(loginName) || StringUtils.isEmpty(password)) {
 			userInfo.setHint(AirrentUtils.LOGIN_INFO_NULL);
 		}
-        password= DigestUtils.md5Hex(password);
+      //  password= DigestUtils.md5Hex(password);
     	StringBuffer sql=new StringBuffer();
 		sql.append("select * from t_airrent_user_info where login_name='"+loginName+"' and password='"+password+"'");
 		List<UserInfo> list=getJdbcTemplate().query(sql.toString(), new UserInfoMapper());
@@ -46,8 +46,9 @@ public class UserDAOImpl  extends BaseDAO implements UserDAO {
 			userInfo.setHint(AirrentUtils.LOGIN_SUCCESS);
 		}
 		if(StringUtils.isEmpty(userInfo.getUserId())){
-			sql.append("select * from t_airrent_user_info where mobile='"+loginName+"' and password='"+password+"'");
-			list=getJdbcTemplate().query(sql.toString(), new UserInfoMapper());
+	    	StringBuffer sql1=new StringBuffer();
+	    	sql1.append("select * from t_airrent_user_info where mobile='"+loginName+"' and password='"+password+"'");
+			list=getJdbcTemplate().query(sql1.toString(), new UserInfoMapper());
 			if (CollectionUtils.isEmpty(list)) {
 				userInfo.setHint(AirrentUtils.NAME_PASSWORD_ERROR);
 			}else{
@@ -219,7 +220,7 @@ public class UserDAOImpl  extends BaseDAO implements UserDAO {
 	        }
 
 		  if(!StringUtils.isEmpty(userInfo.getIdentityCard())){
-	            sql.append("dentity_card='"+userInfo.getIdentityCard()+"',");
+	            sql.append("identity_card='"+userInfo.getIdentityCard()+"',");
 	        }
 
 		  if(!StringUtils.isEmpty(userInfo.getSex())){
