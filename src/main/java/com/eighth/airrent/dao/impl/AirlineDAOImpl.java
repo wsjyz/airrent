@@ -177,7 +177,7 @@ public class AirlineDAOImpl extends BaseDAO implements AirlineDAO {
 		StringBuffer sql = new StringBuffer();
 		String corpId = CommonUtils.genUUID();
         airline.setPassword(DigestUtils.md5Hex(airline.getPassword()));
-        getPoint(airline);
+//        getPoint(airline);
 		sql.append("INSERT into t_airrent_airline(airline_id,airline_name,airline_image,login_name,password,status,address,weixin,phone,airport_id,lat,lng) values('"
 				+ corpId
 				+ "','"
@@ -304,7 +304,7 @@ public class AirlineDAOImpl extends BaseDAO implements AirlineDAO {
         StringBuffer sql = new StringBuffer();
         String[] params = new String[12];
         airline.setPassword(DigestUtils.md5Hex(airline.getPassword()));
-        getPoint(airline);
+//        getPoint(airline);
         if(StringUtils.isBlank(airline.getAirlineId())){
             String corpId = CommonUtils.genUUID();
             sql.append("INSERT into t_airrent_airline(airline_id,airline_name,airline_image,login_name,password,status,address,weixin,phone,airport_id,lat,lng) " +

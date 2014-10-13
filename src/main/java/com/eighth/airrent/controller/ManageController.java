@@ -119,12 +119,15 @@ public class ManageController {
     @RequestMapping(value = "/airports/save", method = RequestMethod.POST)
     public
     @ResponseBody
-    JsonResult saveAirport(@RequestParam String airportName, @RequestParam String address) {
+    JsonResult saveAirport(@RequestParam String airportName, @RequestParam String address,
+                            @RequestParam String lat,@RequestParam String lng) {
         JsonResult jsonResult = new JsonResult();
         Airport airport = new Airport();
         airport.setAirportName(airportName);
         airport.setAddress(address);
         airport.setDescription(address);
+        airport.setLat(lat);
+        airport.setLng(lng);
         String result = airportService.saveAirport(airport);
         jsonResult.setSuccess(StringUtils.equals("SUCCESS", result));
         return jsonResult;
