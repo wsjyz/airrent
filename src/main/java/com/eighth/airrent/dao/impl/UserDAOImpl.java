@@ -219,7 +219,7 @@ public class UserDAOImpl  extends BaseDAO implements UserDAO {
 	        }
 
 		  if(!StringUtils.isEmpty(userInfo.getIdentityCard())){
-	            sql.append("dentity_card='"+userInfo.getIdentityCard()+"',");
+	            sql.append("identity_card='"+userInfo.getIdentityCard()+"',");
 	        }
 
 		  if(!StringUtils.isEmpty(userInfo.getSex())){
