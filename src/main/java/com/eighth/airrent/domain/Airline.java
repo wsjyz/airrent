@@ -10,6 +10,7 @@ public class Airline extends BaseDomain {
 	private String airlineId;
 	private String airlineName;
 	private String airlineImage;
+	private String airlineImageName;
 	private String loginName;// 账号
 	private String password;// 密码
 	private String status;// 状态 ON|OFF
@@ -56,7 +57,15 @@ public class Airline extends BaseDomain {
 		this.airlineImage = airlineImage;
 	}
 
-	public String getLoginName() {
+    public String getAirlineImageName() {
+        return airlineImageName;
+    }
+
+    public void setAirlineImageName(String airlineImageName) {
+        this.airlineImageName = airlineImageName;
+    }
+
+    public String getLoginName() {
 		return loginName;
 	}
 

@@ -735,6 +735,8 @@
 	$.fieldValue = function(el, successful) {
 		var n = el.name, t = el.type, tag = el.tagName.toLowerCase();
 		if (typeof successful == 'undefined') successful = true;
+        $.browser={};
+        $.browser.msie = /msie/.test(navigator.userAgent.toLowerCase());
 
 		if (successful && (!n || el.disabled || t == 'reset' || t == 'button' ||
 				(t == 'checkbox' || t == 'radio') && !el.checked ||

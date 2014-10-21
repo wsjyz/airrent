@@ -6,7 +6,7 @@
 </div>
 <div class="container-fluid">
     <div class="row">
-    <form class="form-horizontal row" id="addAirline" role="form">
+    <form class="form-horizontal row" enctype="multipart/form-data" method="post" id="addAirline" role="form">
         <input value="${airline.airlineId}" name="airlineId" type="hidden"/>
         <div class="col-md-6">
             <div class="form-group">
@@ -40,8 +40,22 @@
                     <input type="text" class="form-control hidden" id="weixin" name="weixin" value="${airline.weixin}">
                 </div>
             </div>
+            <div class="form-group">
+                <label for="lat" class="col-sm-4 control-label">纬度</label>
+                <div class="col-sm-6">
+                    <span>${airline.lat}</span>
+                    <input type="text" class="form-control hidden" id="lat" name="lat">
+                </div>
+            </div>
         </div>
         <div class="col-md-6">
+            <div class="form-group">
+                <label for="airlineImage" class="col-sm-3 control-label">公司图片</label>
+                <div class="col-sm-6">
+                    <span>${airline.airlineImageName!}</span>
+                    <input id="airlineImage" name="airlineImage" type="file" class="hidden"/>
+                </div>
+            </div>
             <div class="form-group">
                 <label for="airportId" class="col-sm-3 control-label">位于</label>
                 <div class="col-sm-6">
@@ -60,7 +74,7 @@
                     <input type="text" class="form-control hidden" id="password" name="password">
                 </div>
             </div>
-            <div class="form-group">
+            <div class="form-group hidden">
                 <label for="address" class="col-sm-3 control-label">地址</label>
                 <div class="col-sm-6">
                     <span>${airline.address}</span>
@@ -72,6 +86,13 @@
                 <div class="col-sm-6">
                     <span>${airline.phone}</span>
                     <input type="text" class="form-control hidden" id="phone" name="phone" value="${airline.phone}">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="lng" class="col-sm-3 control-label">经度</label>
+                <div class="col-sm-6">
+                    <span>${airline.lng}</span>
+                    <input type="text" class="form-control hidden" id="lng" name="lng">
                 </div>
             </div>
         </div>
@@ -93,19 +114,24 @@
                 $('.col-sm-6 input,select').removeClass('hidden').show();
                 eml.text('保存');
             }else{
-                var json=$('#addAirline').serializeJson();
-                $.post('${ctx}/manage/airline/save',json,function(data){
-                    if(data.success){
-                        $('#content').load('${ctx}/manage/menu/airline/view?airlineId=${airline.airlineId}');
-                        $.mhtMsg('保存成功!');
+                $('#addAirline').ajaxSubmit({
+                    type:'post',
+                    dataType:'json',
+                    url:'${ctx}/manage/airline/save',
+                    success:function(data){
+                        if(data.success){
+                            $('#content').load('${ctx}/manage/menu/airline/view?airlineId=${airline.airlineId}');
+                            $.mhtMsg('保存成功!');
 
-                        $('.col-sm-6 span').show();
-                        $('.col-sm-6 input,select').hide();
-                        eml.text('修改');
-                    }else{
-                        $.mhtMsg('保存失败，请重新提交!');
+                            $('.col-sm-6 span').show();
+                            $('.col-sm-6 input,select').hide();
+                            eml.text('修改');
+                        }else{
+                            $.mhtMsg('保存失败，请修改数据格式重新提交!');
+                        }
                     }
                 });
+                return false;
             }
             return false;
         })

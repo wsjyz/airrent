@@ -200,14 +200,30 @@ public class ManageController {
     /**
      * 新增公司机构
      *
-     * @param airline
+     * @param request
      * @return
      */
     @RequestMapping("/airline/save")
     public
     @ResponseBody
-    JsonResult saveAirline(@ModelAttribute Airline airline) {
+    JsonResult saveAirline(MultipartHttpServletRequest request,HttpServletRequest httpServletRequest) throws Exception{
         JsonResult jsonResult = new JsonResult();
+        MultipartFile file = request.getFile("airlineImage");
+        String imgPath=saveFile(file, httpServletRequest);
+        Airline airline = new Airline();
+        airline.setAirlineId(request.getParameter("airlineId"));
+        airline.setAirlineName(request.getParameter("airlineName"));
+        airline.setAirlineImage(imgPath);
+        airline.setAirlineImageName(file.getOriginalFilename());
+        airline.setLoginName(request.getParameter("loginName"));
+        airline.setAirportId(request.getParameter("airportId"));
+        airline.setStatus(request.getParameter("status"));
+        airline.setPassword(request.getParameter("password"));
+        airline.setWeixin(request.getParameter("weixin"));
+        airline.setAddress(request.getParameter("address"));
+        airline.setLat(request.getParameter("lat"));
+        airline.setPhone(request.getParameter("phone"));
+        airline.setLng(request.getParameter("lng"));
         String result = airlineService.saveAirline(airline);
         jsonResult.setSuccess(StringUtils.equals("SUCCESS", result));
         return jsonResult;
