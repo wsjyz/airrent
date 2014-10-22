@@ -161,6 +161,7 @@
                         url:'${ctx}/manage/plane/save',
                         success:function(data){
                             if(data.success){
+                                $('#content').load('${ctx}/manage/menu/plane/view?planeId=${plane.planeId}');
                                 $.mhtMsg('保存成功!');
 
                                 $('.col-sm-6 span').show();

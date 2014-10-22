@@ -116,7 +116,7 @@ public class AirlineDAOImpl extends BaseDAO implements AirlineDAO {
 			plane.setProductOrg(rs.getString("product_org"));
 			plane.setReminderSitCounts(rs.getInt("reminder_sit_counts"));
 			plane.setShowUnitCost(rs.getBigDecimal("show_unit_cost"));
-			plane.setSitCounts(rs.getInt("sit_counts"));
+			plane.setSitCounts(rs.getString("sit_counts"));
 			plane.setSpeed(rs.getBigDecimal("speed"));
 			plane.setTimeInProduct(rs.getString("time_in_product"));
 			return plane;

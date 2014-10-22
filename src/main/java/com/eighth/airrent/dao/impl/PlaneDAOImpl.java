@@ -53,7 +53,7 @@ public class PlaneDAOImpl extends BaseDAO implements PlaneDAO{
 				plane.setProductOrg(rs.getString("product_org"));
 				plane.setReminderSitCounts(rs.getInt("reminder_sit_counts"));
 				plane.setShowUnitCost(rs.getBigDecimal("show_unit_cost"));
-				plane.setSitCounts(rs.getInt("sit_counts"));
+				plane.setSitCounts(rs.getString("sit_counts"));
 				plane.setSpeed(rs.getBigDecimal("speed"));
 				plane.setTimeInProduct(rs.getString("time_in_product"));
 				plane.setStatus(rs.getString("status"));
@@ -178,13 +178,13 @@ public class PlaneDAOImpl extends BaseDAO implements PlaneDAO{
     @Override
     public String savePlane(Plane plane) {
         StringBuffer sql = new StringBuffer();
-        Object[] params = new Object[16];
+        Object[] params = new Object[17];
         if(StringUtils.isBlank(plane.getPlaneId())) {
             String planeId = CommonUtils.genUUID();
             sql.append("insert into t_airrent_plane(plane_id,plane_name,plane_image,plane_image_name," +
                     "plane_no,unit_cost,fly_unit_cost,plane_type,time_in_product,product_area,driving_mile," +
-                    "speed,colour,show_unit_cost,plane_price,airline_id) " +
-                    "values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+                    "speed,colour,show_unit_cost,plane_price,airline_id,sit_counts) " +
+                    "values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
             params[0] = planeId;
             params[1] = plane.getPlaneName();
             params[2] = plane.getPlaneImage();
@@ -201,10 +201,11 @@ public class PlaneDAOImpl extends BaseDAO implements PlaneDAO{
             params[13] = plane.getShowUnitCost();
             params[14] = plane.getPlanePrice();
             params[15] = plane.getAirlineId();
+            params[16] = plane.getSitCounts();
         }else{
             sql.append("update t_airrent_plane set plane_name=?,plane_image=?,plane_image_name=?," +
                     "plane_no=?,unit_cost=?,fly_unit_cost=?,plane_type=?,time_in_product=?,product_area=?,driving_mile=?," +
-                    "speed=?,colour=?,show_unit_cost=?,plane_price=?,airline_id=? " +
+                    "speed=?,colour=?,show_unit_cost=?,plane_price=?,airline_id=?,sit_counts=? " +
                     "where plane_id=?");
             params[0] = plane.getPlaneName();
             params[1] = plane.getPlaneImage();
@@ -221,7 +222,8 @@ public class PlaneDAOImpl extends BaseDAO implements PlaneDAO{
             params[12] = plane.getShowUnitCost();
             params[13] = plane.getPlanePrice();
             params[14] = plane.getAirlineId();
-            params[15] = plane.getPlaneId();
+            params[15] = plane.getSitCounts();
+            params[16] = plane.getPlaneId();
         }
         int update = getJdbcTemplate().update(sql.toString(), params);
         if (update > 0) {

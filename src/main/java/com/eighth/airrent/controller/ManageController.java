@@ -301,7 +301,7 @@ public class ManageController {
         plane.setProductArea(request.getParameter("productArea"));
         plane.setDrivingMile(new BigDecimal(request.getParameter("drivingMile")));
         plane.setPlanePrice(new BigDecimal(request.getParameter("planePrice")));
-        plane.setSitCounts(Integer.valueOf(request.getParameter("sitCounts")));
+        plane.setSitCounts(request.getParameter("sitCounts"));
         plane.setTimeInProduct(request.getParameter("timeInProduct"));
         plane.setColour(request.getParameter("colour"));
         plane.setSpeed(new BigDecimal(request.getParameter("speed")));
