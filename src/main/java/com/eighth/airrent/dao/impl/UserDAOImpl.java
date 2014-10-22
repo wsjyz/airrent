@@ -354,31 +354,13 @@ public class UserDAOImpl  extends BaseDAO implements UserDAO {
     @Override
     public String saveUser(UserInfo user) {
         StringBuffer sql = new StringBuffer();
-        Object[] params = new Object[15];
+        Object[] params = new Object[14];
         if(StringUtils.isBlank(user.getUserId())) {
             String userId = CommonUtils.genUUID();
-            sql.append("insert into t_airrent_user_info(user_id,mobile,avatar,login_name,user_name,identity_card," +
-                    "sex,age,address,work_org,level,zhifubao,home,common_address,password) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) ");
+            sql.append("insert into t_airrent_user_info(user_id,mobile,login_name,user_name,identity_card," +
+                    "sex,age,address,work_org,level,zhifubao,home,common_address,password) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?) ");
             params[0] = userId;
             params[1] = user.getMobile();
-            params[2] = user.getAvatar();
-            params[3] = user.getLoginName();
-            params[4] = user.getUserName();
-            params[5] = user.getIdentityCard();
-            params[6] = user.getSex();
-            params[7] = user.getAge();
-            params[8] = user.getAddress();
-            params[9] = user.getWorkOrg();
-            params[10] = user.getLevel();
-            params[11] = user.getZhifubao();
-            params[12] = user.getHome();
-            params[13] = user.getCommonAddress();
-            params[14] = user.getPassword();
-        }else{
-            sql.append("update t_airrent_user_info set mobile=?,avatar=?,login_name=?,user_name=?,identity_card=?," +
-                    "sex=?,age=?,address=?,work_org=?,level=?,zhifubao=?,home=?,common_address=?,password=? where user_id=?");
-            params[0] = user.getMobile();
-            params[1] = user.getAvatar();
             params[2] = user.getLoginName();
             params[3] = user.getUserName();
             params[4] = user.getIdentityCard();
@@ -390,9 +372,24 @@ public class UserDAOImpl  extends BaseDAO implements UserDAO {
             params[10] = user.getZhifubao();
             params[11] = user.getHome();
             params[12] = user.getCommonAddress();
+            params[13] = user.getPassword();
+        }else{
+            sql.append("update t_airrent_user_info set mobile=?,login_name=?,user_name=?,identity_card=?," +
+                    "sex=?,age=?,address=?,work_org=?,level=?,zhifubao=?,home=?,common_address=?,password=? where user_id=?");
+            params[0] = user.getMobile();
+            params[1] = user.getLoginName();
+            params[2] = user.getUserName();
+            params[3] = user.getIdentityCard();
+            params[4] = user.getSex();
+            params[5] = user.getAge();
+            params[6] = user.getAddress();
+            params[7] = user.getWorkOrg();
+            params[8] = user.getLevel();
+            params[9] = user.getZhifubao();
+            params[10] = user.getHome();
+            params[11] = user.getCommonAddress();
+            params[12] = user.getPassword();
             params[13] = user.getUserId();
-            params[14] = user.getPassword();
-
         }
         int update = getJdbcTemplate().update(sql.toString(), params);
         if (update > 0) {

@@ -24,8 +24,16 @@
                 <value>classpath:jdbc.properties</value>
             </list>
         </property>
+        <property name="properties" ref="configProperties" />
     </bean>
-
+    
+	<bean id="configProperties" class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+        <property name="locations">
+            <list>
+                <value>classpath:config.properties</value>
+            </list>
+        </property>
+    </bean>
 
     <bean id="transactionManager"
           class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
