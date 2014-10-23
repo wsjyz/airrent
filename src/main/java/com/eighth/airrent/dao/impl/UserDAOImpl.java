@@ -35,7 +35,7 @@ public class UserDAOImpl  extends BaseDAO implements UserDAO {
 		if (StringUtils.isEmpty(loginName) || StringUtils.isEmpty(password)) {
 			userInfo.setHint(AirrentUtils.LOGIN_INFO_NULL);
 		}
-      //  password= DigestUtils.md5Hex(password);
+        password= DigestUtils.md5Hex(password);
     	StringBuffer sql=new StringBuffer();
 		sql.append("select * from t_airrent_user_info where login_name='"+loginName+"' and password='"+password+"'");
 		List<UserInfo> list=getJdbcTemplate().query(sql.toString(), new UserInfoMapper());
