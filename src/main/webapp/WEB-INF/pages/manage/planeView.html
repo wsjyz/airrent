@@ -73,7 +73,7 @@
                 <div class="form-group">
                     <label for="planeImage" class="col-sm-3 control-label">展示图片</label>
                     <div class="col-sm-6">
-                        <span></span>
+                        <span>${plane.planeImageName}</span>
                         <input id="planeImage" name="planeImage" type="file" class="hidden"/>
                     </div>
                 </div>
@@ -161,6 +161,7 @@
                         url:'${ctx}/manage/plane/save',
                         success:function(data){
                             if(data.success){
+                                $('#content').load('${ctx}/manage/menu/plane/view?planeId=${plane.planeId}');
                                 $.mhtMsg('保存成功!');
 
                                 $('.col-sm-6 span').show();

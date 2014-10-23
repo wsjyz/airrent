@@ -1,12 +1,12 @@
 <#assign ctx=request.contextPath>
 <div class="container-fluid">
     <div class="well well-sm">
-        <span>新增用户</span>
+        <span><#if '${user.userId!}'==''>新增用户<#else>修改用户</#if></span>
         <a class="btn btn-info btn-xs pull-right" href="#" id="return">返回</a>
     </div>
     <div class="container-fluid">
         <div class="row">
-            <form class="form-horizontal row" enctype="multipart/form-data" method="post" id="addUserForm" role="form">
+            <form class="form-horizontal row" id="addUserForm" role="form">
                 <input name="userId" value="${user.userId!}" type="hidden"/>
                 <div class="col-md-6">
                     <div class="form-group">
@@ -53,7 +53,7 @@
                     </div>
                 </div>
                 <div class="col-md-6">
-                    <div class="form-group">
+                    <div class="form-group hidden">
                         <label for="avatar" class="col-sm-3 control-label">头像</label>
                         <div class="col-sm-6">
                             <input id="avatar" name="avatar" type="file"/>
@@ -74,7 +74,11 @@
                     <div class="form-group">
                         <label for="sex" class="col-sm-3 control-label">性别</label>
                         <div class="col-sm-6">
-                            <input type="text" class="form-control" id="sex" name="sex" value="${user.sex!}">
+                            <select class="form-control" id="sex" name="sex" value="${user.sex!}">
+                            	<option <#if user.sex=="男">selected</#if> value="男">男</option>
+                            	<option <#if user.sex=="女">selected</#if> value="女">女</option>
+                            	<option <#if user.sex=="保密">selected</#if> value="保密">保密</option>
+                            </select>
                         </div>
                     </div>
                     <div class="form-group">
@@ -86,7 +90,14 @@
                     <div class="form-group">
                         <label for="level" class="col-sm-3 control-label">会员等级</label>
                         <div class="col-sm-6">
-                            <input type="text" class="form-control" id="level" name="level" value="${user.level!}">
+                            <select class="form-control" id="level" name="level" value="${user.level!}">
+                            	<option <#if user.level=="普通卡">selected</#if> value="普通卡">普通卡</option>
+                            	<option <#if user.level=="贵宾卡">selected</#if> value="贵宾卡">贵宾卡</option>
+                            	<option <#if user.level=="银卡">selected</#if> value="银卡">银卡</option>
+                            	<option <#if user.level=="金卡">selected</#if> value="金卡">金卡</option>
+                            	<option <#if user.level=="铂金卡">selected</#if> value="铂金卡">铂金卡</option>
+                            	<option <#if user.level=="金钻卡">selected</#if> value="金钻卡">金钻卡</option>
+                            </select>
                         </div>
                     </div>
                     <div class="form-group">
@@ -103,27 +114,16 @@
         </div>
     </div>
 </div>
-<script src="${ctx}/js/jquery.form.js"></script>
 <script>
     $(function(){
-        $("#saveUser").on("click",function(){
-            $("#addUserForm").ajaxSubmit({
-                type:'post',
-                dataType:'json',
-                url:'${ctx}/manage/user/save',
-                success:function(data){
-                    if(data.success){
-                        $.mhtMsg('保存成功!');
-                    }else{
-                        $.mhtMsg('保存失败，请修改数据格式重新提交!');
-                    }
-                },
-                error:function(XmlHttpRequest,textStatus,errorThrown){
-                    console.log(XmlHttpRequest);
-                    console.log(textStatus);
-                    console.log(errorThrown);
+        $("#saveUser").click(function(){
+            $.post('${ctx}/manage/user/save',$('#addUserForm').serializeJson(),function(data){
+                if(data.success){
+                    $.mhtMsg('保存成功!');
+                }else{
+                    $.mhtMsg('保存失败，请修改数据格式重新提交!');
                 }
-            });
+            })
             return false;
         });
 

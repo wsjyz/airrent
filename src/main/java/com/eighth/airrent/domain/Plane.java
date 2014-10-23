@@ -24,7 +24,7 @@ public class Plane extends BaseDomain{
     private String productOrg;//生产商
     private String airlineId;//所属航空公司
     private String airportId;//所属机场
-    private int sitCounts;//总座位数
+    private String sitCounts;//总座位数
     private int reminderSitCounts;//剩余座位数
     private String status;//状态
 
@@ -174,11 +174,11 @@ public class Plane extends BaseDomain{
         this.airportId = airportId;
     }
 
-    public int getSitCounts() {
+    public String getSitCounts() {
         return sitCounts;
     }
 
-    public void setSitCounts(int sitCounts) {
+    public void setSitCounts(String sitCounts) {
         this.sitCounts = sitCounts;
     }
 

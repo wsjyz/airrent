@@ -155,7 +155,7 @@ public class AirportDAOImpl extends BaseDAO implements AirportDAO {
 				plane.setProductOrg(rs.getString("product_org"));
 				plane.setReminderSitCounts(rs.getInt("reminder_sit_counts"));
 				plane.setShowUnitCost(rs.getBigDecimal("show_unit_cost"));
-				plane.setSitCounts(rs.getInt("sit_counts"));
+				plane.setSitCounts(rs.getString("sit_counts"));
 				plane.setSpeed(rs.getBigDecimal("speed"));
 				plane.setTimeInProduct(rs.getString("time_in_product"));
 				return plane;
@@ -166,7 +166,7 @@ public class AirportDAOImpl extends BaseDAO implements AirportDAO {
 	public String addAirport(Airport airport) {
 		StringBuffer sql = new StringBuffer();
 		String airportId = CommonUtils.genUUID();
-		getPoint(airport);
+//		getPoint(airport);
 		sql.append("INSERT into t_airrent_airport(airport_id,airport_name,description,airport_image,lat,lng) values('"
 				+ airportId
 				+ "','"
@@ -252,7 +252,7 @@ public class AirportDAOImpl extends BaseDAO implements AirportDAO {
         StringBuffer sql = new StringBuffer();
         String[] params = new String[6];
         String airportId = CommonUtils.genUUID();
-        getPoint(airport);
+//        getPoint(airport);
         sql.append("INSERT into t_airrent_airport(airport_id,airport_name,description,address,lat,lng) values(?,?,?,?,?,?)");
         params[0]=airportId;
         params[1]=airport.getAirportName();

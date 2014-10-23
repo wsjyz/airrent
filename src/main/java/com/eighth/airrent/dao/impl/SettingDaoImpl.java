@@ -34,12 +34,12 @@ public class SettingDaoImpl extends BaseDAO implements SettingDao {
     @Override
     public String saveSetting(Setting setting) {
         StringBuffer sql = new StringBuffer();
-        Object[] params = new Object[7];
+        Object[] params = new Object[8];
         if(StringUtils.isBlank(setting.getSetttingId())) {
             String settingId = CommonUtils.genUUID();
             sql.append("insert into t_airrent_setting(setting_id,index_message,fee_info,content," +
-                    "cycle,time,choice) " +
-                    "values(?,?,?,?,?,?,?)");
+                    "cycle,time,choice,recent_news) " +
+                    "values(?,?,?,?,?,?,?,?)");
             params[0] = settingId;
             params[1] = setting.getIndexMessage();
             params[2] = setting.getFeeInfo();
@@ -47,9 +47,10 @@ public class SettingDaoImpl extends BaseDAO implements SettingDao {
             params[4] = setting.getCycle();
             params[5] = setting.getTime();
             params[6] = setting.getChoice();
+            params[7] = setting.getRecentNews();
         }else{
             sql.append("update t_airrent_setting set index_message=?,fee_info=?," +
-                    "content=?,cycle=?,time=?,choice=? " +
+                    "content=?,cycle=?,time=?,choice=?,recent_news=? " +
                     "where setting_id=?");
             params[0] = setting.getIndexMessage();
             params[1] = setting.getFeeInfo();
@@ -57,7 +58,8 @@ public class SettingDaoImpl extends BaseDAO implements SettingDao {
             params[3] = setting.getCycle();
             params[4] = setting.getTime();
             params[5] = setting.getChoice();
-            params[6] = setting.getSetttingId();
+            params[6] = setting.getRecentNews();
+            params[7] = setting.getSetttingId();
 
         }
         int update = getJdbcTemplate().update(sql.toString(), params);
@@ -75,6 +77,7 @@ public class SettingDaoImpl extends BaseDAO implements SettingDao {
             Setting setting=new Setting();
             setting.setSetttingId(rs.getString("setting_id"));
             setting.setIndexMessage(rs.getString("index_message"));
+            setting.setRecentNews(rs.getString("recent_news"));
             setting.setChoice(rs.getString("choice"));
             setting.setContent(rs.getString("content"));
             setting.setFeeInfo(rs.getString("fee_info"));

@@ -7,6 +7,7 @@ public class Setting {
 
     private String setttingId;
     private String indexMessage;
+    private String recentNews;
     private String choice;
     private String feeInfo;
     private String content;
@@ -27,6 +28,14 @@ public class Setting {
 
     public void setIndexMessage(String indexMessage) {
         this.indexMessage = indexMessage;
+    }
+
+    public String getRecentNews() {
+        return recentNews;
+    }
+
+    public void setRecentNews(String recentNews) {
+        this.recentNews = recentNews;
     }
 
     public String getChoice() {

@@ -6,8 +6,10 @@ import com.eighth.airrent.proxy.service.*;
 import com.eighth.airrent.util.AirrentUtils;
 import com.eighth.airrent.util.CommonUtils;
 import com.eighth.airrent.util.JsonResult;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -17,6 +19,7 @@ import org.springframework.web.servlet.View;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+
 import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -44,6 +47,9 @@ public class ManageController {
     @Autowired
     private SettingService settingService;
 
+    @Value("#{configProperties['host']}")
+    private String host;
+    
     @RequestMapping("/login")
     public ModelAndView login() {
         ModelAndView mv = new ModelAndView();
@@ -119,12 +125,15 @@ public class ManageController {
     @RequestMapping(value = "/airports/save", method = RequestMethod.POST)
     public
     @ResponseBody
-    JsonResult saveAirport(@RequestParam String airportName, @RequestParam String address) {
+    JsonResult saveAirport(@RequestParam String airportName, @RequestParam String address,
+                            @RequestParam String lat,@RequestParam String lng) {
         JsonResult jsonResult = new JsonResult();
         Airport airport = new Airport();
         airport.setAirportName(airportName);
         airport.setAddress(address);
         airport.setDescription(address);
+        airport.setLat(lat);
+        airport.setLng(lng);
         String result = airportService.saveAirport(airport);
         jsonResult.setSuccess(StringUtils.equals("SUCCESS", result));
         return jsonResult;
@@ -197,14 +206,30 @@ public class ManageController {
     /**
      * 新增公司机构
      *
-     * @param airline
+     * @param request
      * @return
      */
     @RequestMapping("/airline/save")
     public
     @ResponseBody
-    JsonResult saveAirline(@ModelAttribute Airline airline) {
+    JsonResult saveAirline(MultipartHttpServletRequest request,HttpServletRequest httpServletRequest) throws Exception{
         JsonResult jsonResult = new JsonResult();
+        MultipartFile file = request.getFile("airlineImage");
+        String imgPath=saveFile(file, httpServletRequest);
+        Airline airline = new Airline();
+        airline.setAirlineId(request.getParameter("airlineId"));
+        airline.setAirlineName(request.getParameter("airlineName"));
+        airline.setAirlineImage(imgPath);
+        airline.setAirlineImageName(file.getOriginalFilename());
+        airline.setLoginName(request.getParameter("loginName"));
+        airline.setAirportId(request.getParameter("airportId"));
+        airline.setStatus(request.getParameter("status"));
+        airline.setPassword(request.getParameter("password"));
+        airline.setWeixin(request.getParameter("weixin"));
+        airline.setAddress(request.getParameter("address"));
+        airline.setLat(request.getParameter("lat"));
+        airline.setPhone(request.getParameter("phone"));
+        airline.setLng(request.getParameter("lng"));
         String result = airlineService.saveAirline(airline);
         jsonResult.setSuccess(StringUtils.equals("SUCCESS", result));
         return jsonResult;
@@ -282,7 +307,7 @@ public class ManageController {
         plane.setProductArea(request.getParameter("productArea"));
         plane.setDrivingMile(new BigDecimal(request.getParameter("drivingMile")));
         plane.setPlanePrice(new BigDecimal(request.getParameter("planePrice")));
-        plane.setSitCounts(Integer.valueOf(request.getParameter("sitCounts")));
+        plane.setSitCounts(request.getParameter("sitCounts"));
         plane.setTimeInProduct(request.getParameter("timeInProduct"));
         plane.setColour(request.getParameter("colour"));
         plane.setSpeed(new BigDecimal(request.getParameter("speed")));
@@ -365,27 +390,9 @@ public class ManageController {
     }
 
     @RequestMapping("/user/save")
-    public  @ResponseBody JsonResult userSave(MultipartHttpServletRequest request, HttpServletRequest httpServletRequest) {
+    public  @ResponseBody JsonResult userSave(@ModelAttribute UserInfo user) {
         JsonResult jsonResult = new JsonResult();
-        MultipartFile file = request.getFile("avatar");
-        String imgPath = saveFile(file, httpServletRequest);
-
-        UserInfo user = new UserInfo();
-        user.setUserId(request.getParameter("userId"));
-        user.setMobile(request.getParameter("mobile"));
-        user.setAvatar(imgPath);
-        user.setLoginName(request.getParameter("loginName"));
-        user.setUserName(request.getParameter("userName"));
-        user.setPassword(request.getParameter("password"));
-        user.setIdentityCard(request.getParameter("identityCard"));
-        user.setSex(request.getParameter("sex"));
-        user.setAge(request.getParameter("age"));
-        user.setAddress(request.getParameter("address"));
-        user.setWorkOrg(request.getParameter("workOrg"));
-        user.setLevel(request.getParameter("level"));
-        user.setZhifubao(request.getParameter("zhifubao"));
-        user.setHome(request.getParameter("home"));
-        user.setCommonAddress(request.getParameter("commonAddress"));
+        user.setAvatar("");
         String result = userService.saveUser(user);
         jsonResult.setSuccess(StringUtils.equals("SUCCESS", result));
         return jsonResult;
@@ -495,7 +502,29 @@ public class ManageController {
         session.removeAttribute(AirrentUtils.SEESION_ROLE_ID);
         return render(mv, "login");
     }
+    
+    @RequestMapping("/remote/savefile")
+    public String saveRemoteFile(MultipartHttpServletRequest request,HttpServletRequest httpServletRequest) {
+    	MultipartFile file = request.getFile("file");
+        String originalFilename=file.getOriginalFilename();
+        String fileSuffix = originalFilename.substring(originalFilename.indexOf("."),originalFilename.length());
 
+        String dirname = new SimpleDateFormat("yyyyMMdd").format(new Date());
+        String upload = httpServletRequest.getSession().getServletContext().getRealPath("upload");
+        String filePath=dirname+File.separator+CommonUtils.genUUID()+fileSuffix;
+
+        File targetFile = new File(upload+File.separator+filePath);
+        if(!targetFile.exists()){
+            targetFile.mkdirs();
+        }
+        try {
+            file.transferTo(targetFile);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return host+"/upload/"+filePath;
+    }
+    
     private String saveFile(MultipartFile file,HttpServletRequest httpServletRequest) {
         String originalFilename=file.getOriginalFilename();
         String fileSuffix = originalFilename.substring(originalFilename.indexOf("."),originalFilename.length());
@@ -513,7 +542,7 @@ public class ManageController {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return filePath;
+        return host+"/upload/"+filePath;
     }
 
     private ModelAndView render(ModelAndView mv,String viewName) {
