@@ -495,6 +495,13 @@ public class ManageController {
         return jsonResult;
     }
 
+    @RequestMapping("editor")
+    public ModelAndView editor(HttpServletRequest request){
+        ModelAndView mv = new ModelAndView();
+        mv.addObject("ctx",request.getContextPath());
+        return render(mv, "editor");
+    }
+
     @RequestMapping("exit")
     public ModelAndView exit(HttpSession session){
         ModelAndView mv = new ModelAndView();
