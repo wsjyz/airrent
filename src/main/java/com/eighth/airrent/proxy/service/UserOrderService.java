@@ -61,4 +61,6 @@ public interface UserOrderService {
 
 	void updateOrderByOrderNo(String orderNo, String string);
 
+	String updateOrderStatus(String orderId, String orderStatus);
+
 }

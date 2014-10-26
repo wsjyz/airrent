@@ -93,4 +93,10 @@ public class UserOrderServiceImpl implements UserOrderService {
 		userOrderDAO.updateOrderByOrderNo( orderNo,  type);
 	}
 
+	@Override
+	public String updateOrderStatus(String orderId, String orderStatus) {
+		// TODO Auto-generated method stub
+		return userOrderDAO.updateOrderStatus(orderId,orderStatus);
+	}
+
 }
