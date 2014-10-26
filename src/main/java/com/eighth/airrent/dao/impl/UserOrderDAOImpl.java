@@ -292,6 +292,19 @@ public class UserOrderDAOImpl extends BaseDAO implements UserOrderDAO{
 	        return orderList.get(0);
 	}
 
+	@Override
+	public String updateOrderStatus(String orderId, String orderStatus) {
+		StringBuilder sql = new StringBuilder("update t_airrent_user_order set ");
+        sql.append(" order_status='"+orderStatus+"'");
+        sql.append(" where order_id='"+orderId+"'");
+        int update=getJdbcTemplate().update(sql.toString());
+        if (update>0) {
+			return "SUCCESS";
+		}else{
+			return "FAIL";
+		}
+	}
+
 
 
 }

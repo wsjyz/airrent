@@ -56,6 +56,9 @@ public class UserDAOImpl  extends BaseDAO implements UserDAO {
 				userInfo.setHint(AirrentUtils.LOGIN_SUCCESS);
 			}
 		}
+		if(userInfo.getStatus().equals("off")){
+			userInfo.setHint(AirrentUtils.USER_DISABLED);
+		}
 		return userInfo;
 
 	}
@@ -92,9 +95,13 @@ public class UserDAOImpl  extends BaseDAO implements UserDAO {
 		StringBuffer sql1=new StringBuffer();
 		sql1.append("select * from t_airrent_user_info where login_name='"+userInfo.getLoginName()+"'");
 		List<UserInfo> list=getJdbcTemplate().query(sql1.toString(), new UserInfoMapper());
-		if (!CollectionUtils.isEmpty(list)) {
+		StringBuffer sql2=new StringBuffer();
+		sql2.append("select * from t_airrent_user_info where mobile='"+userInfo.getMobile()+"'");
+		List<UserInfo> list1=getJdbcTemplate().query(sql2.toString(), new UserInfoMapper());
+		if (!CollectionUtils.isEmpty(list) && !CollectionUtils.isEmpty(list1)) {
 			userInfo.setHint(AirrentUtils.REGIST_EXISTS);
 		}else{
+			
 			String userId=CommonUtils.genUUID();
             userInfo.setPassword(DigestUtils.md5Hex(userInfo.getPassword()));
             sql.append("INSERT into t_airrent_user_info(user_id,login_name,password,mobile,user_name,identity_card,sex,age,address,work_org,zhifubao,registToken,login_tip) values('"

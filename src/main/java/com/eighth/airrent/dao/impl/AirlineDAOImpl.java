@@ -77,13 +77,13 @@ public class AirlineDAOImpl extends BaseDAO implements AirlineDAO {
 			String airlineId) {
 		StringBuffer sql = new StringBuffer();
 		sql.append("select count(*) from t_airrent_plane where airline_id='"
-				+ airlineId + "'");
+				+ airlineId + "' and status='on'");
 		int count = getJdbcTemplate().queryForInt(sql.toString());
 		if (count > 0) {
 			openPage.setTotal(count);
 			sql = new StringBuffer();
 			sql.append("select * from t_airrent_plane where airline_id='"
-					+ airlineId + "' limit " + openPage.getPageSize()
+					+ airlineId + "' and status='on' limit " + openPage.getPageSize()
 					+ " OFFSET " + (openPage.getFirst() - 1) + "");
 			List<Plane> list = getJdbcTemplate().query(sql.toString(),
 					new PlaneMapper());
@@ -105,9 +105,11 @@ public class AirlineDAOImpl extends BaseDAO implements AirlineDAO {
 			plane.setAirportId(rs.getString("airport_id"));
 			plane.setColour(rs.getString("colour"));
 			plane.setDrivingMile(rs.getBigDecimal("driving_mile"));
+			plane.setUnitCost(rs.getBigDecimal("unit_cost"));
 			plane.setFlyUnitCost(rs.getBigDecimal("fly_unit_cost"));
 			plane.setPlaneId(rs.getString("plane_id"));
 			plane.setPlaneImage(rs.getString("plane_image"));
+			plane.setPlaneImageName(rs.getString("plane_image_name"));
 			plane.setPlaneName(rs.getString("plane_name"));
 			plane.setPlaneNo(rs.getString("plane_no"));
 			plane.setPlanePrice(rs.getBigDecimal("plane_price"));
@@ -119,6 +121,7 @@ public class AirlineDAOImpl extends BaseDAO implements AirlineDAO {
 			plane.setSitCounts(rs.getString("sit_counts"));
 			plane.setSpeed(rs.getBigDecimal("speed"));
 			plane.setTimeInProduct(rs.getString("time_in_product"));
+			plane.setStatus(rs.getString("status"));
 			return plane;
 		}
 
@@ -214,7 +217,9 @@ public class AirlineDAOImpl extends BaseDAO implements AirlineDAO {
 	@Override
 	public String updateAirline(Airline airline) {
 		StringBuffer sql=new StringBuffer();
-        airline.setPassword(DigestUtils.md5Hex(airline.getPassword()));
+		if(StringUtils.isNotEmpty(airline.getPassword())){
+			airline.setPassword(DigestUtils.md5Hex(airline.getPassword()));
+		}
         sql.append("update t_airrent_airline set ");
 		if(StringUtils.isNotEmpty(airline.getAirlineName())){
 			sql.append(" airline_name='"+airline.getAirlineName()+"',");
