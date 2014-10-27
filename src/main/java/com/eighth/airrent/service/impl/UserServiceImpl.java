@@ -1,13 +1,11 @@
 package com.eighth.airrent.service.impl;
 
-import com.eighth.airrent.domain.OpenPage;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.eighth.airrent.dao.UserDAO;
+import com.eighth.airrent.domain.OpenPage;
 import com.eighth.airrent.domain.UserInfo;
-import com.eighth.airrent.domain.VerifyCode;
 import com.eighth.airrent.proxy.exception.RemoteInvokeException;
 import com.eighth.airrent.proxy.service.SmsSendService;
 import com.eighth.airrent.proxy.service.UserService;
