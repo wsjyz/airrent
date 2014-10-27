@@ -24,7 +24,7 @@ public class SettingController {
 	
 	@Autowired
 	SettingService settingService;
-	@RequestMapping(value = "/findAirlineById")
+	@RequestMapping(value = "/loadSetting")
 	@ResponseBody
 	public Setting loadSetting() throws RemoteInvokeException{
 		Setting setting = settingService.loadSetting();
