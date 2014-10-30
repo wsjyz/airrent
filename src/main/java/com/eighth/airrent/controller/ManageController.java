@@ -7,6 +7,7 @@ import com.eighth.airrent.util.AirrentUtils;
 import com.eighth.airrent.util.CommonUtils;
 import com.eighth.airrent.util.JsonResult;
 
+import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -453,6 +454,15 @@ public class ManageController {
         mv.addObject("userOrder", userOrder);
         return render(mv, "userOrderView");
     }
+    
+    @RequestMapping("/userOrder/saveOrderStatus")
+    public @ResponseBody JsonResult saveOrderStatus(@RequestParam String orderId
+    												,@RequestParam String orderStatus) {
+    	JsonResult jsonResult = new JsonResult();
+    	String result=userOrderService.updateOrderStatus(orderId,orderStatus);
+    	jsonResult.setSuccess(StringUtils.equals("SUCCESS", result));
+    	return jsonResult;
+    }
 
     @RequestMapping("/setting/save")
     public
@@ -475,7 +485,7 @@ public class ManageController {
         if (role!=null) {
             if (role.equals("ADMIN")) {
                 UserInfo userInfo = userService.getById(id.toString());
-                if (userInfo.getPassword().equals(originalPass)) {
+                if (!userInfo.getPassword().equals(DigestUtils.md5Hex(originalPass))) {
                     jsonResult.setSuccess(false);
                     jsonResult.setMessage("原密码不正确");
                     return jsonResult;

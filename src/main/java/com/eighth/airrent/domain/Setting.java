@@ -16,7 +16,7 @@ public class Setting {
 
     public String getSetttingId() {
         return setttingId;
-    }
+    } 
 
     public void setSetttingId(String setttingId) {
         this.setttingId = setttingId;

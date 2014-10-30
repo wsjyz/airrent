@@ -57,4 +57,6 @@ public interface UserOrderDAO {
 	UserOrder findOrderByOrderNo(String orderNo);
 
 	void updateOrderByOrderNo(String orderNo, String type);
+
+	String updateOrderStatus(String orderId, String orderStatus);
 }

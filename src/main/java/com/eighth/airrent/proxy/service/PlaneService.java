@@ -44,6 +44,7 @@ public interface PlaneService {
 	 * @return
 	 * @throws RemoteInvokeException
 	 */
+    @RemoteMethod(methodVarNames={ "plane"})
 	String updatePlane(Plane plane) throws RemoteInvokeException;
 
     OpenPage findPlaneList(OpenPage page, Plane plane);

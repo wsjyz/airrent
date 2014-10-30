@@ -49,4 +49,10 @@ public class UserOrderServiceImpl implements UserOrderService {
 		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	public String updateOrderStatus(String orderId, String orderStatus) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

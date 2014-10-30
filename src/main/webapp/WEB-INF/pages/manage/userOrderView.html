@@ -18,7 +18,11 @@
             <div class="form-group">
                 <label for="orderStatus" class="col-sm-4 control-label">订单状态</label>
                 <div class="col-sm-6">
-                    <span id="orderStatus">${userOrder.orderStatus}</span>
+                    <span class="modify"><#if userOrder.orderStatus=="ONLINE_PAYED"||userOrder.orderStatus=="OFFLINE_PAYED">已支付<#else>未支付</#if></span>
+                    <select class="form-control hidden" id="orderStatus" name="orderStatus">
+                        <option value="PAYED" <#if userOrder.orderStatus=="ONLINE_PAYED"||userOrder.orderStatus=="OFFLINE_PAYED">selected</#if>>已支付</option>
+                        <option value="NOT_PAY" <#if userOrder.orderStatus=="NOT_PAY_ONLINE"||userOrder.orderStatus=="NOT_PAY_OFFLINE">selected</#if>>未支付</option>
+                    </select>
                 </div>
             </div>
             <div class="form-group">
@@ -68,7 +72,11 @@
             <div class="form-group">
                 <label for="orderStatus1" class="col-sm-3 control-label">支付方式</label>
                 <div class="col-sm-6">
-                    <span id="orderStatus1">${userOrder.orderStatus}</span>
+                    <span class="modify"><#if userOrder.orderStatus=="ONLINE_PAYED"||userOrder.orderStatus=="NOT_PAY_ONLINE">线上支付<#else>线下支付</#if></span>
+                    <select class="form-control hidden" id="orderStatus1" name="orderStatus1">
+                        <option value="ONLINE" <#if userOrder.orderStatus=="ONLINE_PAYED"||userOrder.orderStatus=="NOT_PAY_ONLINE">selected</#if>>线上支付</option>
+                        <option value="OFFLINE" <#if userOrder.orderStatus=="OFFLINE_PAYED"||userOrder.orderStatus=="NOT_PAY_OFFLINE">selected</#if>>线下支付</option>
+                    </select>
                 </div>
             </div>
             <div class="form-group">
@@ -101,6 +109,9 @@
                     <span id="airlineName">${userOrder.airline.airlineName!}</span>
                 </div>
             </div>
+            <div class="col-sm-offset-5 col-sm-4">
+	            <button type="submit" id="modify" class="btn btn-primary btn-lg">修改</button>
+	        </div>
         </div>
     </form>
     </div>
@@ -109,6 +120,41 @@
 <style>.col-sm-6{padding-top: 7px;}</style>
 <script>
     $(function(){
+    	
+    	$('#modify').click(function(){
+            var eml=$(this);
+            var text=eml.text();
+            if(text=='修改'){
+                $('span.modify').hide();
+                $('#orderStatus,#orderStatus1').removeClass('hidden').show();
+                eml.text('保存');
+            }else{
+            	var orderStatus='';
+            	if($('#orderStatus').val()=='PAYED'){
+            		orderStatus=$('#orderStatus1').val()+'_PAYED';
+            	}else if($('#orderStatus').val()=='NOT_PAY'){
+            		orderStatus='NOT_PAY_'+$('#orderStatus1').val();
+            	}
+            	var json={
+           			"orderId":'${userOrder.orderId}',
+           			"orderStatus":orderStatus
+            	};
+                $.post('${ctx}/manage/userOrder/saveOrderStatus',json,function(data){
+                    if(data.success){
+                        $('#content').load('${ctx}/manage/userOrder/view?orderId=${userOrder.orderId}');
+                        $.mhtMsg('保存成功!');
+
+                        $('.col-sm-6 span').show();
+                        $('.col-sm-6 input,select').hide();
+                        eml.text('修改');
+                    }else{
+                        $.mhtMsg('保存失败，请修改数据格式重新提交!');
+                    }
+                });
+            }
+            return false;
+        })
+    	
         $('#return').click(function(){
             $('#content').load('${ctx}/manage/menu/userOrders');
         })

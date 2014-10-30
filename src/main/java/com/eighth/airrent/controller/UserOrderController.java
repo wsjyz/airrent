@@ -1,10 +1,7 @@
 package com.eighth.airrent.controller;
 
-import org.eclipse.jetty.http.HttpTester.Request;
-import org.eclipse.jetty.server.Authentication.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -14,7 +11,6 @@ import com.eighth.airrent.domain.OpenPage;
 import com.eighth.airrent.domain.UserOrder;
 import com.eighth.airrent.proxy.exception.RemoteInvokeException;
 import com.eighth.airrent.proxy.service.UserOrderService;
-import com.eighth.airrent.proxy.service.UserService;
 import com.eighth.airrent.web.FastJson;
 
 /**

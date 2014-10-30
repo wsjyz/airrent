@@ -117,13 +117,13 @@ public class AirportDAOImpl extends BaseDAO implements AirportDAO {
 			String airportId) {
 		StringBuffer sql = new StringBuffer();
 		sql.append("select count(*) from t_airrent_plane where airport_id='"
-				+ airportId + "'");
+				+ airportId + "' and status='on'");
 		int count = getJdbcTemplate().queryForInt(sql.toString());
 		if (count > 0) {
 			openPage.setTotal(count);
 			sql = new StringBuffer();
 			sql.append("select * from t_airrent_plane where airport_id='"
-					+ airportId + "' limit " + openPage.getPageSize()
+					+ airportId + "' and status='on' limit " + openPage.getPageSize()
 					+ " OFFSET " + (openPage.getFirst() - 1) + "");
 			List<Plane> list = getJdbcTemplate().query(sql.toString(),
 					new PlaneMapper());
@@ -144,9 +144,11 @@ public class AirportDAOImpl extends BaseDAO implements AirportDAO {
 				plane.setAirportId(rs.getString("airport_id"));
 				plane.setColour(rs.getString("colour"));
 				plane.setDrivingMile(rs.getBigDecimal("driving_mile"));
+				plane.setUnitCost(rs.getBigDecimal("unit_cost"));
 				plane.setFlyUnitCost(rs.getBigDecimal("fly_unit_cost"));
 				plane.setPlaneId(rs.getString("plane_id"));
 				plane.setPlaneImage(rs.getString("plane_image"));
+				plane.setPlaneImageName(rs.getString("plane_image_name"));
 				plane.setPlaneName(rs.getString("plane_name"));
 				plane.setPlaneNo(rs.getString("plane_no"));
 				plane.setPlanePrice(rs.getBigDecimal("plane_price"));
@@ -158,6 +160,7 @@ public class AirportDAOImpl extends BaseDAO implements AirportDAO {
 				plane.setSitCounts(rs.getString("sit_counts"));
 				plane.setSpeed(rs.getBigDecimal("speed"));
 				plane.setTimeInProduct(rs.getString("time_in_product"));
+				plane.setStatus(rs.getString("status"));
 				return plane;
 			}
 	    	
@@ -273,4 +276,5 @@ public class AirportDAOImpl extends BaseDAO implements AirportDAO {
         List<Airport> list = getJdbcTemplate().query(sql.toString(),new AirportMapper());
         return list;
     }
+
 }
