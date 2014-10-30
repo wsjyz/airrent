@@ -370,6 +370,7 @@ public class AirlineDAOImpl extends BaseDAO implements AirlineDAO {
         if(StringUtils.isNotEmpty(password)){
             sql.append("and password = '"+ password + "'");
         }
+        sql.append("and status = 'on'");
         List<Airline> list = getJdbcTemplate().query(sql.toString(),
                 new AirlineMapper());
         if(!CollectionUtils.isEmpty(list)) {

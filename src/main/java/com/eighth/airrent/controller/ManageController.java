@@ -496,9 +496,10 @@ public class ManageController {
     }
 
     @RequestMapping("editor")
-    public ModelAndView editor(HttpServletRequest request){
+    public ModelAndView editor(@RequestParam String editorId,HttpServletRequest request){
         ModelAndView mv = new ModelAndView();
         mv.addObject("ctx",request.getContextPath());
+        mv.addObject("editorId",editorId);
         return render(mv, "editor");
     }
 

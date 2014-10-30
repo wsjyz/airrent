@@ -1,6 +1,6 @@
 <link rel="stylesheet" href="${ctx}/css/bootstrap.min.css">
 <link rel="stylesheet" href="${ctx}/css/bootstrap-combined.no-icons.min.css">
-<link rel="stylesheet" href="${ctx}/css/font-awesome.min.css">
+<link rel="stylesheet" href="${ctx}/css/font-awesome-3.css">
 <link href="${ctx}/css/prettify.css" rel="stylesheet">
 <link href="${ctx}/css/editor.css" rel="stylesheet">
 <script src="${ctx}/js//jquery.min.js"></script>
@@ -9,17 +9,14 @@
 <script src="${ctx}/js/prettify.js"></script>
 <script src="${ctx}/js/bootstrap-wysiwyg.js"></script>
 
-
-
-
-<div class="btn-toolbar" data-role="editor-toolbar" data-target="#editor">
+<div class="btn-toolbar" data-role="editor-toolbar" data-target="#${editorId}">
   <div class="btn-group">
     <a class="btn dropdown-toggle" data-toggle="dropdown" title="Font"><i class="icon-font"></i><b class="caret"></b></a>
       <ul class="dropdown-menu">
       </ul>
     </div>
   <div class="btn-group">
-    <a class="btn dropdown-toggle" data-toggle="dropdown" title="Font Size"><i class="icon-text-height"></i>&nbsp;<b class="caret"></b></a>
+    <a class="btn dropdown-toggle" data-toggle="dropdown" title="Font Size" style="line-height: 10px;"><i class="icon-text-height"></i>&nbsp;<b class="caret"></b></a>
       <ul class="dropdown-menu">
       <li><a data-edit="fontSize 5"><font size="5">Huge</font></a></li>
       <li><a data-edit="fontSize 3"><font size="3">Normal</font></a></li>
@@ -64,11 +61,9 @@
   </div>
   <input type="text" data-edit="inserttext" id="voiceBtn" x-webkit-speech="">
 </div>
-
-<div id="editor">
+<div id="${editorId}" class="editor">
 
 </div>
-
 
 <script>
   $(function(){
@@ -90,8 +85,8 @@
         overlay.css('opacity', 0).css('position', 'absolute').offset(target.offset()).width(target.outerWidth()).height(target.outerHeight());
       });
       if ("onwebkitspeechchange"  in document.createElement("input")) {
-        var editorOffset = $('#editor').offset();
-        $('#voiceBtn').css('position','absolute').offset({top: editorOffset.top, left: editorOffset.left+$('#editor').innerWidth()-35});
+        var editorOffset = $('#${editorId}').offset();
+        $('#voiceBtn').css('position','absolute').offset({top: editorOffset.top, left: editorOffset.left+$('#${editorId}').innerWidth()-35});
       } else {
         $('#voiceBtn').hide();
       }
@@ -105,8 +100,8 @@
 		$('<div class="alert"> <button type="button" class="close" data-dismiss="alert">&times;</button>'+ 
 		 '<strong>File upload error</strong> '+msg+' </div>').prependTo('#alerts');
 	};
-    initToolbarBootstrapBindings();  
-	$('#editor').wysiwyg({ fileUploadError: showErrorAlert} );
+    initToolbarBootstrapBindings();
+	$('#${editorId}').wysiwyg({ fileUploadError: showErrorAlert} );
     window.prettyPrint && prettyPrint();
   });
 </script>

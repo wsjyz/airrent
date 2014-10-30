@@ -28,8 +28,8 @@
                 <div class="col-sm-6">
                     <span>${airline.status}</span>
                     <select class="form-control hidden" id="status" name="status" value="${airline.status}">
-                        <option <#if airline.status=="on">selected</#if>>on</option>
-                        <option <#if airline.status=="off">selected</#if>>off</option>
+                        <option <#if airline.status=="on">selected</#if> value="on">on</option>
+                        <option <#if airline.status=="off">selected</#if> value="off">off</option>
                     </select>
                 </div>
             </div>
