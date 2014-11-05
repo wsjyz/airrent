@@ -363,6 +363,7 @@ public class UserDAOImpl  extends BaseDAO implements UserDAO {
     public String saveUser(UserInfo user) {
         StringBuffer sql = new StringBuffer();
         Object[] params = new Object[15];
+        user.setPassword(DigestUtils.md5Hex(user.getPassword()));
         if(StringUtils.isBlank(user.getUserId())) {
             String userId = CommonUtils.genUUID();
             sql.append("insert into t_airrent_user_info(user_id,mobile,avatar,login_name,user_name,identity_card," +
