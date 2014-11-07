@@ -1,0 +1,80 @@
+<#assign ctx=request.contextPath>
+<div class="container-fluid">
+<div class="well well-sm">
+    <span>${airport.airportName}</span>
+    <a class="btn btn-info btn-xs pull-right" href="#" id="return">返回</a>
+</div>
+<div class="container-fluid">
+    <div class="row">
+    <form class="form-horizontal row" id="airportForm" role="form">
+        <input value="${airport.airportId}" name="airportId" type="hidden"/>
+        <div class="form-group">
+            <label for="airportName" class="col-sm-4 control-label">机场名称：</label>
+            <div class="col-sm-6">
+                <span>${airport.airportName}</span>
+                <input type="text" class="form-control hidden" id="airportName" name="airportName" value="${airport.airportName}" placeholder="名称">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="address" class="col-sm-4 control-label">机场地址：</label>
+            <div class="col-sm-6">
+                <span>${airport.address}</span>
+                <input type="text" class="form-control hidden" id="address" name="address" value="${airport.address}" placeholder="地址">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="lng" class="col-sm-4 control-label">机场经度：</label>
+            <div class="col-sm-6">
+                <span>${airport.lng}</span>
+                <input type="text" class="form-control hidden" id="lng" name="lng" value="${airport.lng}" placeholder="经度">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="lat" class="col-sm-4 control-label">机场纬度：</label>
+            <div class="col-sm-6">
+                <span>${airport.lat}</span>
+                <input type="text" class="form-control hidden" id="lat" name="lat" value="${airport.lat}" placeholder="纬度">
+            </div>
+        </div>
+        
+        <div class="col-sm-offset-5 col-sm-4">
+            <button type="submit" id="modify" class="btn btn-primary btn-lg">修改</button>
+        </div>
+    </form>
+    </div>
+</div>
+</div>
+<style>.col-sm-6{padding-top: 7px;}</style>
+<script>
+    $(function(){
+        $('#modify').click(function(){
+            var eml=$(this);
+            var text=eml.text();
+            if(text=='修改'){
+                $('.col-sm-6 span').hide();
+                $('.col-sm-6 input,select').removeClass('hidden').show();
+                eml.text('保存');
+            }else{
+                var json=$('#airportForm').serializeJson();
+                $.post('${ctx}/manage/airports/save',json,function(data){
+                    if(data.success){
+                        $('#content').load('${ctx}/manage/menu/airport/view?airportId=${airport.airportId}');
+                        $.mhtMsg('保存成功!');
+
+                        $('.col-sm-6 span').show();
+                        $('.col-sm-6 input').hide();
+                        eml.text('修改');
+                    }else{
+                        $.mhtMsg('保存失败，请修改数据格式重新提交!');
+                    }
+                });
+                return false;
+            }
+            return false;
+        })
+
+        $('#return').click(function(){
+            $('#content').load('${ctx}/manage/airports');
+        })
+    })
+</script>

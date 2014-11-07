@@ -73,10 +73,14 @@ public class ManageController {
             }
         }else{
             Airline airLine=airlineService.loginAirline(user.getLoginName(),user.getPassword());
-            jsonResult.setSuccess(airLine != null);
+            jsonResult.setSuccess(true);
             if (airLine != null) {
                 session.setAttribute(AirrentUtils.SEESION_ROLE, "GUEST");
                 session.setAttribute(AirrentUtils.SEESION_ROLE_ID,airLine.getAirlineId());
+                if (!StringUtils.equals(airLine.getStatus(), "on")) {
+                    jsonResult.setSuccess(false);
+                    jsonResult.setMessage("机构账号被禁用!");
+                }
             }
         }
         return jsonResult;
@@ -126,18 +130,28 @@ public class ManageController {
     @RequestMapping(value = "/airports/save", method = RequestMethod.POST)
     public
     @ResponseBody
-    JsonResult saveAirport(@RequestParam String airportName, @RequestParam String address,
-                            @RequestParam String lat,@RequestParam String lng) {
+    JsonResult saveAirport(@ModelAttribute Airport airport) {
         JsonResult jsonResult = new JsonResult();
-        Airport airport = new Airport();
-        airport.setAirportName(airportName);
-        airport.setAddress(address);
-        airport.setDescription(address);
-        airport.setLat(lat);
-        airport.setLng(lng);
+        airport.setDescription(airport.getAddress());
         String result = airportService.saveAirport(airport);
         jsonResult.setSuccess(StringUtils.equals("SUCCESS", result));
         return jsonResult;
+    }
+
+    /**
+     * 查看机场
+     *
+     * @param airportId
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping("/menu/airport/view")
+    public ModelAndView viewAirport(@RequestParam String airportId) throws Exception {
+        ModelAndView mv = new ModelAndView();
+        Airport airport = airportService.findAirportById(airportId);
+        mv.addObject("airport", airport);
+        return render(mv, "airportView");
+
     }
 
     @RequestMapping("/menu/{page}")
@@ -307,7 +321,10 @@ public class ManageController {
         plane.setPlaneType(request.getParameter("planeType"));
         plane.setProductArea(request.getParameter("productArea"));
         plane.setDrivingMile(new BigDecimal(request.getParameter("drivingMile")));
-        plane.setPlanePrice(new BigDecimal(request.getParameter("planePrice")));
+        String planePrice=request.getParameter("planePrice");
+        if (StringUtils.isNotBlank(planePrice)) {
+            plane.setPlanePrice(new BigDecimal(request.getParameter("planePrice")));
+        }
         plane.setSitCounts(request.getParameter("sitCounts"));
         plane.setTimeInProduct(request.getParameter("timeInProduct"));
         plane.setColour(request.getParameter("colour"));

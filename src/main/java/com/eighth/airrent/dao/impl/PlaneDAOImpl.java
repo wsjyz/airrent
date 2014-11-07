@@ -57,7 +57,10 @@ public class PlaneDAOImpl extends BaseDAO implements PlaneDAO{
 				plane.setSpeed(rs.getBigDecimal("speed"));
 				plane.setTimeInProduct(rs.getString("time_in_product"));
 				plane.setStatus(rs.getString("status"));
-				return plane;
+                 if (rs.getMetaData().getColumnCount() > 21) {
+                    plane.setAirlineName(rs.getString("airline_name"));
+                 }
+             return plane;
 			}
 	    	
 	    }
@@ -156,7 +159,10 @@ public class PlaneDAOImpl extends BaseDAO implements PlaneDAO{
             fromWhere.append("and al.airline_id = ? ");
             params.add(plane.getAirlineId());
         }
-
+        if (StringUtils.isNotBlank(plane.getPlaneNo())) {
+            fromWhere.append("and ap.plane_no like ? ");
+            params.add("%"+plane.getPlaneNo()+"%");
+        }
         sql.append("select count(*) ");
         long count = getJdbcTemplate().queryForObject(sql.append(fromWhere).toString(),params.toArray(),Long.class);
         if (count > 0) {
