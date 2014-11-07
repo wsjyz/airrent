@@ -74,7 +74,12 @@
                     <label for="planeImage" class="col-sm-3 control-label">展示图片</label>
                     <div class="col-sm-6">
                         <span>${plane.planeImageName}</span>
-                        <input id="planeImage" name="planeImage" type="file" class="hidden"/>
+                        <div class="input-group hidden">
+                            <input id="planeImage" name="planeImage" type="file" class=""/>
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" type="button">${plane.planeImageName}</button>
+                            </span>
+                        </div>
                     </div>
                 </div>
                 <div class="form-group">
@@ -146,12 +151,16 @@
 <script src="${ctx}/js/jquery.form.js"></script>
 <script>
     $(function(){
+
         $('#modify').click(function(){
             var eml=$(this);
             var text=eml.text();
             if(text=='修改'){
                 $('.col-sm-6 span').hide();
                 $('.col-sm-6 input,div.input-group').removeClass('hidden').show();
+                $('.input-group-btn').show();
+                $(":file").filestyle({buttonText: "重选"});
+
                 eml.text('保存');
             }else{
                 $("#modify").on("click",function(){
@@ -164,6 +173,7 @@
                                 $('#content').load('${ctx}/manage/menu/plane/view?planeId=${plane.planeId}');
                                 $.mhtMsg('保存成功!');
 
+                                $(":file").filestyle('clear');
                                 $('.col-sm-6 span').show();
                                 $('.col-sm-6 input,div.input-group').hide();
                                 eml.text('修改');

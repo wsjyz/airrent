@@ -130,6 +130,8 @@
 <script src="${ctx}/js/jquery.form.js"></script>
 <script>
     $(function(){
+        $("input:file").filestyle({buttonText: "选择文件"});
+
         $("#savePlane").on("click",function(){
             $("#addPlaneForm").ajaxSubmit({
                 type:'post',

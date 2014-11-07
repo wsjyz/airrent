@@ -53,7 +53,12 @@
                 <label for="airlineImage" class="col-sm-3 control-label">公司图片</label>
                 <div class="col-sm-6">
                     <span>${airline.airlineImageName!}</span>
-                    <input id="airlineImage" name="airlineImage" type="file" class="form-control hidden"/>
+                    <div class="input-group hidden">
+                        <input id="airlineImage" name="airlineImage" type="file"/>
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" type="button">${airline.airlineImageName!'无'}</button>
+                        </span>
+                    </div>
                 </div>
             </div>
             <div class="form-group">
@@ -106,12 +111,17 @@
 <style>.col-sm-6{padding-top: 7px;}</style>
 <script>
     $(function(){
+
         $('#modify').click(function(){
             var eml=$(this);
             var text=eml.text();
             if(text=='修改'){
                 $('.col-sm-6 span').hide();
-                $('.col-sm-6 input,select').removeClass('hidden').show();
+                $('.col-sm-6 input,select,.input-group').removeClass('hidden').show();
+
+                $('.input-group-btn').show();
+                $(":file").filestyle({buttonText: "重选"});
+
                 eml.text('保存');
             }else{
                 $('#addAirline').ajaxSubmit({
@@ -124,7 +134,7 @@
                             $.mhtMsg('保存成功!');
 
                             $('.col-sm-6 span').show();
-                            $('.col-sm-6 input,select').hide();
+                            $('.col-sm-6 input,select,.input-group').hide();
                             eml.text('修改');
                         }else{
                             $.mhtMsg('保存失败，请修改数据格式重新提交!');

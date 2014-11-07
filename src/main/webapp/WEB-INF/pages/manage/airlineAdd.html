@@ -94,6 +94,9 @@
 <script src="${ctx!}/js/jquery.form.js"></script>
 <script>
     $(function(){
+
+        $("input:file").filestyle({buttonText: "选择文件"});
+
         $('#saveAirline').on('click',function() {
             $('#addAirlineForm').ajaxSubmit({
                 type:'post',
