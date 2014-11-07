@@ -542,6 +542,14 @@ public class ManageController {
         }
         return host+"/upload/"+filePath;
     }
+
+    @RequestMapping("/editor/uploadImg")
+    public @ResponseBody String uploadImg(MultipartFile filedata,HttpServletRequest request) {
+        String fileurl=saveFile(filedata, request);
+        String json = String.format("{'err':'%s',msg:{'url':'%s','localname':'%s','id':'%s'}}",
+                "", fileurl, filedata.getOriginalFilename(), fileurl);
+        return json;
+    }
     
     private String saveFile(MultipartFile file,HttpServletRequest httpServletRequest) {
         String originalFilename=file.getOriginalFilename();
