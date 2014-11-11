@@ -1,4 +1,8 @@
 <#assign ctx=request.contextPath>
+<script type="text/javascript" src="${ctx!}/xheditor/src/core.js"></script>
+<script type="text/javascript" src="${ctx!}/xheditor/src/lang.js"></script>
+<script type="text/javascript" src="${ctx!}/xheditor/src/main.js"></script>
+<script type="text/javascript" src="${ctx!}/xheditor/xheditor_lang/zh-cn.js"></script>
 <div class="container-fluid">
 <div class="well well-sm">
     <span>${airline.airlineName}</span>
@@ -101,6 +105,12 @@
                 </div>
             </div>
         </div>
+        <div class="form-group col-md-12" style="padding-left: 1px;">
+            <label for="intro" class="col-sm-2 control-label">简介</label>
+            <div class="col-sm-9">
+                <textarea name="intro" id="intro" class="xheditor{editorRoot:'${ctx}/xheditor/'}" cols="30" rows="10">${airline.intro!}</textarea>
+            </div>
+        </div>
         <div class="col-sm-offset-5 col-sm-4">
             <button type="submit" id="modify" class="btn btn-primary btn-lg">修改</button>
         </div>
@@ -111,6 +121,16 @@
 <style>.col-sm-6{padding-top: 7px;}</style>
 <script>
     $(function(){
+
+        $('#intro').xheditor({
+            width:700,
+            height:340,
+            upImgUrl:'${ctx}/manage/editor/uploadImg',
+            html5Upload : false,
+            upImgExt:"jpg,jpeg,gif,png",
+            onUpload : insertUpload
+        });
+
 
         $('#modify').click(function(){
             var eml=$(this);

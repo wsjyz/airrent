@@ -21,6 +21,7 @@ public class Airline extends BaseDomain {
 	private String airportId;
 	private String lat;// 纬度
 	private String lng;// 经度
+	private String intro;// 航空公司介绍
 
 	private List<Plane> planeList;
     private String airportName;
@@ -151,5 +152,13 @@ public class Airline extends BaseDomain {
 
     public void setAirportName(String airportName) {
         this.airportName = airportName;
+    }
+
+    public String getIntro() {
+        return intro;
+    }
+
+    public void setIntro(String intro) {
+        this.intro = intro;
     }
 }

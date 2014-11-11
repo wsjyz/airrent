@@ -245,6 +245,7 @@ public class ManageController {
         airline.setLat(request.getParameter("lat"));
         airline.setPhone(request.getParameter("phone"));
         airline.setLng(request.getParameter("lng"));
+        airline.setIntro(request.getParameter("intro"));
         String result = airlineService.saveAirline(airline);
         jsonResult.setSuccess(StringUtils.equals("SUCCESS", result));
         return jsonResult;
