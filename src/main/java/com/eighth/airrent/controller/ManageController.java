@@ -317,13 +317,16 @@ public class ManageController {
         plane.setAirlineId(request.getParameter("airlineId"));
         plane.setPlaneName(request.getParameter("planeName"));
         plane.setPlaneNo(request.getParameter("planeNo"));
-        plane.setUnitCost(new BigDecimal(request.getParameter("unitCost")));
+        String unitCost=request.getParameter("unitCost");
+        if (StringUtils.isNotBlank(unitCost)) {
+            plane.setUnitCost(new BigDecimal(unitCost));
+        }
         plane.setPlaneType(request.getParameter("planeType"));
         plane.setProductArea(request.getParameter("productArea"));
         plane.setDrivingMile(new BigDecimal(request.getParameter("drivingMile")));
         String planePrice=request.getParameter("planePrice");
         if (StringUtils.isNotBlank(planePrice)) {
-            plane.setPlanePrice(new BigDecimal(request.getParameter("planePrice")));
+            plane.setPlanePrice(new BigDecimal(planePrice));
         }
         plane.setSitCounts(request.getParameter("sitCounts"));
         plane.setTimeInProduct(request.getParameter("timeInProduct"));
