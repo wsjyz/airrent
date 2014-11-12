@@ -311,7 +311,7 @@ public class UserDAOImpl  extends BaseDAO implements UserDAO {
             fromWhere.append("and login_name like ? ");
             params.add("%"+userInfo.getLoginName()+"%");
         }
-
+		fromWhere.append(" and (type is null or type='' or type !='ADMIN') ");
         sql.append("select count(*) ");
         long count = getJdbcTemplate().queryForObject(sql.append(fromWhere).toString(),params.toArray(),Long.class);
         if (count > 0) {
