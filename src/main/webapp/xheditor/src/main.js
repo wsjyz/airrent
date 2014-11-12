@@ -2348,13 +2348,13 @@
 		if(arrSuccess.length===1)arrSuccess=arrSuccess[0];
 		return arrSuccess;
 	}
-	$.fn.oldVal = $.fn.val;
-	$.fn.val=function(value)
-	{
-		var _this=this,editor;
-		if(value===undefined)if(_this[0]&&(editor=_this[0].xheditor))return editor.getSource();else return _this.oldVal();//读
-		return _this.each(function(){if(editor=this.xheditor)editor.setSource(value);else _this.oldVal(value);});//写
-	}
+	//$.fn.oldVal = $.fn.val;
+	//$.fn.val=function(value)
+	//{
+	//	var _this=this,editor;
+	//	if(value===undefined)if(_this[0]&&(editor=_this[0].xheditor))return editor.getSource();else return _this.oldVal();//读
+	//	return _this.each(function(){if(editor=this.xheditor)editor.setSource(value);else _this.oldVal(value);});//写
+	//}
 
 	$(function(){
 		$('textarea').each(function(){

@@ -69,6 +69,7 @@
         });
 
         $('#save').click(function(){
+            $('#recentNews').val($('#recentNews').xheditor().getSource());
             var json=$('#settingForm').serializeJson();
             $.post('${ctx}/manage/setting/save',json,function(data){
                 if(data.success){

@@ -252,6 +252,24 @@ public class ManageController {
     }
 
     /**
+     * 新增公司机构
+     *
+     * @return
+     */
+    @RequestMapping("/airline/save1")
+    public
+    @ResponseBody
+    JsonResult saveAirline1(@ModelAttribute Airline airline) throws Exception{
+        JsonResult jsonResult = new JsonResult();
+        Airline airline1 = airlineService.findAirlineById(airline.getAirlineId());
+        airline.setAirlineImage(airline1.getAirlineImage());
+        airline.setAirlineImageName(airline1.getAirlineImageName());
+        String result = airlineService.saveAirline(airline);
+        jsonResult.setSuccess(StringUtils.equals("SUCCESS", result));
+        return jsonResult;
+    }
+
+    /**
      * 管理公司机构 :飞机列表
      *
      * @param airlineId
@@ -578,9 +596,9 @@ public class ManageController {
 
         String dirname = new SimpleDateFormat("yyyyMMdd").format(new Date());
         String upload = httpServletRequest.getSession().getServletContext().getRealPath("upload");
-        String filePath=dirname+File.separator+CommonUtils.genUUID()+fileSuffix;
+        String filePath=dirname+"/"+CommonUtils.genUUID()+fileSuffix;
 
-        File targetFile = new File(upload+File.separator+filePath);
+        File targetFile = new File(upload+"/"+filePath);
         if(!targetFile.exists()){
             targetFile.mkdirs();
         }

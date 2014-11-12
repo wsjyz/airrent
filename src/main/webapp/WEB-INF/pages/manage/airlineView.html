@@ -131,7 +131,6 @@
             onUpload : insertUpload
         });
 
-
         $('#modify').click(function(){
             var eml=$(this);
             var text=eml.text();
@@ -144,10 +143,15 @@
 
                 eml.text('保存');
             }else{
+                var url = '${ctx}/manage/airline/save1';
+                if($('#airlineImage').val()){
+                    url = '${ctx}/manage/airline/save';
+                }
+                $('#intro').val($('#intro').xheditor().getSource());
                 $('#addAirline').ajaxSubmit({
                     type:'post',
                     dataType:'json',
-                    url:'${ctx}/manage/airline/save',
+                    url:url,
                     success:function(data){
                         if(data.success){
                             $('#content').load('${ctx}/manage/menu/airline/view?airlineId=${airline.airlineId}');
@@ -161,7 +165,6 @@
                         }
                     }
                 });
-                return false;
             }
             return false;
         })
@@ -170,4 +173,13 @@
             $('#content').load('${ctx}/manage/menu/airlines');
         })
     })
+    //图片上传回调函数
+    function insertUpload(arrMsg) {
+        //xheditor返回的arrMsg是一个Object数组
+        var msg = arrMsg[0];
+
+        var url = msg.url;
+        $("#recentNews").append(url);
+
+    }
 </script>

@@ -66,6 +66,7 @@ public class AirlineDAOImpl extends BaseDAO implements AirlineDAO {
 			line.setPhone(rs.getString("phone"));
 			line.setLat(rs.getString("lat"));
 			line.setLng(rs.getString("lng"));
+			line.setIntro(rs.getString("intro"));
 			return line;
 		}
 
