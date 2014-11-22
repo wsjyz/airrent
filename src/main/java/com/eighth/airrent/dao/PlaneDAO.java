@@ -28,4 +28,9 @@ public interface PlaneDAO {
     String savePlane(Plane plane);
 
     String updatePlaneStatus(Plane plane);
+    
+    int getCountByPlane(String planeId);
+    
+    boolean checkByClickPlane(String userId,String planeId);
+     void saveClickPlane(String userId,String planeId);
 }

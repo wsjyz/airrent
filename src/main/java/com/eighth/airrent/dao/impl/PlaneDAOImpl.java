@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.eighth.airrent.domain.OpenPage;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -247,4 +248,35 @@ public class PlaneDAOImpl extends BaseDAO implements PlaneDAO{
             return "FAIL";
         }
     }
+
+	@Override
+	public int getCountByPlane(String planeId) {
+	    StringBuffer sql = new StringBuffer();
+        sql.append("select count(*)  from t_airrent_user_plane where  plane_id='"+planeId+"'");
+        return  getJdbcTemplate().queryForInt(sql.toString());
+	}
+
+	@Override
+	public boolean checkByClickPlane(String userId, String planeId) {
+		StringBuffer sql=new StringBuffer();
+		sql.append("select * from t_airrent_user_plane where plane_id='"+planeId+"' and user_id ='"+userId+"'");
+		List<Plane> list = getJdbcTemplate().query(sql.toString(), new PlaneMapper());
+		if (CollectionUtils.isEmpty(list)) {
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public void saveClickPlane(String userId, String planeId) {
+		 if(StringUtils.isBlank(planeId) && StringUtils.isBlank(userId)) {
+			  StringBuffer sql = new StringBuffer();
+			  sql.append("insert into t_airrent_user_plane(plane_id,user_id)" +
+                "values(?,?)");
+		        Object[] params = new Object[2]; 
+		        params[0] = planeId;
+	            params[1] = userId;
+	           getJdbcTemplate().update(sql.toString(), params);
+		 }
+	}
 }

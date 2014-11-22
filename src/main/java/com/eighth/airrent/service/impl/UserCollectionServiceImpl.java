@@ -37,16 +37,14 @@ public class UserCollectionServiceImpl implements UserCollectionService{
                 if (StringUtils.isNotEmpty(userCollection.getPlaneId())){
                    int count= userCollectionDAO.getUserCollectionCount(userCollection.getPlaneId(),"PLANE");
                     Plane plane = planeDAO.findPlaneById(userCollection.getPlaneId());
-                    Airline airline = airlineDao.findAirlineById(plane.getAirlineId());
+                    int countByPlane = planeDAO.getCountByPlane(userCollection.getPlaneId());
+                    userCollection.setClickCount(countByPlane);
                     userCollection.setPlanePicUrl(plane.getPlaneImage());
-                    userCollection.setAirlinePicUrl(airline.getAirlineImage());
                     userCollection.setPlanCount(count);
                 }
                 if(StringUtils.isNotEmpty(userCollection.getAirlineId())){
                     int count= userCollectionDAO.getUserCollectionCount(userCollection.getAirlineId(),"AIRLINE");
-                    Plane plane = planeDAO.findPlaneById(userCollection.getPlaneId());
-                    Airline airline = airlineDao.findAirlineById(plane.getAirlineId());
-                    userCollection.setPlanePicUrl(plane.getPlaneImage());
+                    Airline airline = airlineDao.findAirlineById(userCollection.getAirlineId());
                     userCollection.setAirlinePicUrl(airline.getAirlineImage());
                     userCollection.setPlanCount(count);
                 }

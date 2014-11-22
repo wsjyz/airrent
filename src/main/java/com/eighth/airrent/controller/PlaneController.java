@@ -52,4 +52,9 @@ public class PlaneController {
 	public String updatePlane(@FastJson Plane plane) throws RemoteInvokeException {
 		return planeService.addPlane(plane);
 	}
+	@RequestMapping(value = "/saveClickByPlane")
+	@ResponseBody
+	public boolean saveClickByPlane(@RequestParam String planeId,@RequestParam String userId) throws RemoteInvokeException {
+		return planeService.saveClickByPlane(planeId, userId);
+	}
 }

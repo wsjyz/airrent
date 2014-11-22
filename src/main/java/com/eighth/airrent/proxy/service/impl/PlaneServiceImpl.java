@@ -46,4 +46,11 @@ public class PlaneServiceImpl implements PlaneService {
     public String updatePlaneStatus(Plane plane) {
         return null;
     }
+
+	@Override
+	public boolean saveClickByPlane(String planeId, String userId)
+			throws RemoteInvokeException {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }

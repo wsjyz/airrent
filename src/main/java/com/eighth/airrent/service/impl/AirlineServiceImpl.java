@@ -4,19 +4,27 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import com.eighth.airrent.dao.AirlineDAO;
+import com.eighth.airrent.dao.PlaneDAO;
+import com.eighth.airrent.dao.UserCollectionDAO;
 import com.eighth.airrent.domain.Airline;
 import com.eighth.airrent.domain.OpenPage;
 import com.eighth.airrent.domain.Plane;
 import com.eighth.airrent.proxy.exception.RemoteInvokeException;
 import com.eighth.airrent.proxy.service.AirlineService;
+import com.eighth.airrent.proxy.service.UserCollectionService;
 
 @Service("AirlineService")
 public class AirlineServiceImpl implements AirlineService{
 
 	@Autowired
 	private AirlineDAO airlineDAO;
+	@Autowired
+	UserCollectionDAO userCollectionDAO;
+	@Autowired
+	PlaneDAO  planeDAO;
 	@Override
 	public Airline findAirlineById(String airlineId)
 			throws RemoteInvokeException {
@@ -27,7 +35,17 @@ public class AirlineServiceImpl implements AirlineService{
 	@Override
 	public OpenPage<Plane> findPlaneByAirlineId(OpenPage openPage,
 			String airlineId) throws RemoteInvokeException {
-		return airlineDAO.findPlaneByAirlineId(openPage, airlineId);
+		openPage= airlineDAO.findPlaneByAirlineId(openPage, airlineId);
+		if (!CollectionUtils.isEmpty(openPage.getRows())) {
+			for (Object obj : openPage.getRows()) {
+				Plane plane=(Plane)obj;
+                int count= userCollectionDAO.getUserCollectionCount(plane.getPlaneId(),"PLANE");
+                plane.setCollectionCount(count);
+                int countByPlane = planeDAO.getCountByPlane(plane.getPlaneId());
+                plane.setClickCount(countByPlane);
+			}
+		}
+		return openPage;
 	}
 
 	@Override

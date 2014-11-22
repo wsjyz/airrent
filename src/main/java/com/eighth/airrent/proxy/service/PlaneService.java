@@ -1,5 +1,7 @@
 package com.eighth.airrent.proxy.service;
 
+import org.springframework.web.bind.annotation.RequestParam;
+
 import com.eighth.airrent.domain.OpenPage;
 import com.eighth.airrent.domain.Plane;
 import com.eighth.airrent.proxy.annotation.RemoteMethod;
@@ -62,4 +64,8 @@ public interface PlaneService {
      * @param plane
      */
     String updatePlaneStatus(Plane plane);
+    @RemoteMethod(methodVarNames={ "saveClickByPlane"})
+	boolean saveClickByPlane(String planeId,String userId) throws RemoteInvokeException;
+
+
 }

@@ -1,6 +1,7 @@
 package com.eighth.airrent.service.impl;
 
 import com.eighth.airrent.domain.OpenPage;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -8,6 +9,7 @@ import com.eighth.airrent.dao.PlaneDAO;
 import com.eighth.airrent.domain.Plane;
 import com.eighth.airrent.proxy.exception.RemoteInvokeException;
 import com.eighth.airrent.proxy.service.PlaneService;
+import com.eighth.airrent.proxy.service.UserCollectionService;
 
 /**
  * Created by dam on 2014/7/2.
@@ -51,5 +53,15 @@ public class PlaneServiceImpl implements PlaneService {
     public String updatePlaneStatus(Plane plane) {
         return planeDAO.updatePlaneStatus(plane);
     }
+
+	@Override
+	public boolean saveClickByPlane(String planeId, String userId)
+			throws RemoteInvokeException {
+		boolean check = planeDAO.checkByClickPlane(userId, planeId);
+		if (check) {
+			planeDAO.saveClickPlane(userId, planeId);
+		}
+		return check;
+	}
 
 }
