@@ -42,6 +42,7 @@
     <mvc:resources mapping="/js/**" location="/WEB-INF/js/"/>
     <mvc:resources mapping="/fonts/**" location="/WEB-INF/fonts/"/>
     <mvc:resources mapping="/upload/**" location="/upload/"/>
+    <mvc:resources mapping="/xheditor/**" location="/xheditor/"/>
 
     <mvc:default-servlet-handler/>
     <bean class="org.springframework.web.servlet.view.BeanNameViewResolver" p:order="0"/>

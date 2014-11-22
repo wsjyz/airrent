@@ -24,10 +24,10 @@
                         <input type="text" class="form-control hidden" id="planeNo" name="planeNo" value="${plane.planeNo}">
                     </div>
                 </div>
-                <div class="form-group">
+                <div class="form-group hidden">
                     <label for="unitCost" class="col-sm-4 control-label">单价</label>
                     <div class="col-sm-6">
-                        <span>${plane.unitCost}</span>
+                        <span>${plane.unitCost}￥/h</span>
                         <div class="input-group hidden">
                             <input type="text" class="form-control" id="unitCost" name="unitCost" value="${plane.unitCost}">
                             <span class="input-group-addon">￥/h</span>
@@ -51,7 +51,7 @@
                 <div class="form-group">
                     <label for="drivingMile" class="col-sm-4 control-label">续航里程</label>
                     <div class="col-sm-6">
-                        <span>${plane.drivingMile}</span>
+                        <span>${plane.drivingMile}km</span>
                         <div class="input-group hidden">
                             <input type="text" class="form-control" id="drivingMile" name="drivingMile" value="${plane.drivingMile}">
                             <span class="input-group-addon">km</span>
@@ -61,7 +61,7 @@
                 <div class="form-group">
                     <label for="planePrice" class="col-sm-4 control-label">飞机价值</label>
                     <div class="col-sm-6">
-                        <span>${plane.planePrice}</span>
+                        <span>￥${plane.planePrice}</span>
                         <div class="input-group hidden">
                             <input type="text" class="form-control" id="planePrice" name="planePrice" value="${plane.planePrice}">
                             <span class="input-group-addon">￥</span>
@@ -74,13 +74,18 @@
                     <label for="planeImage" class="col-sm-3 control-label">展示图片</label>
                     <div class="col-sm-6">
                         <span>${plane.planeImageName}</span>
-                        <input id="planeImage" name="planeImage" type="file" class="hidden"/>
+                        <div class="input-group hidden">
+                            <input id="planeImage" name="planeImage" type="file" class=""/>
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" type="button">${plane.planeImageName}</button>
+                            </span>
+                        </div>
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="sitCounts" class="col-sm-3 control-label">座位数</label>
                     <div class="col-sm-6">
-                        <span>${plane.sitCounts}</span>
+                        <span>${plane.sitCounts}人</span>
                         <div class="input-group hidden">
                             <input type="text" class="form-control" id="sitCounts" name="sitCounts" value="${plane.sitCounts}">
                             <span class="input-group-addon">人</span>
@@ -90,7 +95,7 @@
                 <div class="form-group">
                     <label for="timeInProduct" class="col-sm-3 control-label">生产年代</label>
                     <div class="col-sm-6">
-                        <span>${plane.timeInProduct}</span>
+                        <span>${plane.timeInProduct}年代</span>
                         <div class="input-group hidden">
                             <input type="text" class="form-control" id="timeInProduct" name="timeInProduct" value="${plane.timeInProduct}">
                             <span class="input-group-addon">年代</span>
@@ -107,7 +112,7 @@
                 <div class="form-group">
                     <label for="speed" class="col-sm-3 control-label">巡航速度</label>
                     <div class="col-sm-6">
-                        <span>${plane.speed}</span>
+                        <span>${plane.speed}km/h</span>
                         <div class="input-group hidden">
                             <input type="text" class="form-control" id="speed" name="speed" value="${plane.speed}">
                             <span class="input-group-addon">km/h</span>
@@ -117,7 +122,7 @@
                 <div class="form-group">
                     <label for="flyUnitCost" class="col-sm-3 control-label">飞行小时价格</label>
                     <div class="col-sm-6">
-                        <span>${plane.flyUnitCost}</span>
+                        <span>${plane.flyUnitCost}￥/h</span>
                         <div class="input-group hidden">
                             <input type="text" class="form-control" id="flyUnitCost" name="flyUnitCost" value="${plane.flyUnitCost}">
                             <span class="input-group-addon">￥/h</span>
@@ -127,10 +132,10 @@
                 <div class="form-group">
                     <label for="showUnitCost" class="col-sm-3 control-label">静态展示价格</label>
                     <div class="col-sm-6">
-                        <span>${plane.showUnitCost}</span>
+                        <span>${plane.showUnitCost}￥/天</span>
                         <div class="input-group hidden">
                             <input type="text" class="form-control" id="showUnitCost" name="showUnitCost" value="${plane.showUnitCost}">
-                            <span class="input-group-addon">￥/h</span>
+                            <span class="input-group-addon">￥/天</span>
                         </div>
                     </div>
                 </div>
@@ -146,12 +151,16 @@
 <script src="${ctx}/js/jquery.form.js"></script>
 <script>
     $(function(){
+
         $('#modify').click(function(){
             var eml=$(this);
             var text=eml.text();
             if(text=='修改'){
                 $('.col-sm-6 span').hide();
                 $('.col-sm-6 input,div.input-group').removeClass('hidden').show();
+                $('.input-group-btn').show();
+                $(":file").filestyle({buttonText: "重选"});
+
                 eml.text('保存');
             }else{
                 $("#modify").on("click",function(){
@@ -164,6 +173,7 @@
                                 $('#content').load('${ctx}/manage/menu/plane/view?planeId=${plane.planeId}');
                                 $.mhtMsg('保存成功!');
 
+                                $(":file").filestyle('clear');
                                 $('.col-sm-6 span').show();
                                 $('.col-sm-6 input,div.input-group').hide();
                                 eml.text('修改');

@@ -6,10 +6,14 @@
                 <label for="planeName">名称：</label>
                 <input type="text" class="form-control" id="planeName" name="planeName">
             </div>
-            <div class="form-group">
+            <div class="form-group hidden">
                 <label for="airlineName">隶属公司：</label>
                 <input type="text" class="form-control" id="airlineName" name="airlineName" value="${airlineName}">
                 <input id="airlineId" name="airlineId" value="${airlineId}" type="hidden"/>
+            </div>
+            <div class="form-group">
+                <label for="planeNo">飞机型号：</label>
+                <input type="text" class="form-control" id="planeNo" name="planeNo">
             </div>
             <button id="findPlane" class="btn btn-primary">查找</button>
             <button id="resetForm" class="btn btn-warning">重置</button>
@@ -41,7 +45,7 @@
 
         $('#resetForm').click(function(){
             $('#planeName').val('');
-            $('#airlineName').val('');
+            $('#planeNo').val('');
             return false;
         })
 

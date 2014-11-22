@@ -73,10 +73,14 @@ public class ManageController {
             }
         }else{
             Airline airLine=airlineService.loginAirline(user.getLoginName(),user.getPassword());
-            jsonResult.setSuccess(airLine != null);
+            jsonResult.setSuccess(true);
             if (airLine != null) {
                 session.setAttribute(AirrentUtils.SEESION_ROLE, "GUEST");
                 session.setAttribute(AirrentUtils.SEESION_ROLE_ID,airLine.getAirlineId());
+                if (!StringUtils.equals(airLine.getStatus(), "on")) {
+                    jsonResult.setSuccess(false);
+                    jsonResult.setMessage("机构账号被禁用!");
+                }
             }
         }
         return jsonResult;
@@ -126,18 +130,28 @@ public class ManageController {
     @RequestMapping(value = "/airports/save", method = RequestMethod.POST)
     public
     @ResponseBody
-    JsonResult saveAirport(@RequestParam String airportName, @RequestParam String address,
-                            @RequestParam String lat,@RequestParam String lng) {
+    JsonResult saveAirport(@ModelAttribute Airport airport) {
         JsonResult jsonResult = new JsonResult();
-        Airport airport = new Airport();
-        airport.setAirportName(airportName);
-        airport.setAddress(address);
-        airport.setDescription(address);
-        airport.setLat(lat);
-        airport.setLng(lng);
+        airport.setDescription(airport.getAddress());
         String result = airportService.saveAirport(airport);
         jsonResult.setSuccess(StringUtils.equals("SUCCESS", result));
         return jsonResult;
+    }
+
+    /**
+     * 查看机场
+     *
+     * @param airportId
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping("/menu/airport/view")
+    public ModelAndView viewAirport(@RequestParam String airportId) throws Exception {
+        ModelAndView mv = new ModelAndView();
+        Airport airport = airportService.findAirportById(airportId);
+        mv.addObject("airport", airport);
+        return render(mv, "airportView");
+
     }
 
     @RequestMapping("/menu/{page}")
@@ -231,6 +245,25 @@ public class ManageController {
         airline.setLat(request.getParameter("lat"));
         airline.setPhone(request.getParameter("phone"));
         airline.setLng(request.getParameter("lng"));
+        airline.setIntro(request.getParameter("intro"));
+        String result = airlineService.saveAirline(airline);
+        jsonResult.setSuccess(StringUtils.equals("SUCCESS", result));
+        return jsonResult;
+    }
+
+    /**
+     * 新增公司机构
+     *
+     * @return
+     */
+    @RequestMapping("/airline/save1")
+    public
+    @ResponseBody
+    JsonResult saveAirline1(@ModelAttribute Airline airline) throws Exception{
+        JsonResult jsonResult = new JsonResult();
+        Airline airline1 = airlineService.findAirlineById(airline.getAirlineId());
+        airline.setAirlineImage(airline1.getAirlineImage());
+        airline.setAirlineImageName(airline1.getAirlineImageName());
         String result = airlineService.saveAirline(airline);
         jsonResult.setSuccess(StringUtils.equals("SUCCESS", result));
         return jsonResult;
@@ -303,11 +336,17 @@ public class ManageController {
         plane.setAirlineId(request.getParameter("airlineId"));
         plane.setPlaneName(request.getParameter("planeName"));
         plane.setPlaneNo(request.getParameter("planeNo"));
-        plane.setUnitCost(new BigDecimal(request.getParameter("unitCost")));
+        String unitCost=request.getParameter("unitCost");
+        if (StringUtils.isNotBlank(unitCost)) {
+            plane.setUnitCost(new BigDecimal(unitCost));
+        }
         plane.setPlaneType(request.getParameter("planeType"));
         plane.setProductArea(request.getParameter("productArea"));
         plane.setDrivingMile(new BigDecimal(request.getParameter("drivingMile")));
-        plane.setPlanePrice(new BigDecimal(request.getParameter("planePrice")));
+        String planePrice=request.getParameter("planePrice");
+        if (StringUtils.isNotBlank(planePrice)) {
+            plane.setPlanePrice(new BigDecimal(planePrice));
+        }
         plane.setSitCounts(request.getParameter("sitCounts"));
         plane.setTimeInProduct(request.getParameter("timeInProduct"));
         plane.setColour(request.getParameter("colour"));
@@ -506,9 +545,10 @@ public class ManageController {
     }
 
     @RequestMapping("editor")
-    public ModelAndView editor(HttpServletRequest request){
+    public ModelAndView editor(@RequestParam String editorId,HttpServletRequest request){
         ModelAndView mv = new ModelAndView();
         mv.addObject("ctx",request.getContextPath());
+        mv.addObject("editorId",editorId);
         return render(mv, "editor");
     }
 
@@ -541,6 +581,14 @@ public class ManageController {
         }
         return host+"/upload/"+filePath;
     }
+
+    @RequestMapping("/editor/uploadImg")
+    public @ResponseBody String uploadImg(MultipartFile filedata,HttpServletRequest request) {
+        String fileurl=saveFile(filedata, request);
+        String json = String.format("{'err':'%s',msg:{'url':'%s','localname':'%s','id':'%s'}}",
+                "", fileurl, filedata.getOriginalFilename(), fileurl);
+        return json;
+    }
     
     private String saveFile(MultipartFile file,HttpServletRequest httpServletRequest) {
         String originalFilename=file.getOriginalFilename();
@@ -548,9 +596,9 @@ public class ManageController {
 
         String dirname = new SimpleDateFormat("yyyyMMdd").format(new Date());
         String upload = httpServletRequest.getSession().getServletContext().getRealPath("upload");
-        String filePath=dirname+File.separator+CommonUtils.genUUID()+fileSuffix;
+        String filePath=dirname+"/"+CommonUtils.genUUID()+fileSuffix;
 
-        File targetFile = new File(upload+File.separator+filePath);
+        File targetFile = new File(upload+"/"+filePath);
         if(!targetFile.exists()){
             targetFile.mkdirs();
         }

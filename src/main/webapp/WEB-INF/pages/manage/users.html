@@ -29,8 +29,8 @@
 
         $('#findUser').click(function(){
             var json={
-                userName:$('#mobile').val(),
-                address:$('#loginName').val()
+                mobile:$('#mobile').val(),
+                loginName:$('#loginName').val()
             }
             $('#tds').load(pageUrl,json,function(){});
             return false;

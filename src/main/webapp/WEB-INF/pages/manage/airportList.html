@@ -4,8 +4,10 @@
     <thead>
     <tr>
         <th class="col-md-1">序号</th>
-        <th class="col-md-3">机场名称</th>
-        <th class="col-md-4">机场地址</th>
+        <th class="col-md-2">机场名称</th>
+        <th class="col-md-3">机场地址</th>
+        <th class="col-md-1">经度</th>
+        <th class="col-md-1">纬度</th>
         <th class="col-md-1">操作</th>
     </tr>
     </thead>
@@ -15,7 +17,10 @@
             <td>${airport_index+1}</td>
             <td>${airport.airportName}</td>
             <td>${airport.address}</td>
+            <td>${airport.lng}</td>
+            <td>${airport.lat}</td>
             <td>
+                <a href="javascript:void(0);" data-opt="view" data-id="${airport.airportId}">查看</a>
                 <a href="javascript:void(0);" data-id="${airport.airportId}">删除</a>
             </td>
         </tr>
@@ -28,11 +33,16 @@
 <script>
     $(function(){
         $('#table').on('click','a',function(){
+            var opt=$(this).data('opt');
             var airportId=$(this).data('id');
-            $.post('${ctx}/manage/airports/delete',{airportId:airportId},function(){
-                $('#findAirport').trigger('click');
-                $.mhtMsg('操作成功!');
-            })
+            if(opt=='view'){
+                $('#content').load('${ctx}/manage/menu/airport/view?airportId='+airportId);
+            }else{
+                $.post('${ctx}/manage/airports/delete',{airportId:airportId},function(){
+                    $('#findAirport').trigger('click');
+                    $.mhtMsg('操作成功!');
+                })
+            }
         })
     })
 </script>

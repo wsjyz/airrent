@@ -254,15 +254,25 @@ public class AirportDAOImpl extends BaseDAO implements AirportDAO {
     public String saveAirport(Airport airport) {
         StringBuffer sql = new StringBuffer();
         String[] params = new String[6];
-        String airportId = CommonUtils.genUUID();
-//        getPoint(airport);
-        sql.append("INSERT into t_airrent_airport(airport_id,airport_name,description,address,lat,lng) values(?,?,?,?,?,?)");
-        params[0]=airportId;
-        params[1]=airport.getAirportName();
-        params[2]=airport.getDescription();
-        params[3]=airport.getAddress();
-        params[4]=airport.getLat();
-        params[5]=airport.getLng();
+        if (StringUtils.isEmpty(airport.getAirportId())) {
+            String airportId = CommonUtils.genUUID();
+            sql.append("INSERT into t_airrent_airport(airport_id,airport_name,description,address,lat,lng) values(?,?,?,?,?,?)");
+            params[0]=airportId;
+            params[1]=airport.getAirportName();
+            params[2]=airport.getDescription();
+            params[3]=airport.getAddress();
+            params[4]=airport.getLat();
+            params[5]=airport.getLng();
+        }else {
+            sql.append("update t_airrent_airport set airport_name=?,description=?,address=?,lat=?,lng=? where airport_id=?");
+            params[0]=airport.getAirportName();
+            params[1]=airport.getDescription();
+            params[2]=airport.getAddress();
+            params[3]=airport.getLat();
+            params[4]=airport.getLng();
+            params[5]=airport.getAirportId();
+        }
+
         int update = getJdbcTemplate().update(sql.toString(),params);
         if (update > 0) {
             return "SUCCESS";

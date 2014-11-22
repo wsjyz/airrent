@@ -1,4 +1,8 @@
 <#assign ctx=request.contextPath>
+<script type="text/javascript" src="${ctx!}/xheditor/src/core.js"></script>
+<script type="text/javascript" src="${ctx!}/xheditor/src/lang.js"></script>
+<script type="text/javascript" src="${ctx!}/xheditor/src/main.js"></script>
+<script type="text/javascript" src="${ctx!}/xheditor/xheditor_lang/zh-cn.js"></script>
 <div class="container-fluid">
 <div class="well well-sm">
     <span>${airline.airlineName}</span>
@@ -28,8 +32,8 @@
                 <div class="col-sm-6">
                     <span>${airline.status}</span>
                     <select class="form-control hidden" id="status" name="status" value="${airline.status}">
-                        <option <#if airline.status=="on">selected</#if>>on</option>
-                        <option <#if airline.status=="off">selected</#if>>off</option>
+                        <option <#if airline.status=="on">selected</#if> value="on">on</option>
+                        <option <#if airline.status=="off">selected</#if> value="off">off</option>
                     </select>
                 </div>
             </div>
@@ -44,7 +48,7 @@
                 <label for="lng" class="col-sm-4 control-label">经度</label>
                 <div class="col-sm-6">
                     <span>${airline.lng}</span>
-                    <input type="text" class="form-control hidden" id="lng" name="lng">
+                    <input type="text" class="form-control hidden" id="lng" name="lng" value="${airline.lng}">
                 </div>
             </div>
         </div>
@@ -53,7 +57,12 @@
                 <label for="airlineImage" class="col-sm-3 control-label">公司图片</label>
                 <div class="col-sm-6">
                     <span>${airline.airlineImageName!}</span>
-                    <input id="airlineImage" name="airlineImage" type="file" class="form-control hidden"/>
+                    <div class="input-group hidden">
+                        <input id="airlineImage" name="airlineImage" type="file"/>
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" type="button">${airline.airlineImageName!'无'}</button>
+                        </span>
+                    </div>
                 </div>
             </div>
             <div class="form-group">
@@ -92,8 +101,14 @@
                 <label for="lat" class="col-sm-3 control-label">纬度</label>
                 <div class="col-sm-6">
                     <span>${airline.lat}</span>
-                    <input type="text" class="form-control hidden" id="lat" name="lat">
+                    <input type="text" class="form-control hidden" id="lat" name="lat" value="${airline.lat}">
                 </div>
+            </div>
+        </div>
+        <div class="form-group col-md-12" style="padding-left: 1px;">
+            <label for="intro" class="col-sm-2 control-label">简介</label>
+            <div class="col-sm-9">
+                <textarea name="intro" id="intro" class="xheditor{editorRoot:'${ctx}/xheditor/'}" cols="30" rows="10">${airline.intro!}</textarea>
             </div>
         </div>
         <div class="col-sm-offset-5 col-sm-4">
@@ -106,32 +121,50 @@
 <style>.col-sm-6{padding-top: 7px;}</style>
 <script>
     $(function(){
+
+        $('#intro').xheditor({
+            width:700,
+            height:340,
+            upImgUrl:'${ctx}/manage/editor/uploadImg',
+            html5Upload : false,
+            upImgExt:"jpg,jpeg,gif,png",
+            onUpload : insertUpload
+        });
+
         $('#modify').click(function(){
             var eml=$(this);
             var text=eml.text();
             if(text=='修改'){
                 $('.col-sm-6 span').hide();
-                $('.col-sm-6 input,select').removeClass('hidden').show();
+                $('.col-sm-6 input,select,.input-group').removeClass('hidden').show();
+
+                $('.input-group-btn').show();
+                $(":file").filestyle({buttonText: "重选"});
+
                 eml.text('保存');
             }else{
+                var url = '${ctx}/manage/airline/save1';
+                if($('#airlineImage').val()){
+                    url = '${ctx}/manage/airline/save';
+                }
+                $('#intro').val($('#intro').xheditor().getSource());
                 $('#addAirline').ajaxSubmit({
                     type:'post',
                     dataType:'json',
-                    url:'${ctx}/manage/airline/save',
+                    url:url,
                     success:function(data){
                         if(data.success){
                             $('#content').load('${ctx}/manage/menu/airline/view?airlineId=${airline.airlineId}');
                             $.mhtMsg('保存成功!');
 
                             $('.col-sm-6 span').show();
-                            $('.col-sm-6 input,select').hide();
+                            $('.col-sm-6 input,select,.input-group').hide();
                             eml.text('修改');
                         }else{
                             $.mhtMsg('保存失败，请修改数据格式重新提交!');
                         }
                     }
                 });
-                return false;
             }
             return false;
         })
@@ -140,4 +173,13 @@
             $('#content').load('${ctx}/manage/menu/airlines');
         })
     })
+    //图片上传回调函数
+    function insertUpload(arrMsg) {
+        //xheditor返回的arrMsg是一个Object数组
+        var msg = arrMsg[0];
+
+        var url = msg.url;
+        $("#recentNews").append(url);
+
+    }
 </script>

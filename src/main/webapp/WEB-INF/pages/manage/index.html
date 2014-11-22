@@ -66,13 +66,14 @@
 <script src="${ctx}/js//jquery.min.js"></script>
 <script src="${ctx}/js/bootstrap.min.js"></script>
 <script src="${ctx}/js/jquery.twbsPagination.js"></script>
+<script src="${ctx}/js/bootstrap-filestyle.min.js"></script>
 <script src="${ctx}/js/pnotify.custom.min.js"></script>
 <script src="${ctx}/js/jquery.form.js"></script>
 <script src="${ctx}/js/resource.js"></script>
 <script>
     $(function(){
         ajaxCallbackHandle('${ctx}/manage/login');
-2
+
         $('#airports').click(function(){
             $('.active').removeClass('active');
             $(this).parent('li').addClass('active');
