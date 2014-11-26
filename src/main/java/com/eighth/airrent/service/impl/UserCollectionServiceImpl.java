@@ -41,6 +41,8 @@ public class UserCollectionServiceImpl implements UserCollectionService{
                     userCollection.setClickCount(countByPlane);
                     userCollection.setPlanePicUrl(plane.getPlaneImage());
                     userCollection.setPlanCount(count);
+                    userCollection.setUserCount(plane.getSitCounts());
+                    userCollection.setMoney(plane.getFlyUnitCost());
                 }
                 if(StringUtils.isNotEmpty(userCollection.getAirlineId())){
                     int count= userCollectionDAO.getUserCollectionCount(userCollection.getAirlineId(),"AIRLINE");

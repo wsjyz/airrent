@@ -1,5 +1,7 @@
 package com.eighth.airrent.domain;
 
+import java.math.BigDecimal;
+
 /**
  * Created by dam on 14-6-25.
  */
@@ -15,8 +17,25 @@ public class UserCollection extends BaseDomain {
 	private Integer planCount;
 	private String planePicUrl;
 	private String airlinePicUrl;
-
+	private String userCount;
+	private BigDecimal money;
 	private int clickCount;
+
+	public String getUserCount() {
+		return userCount;
+	}
+
+	public void setUserCount(String userCount) {
+		this.userCount = userCount;
+	}
+
+	public BigDecimal getMoney() {
+		return money;
+	}
+
+	public void setMoney(BigDecimal money) {
+		this.money = money;
+	}
 
 	public void setClickCount(int clickCount) {
 		this.clickCount = clickCount;
