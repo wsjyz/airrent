@@ -117,7 +117,7 @@ public class UserOrderDAOImpl extends BaseDAO implements UserOrderDAO{
 				+ "','" + order.getDownPayment()+ "','" + order.getOrderCounts()
 				+ "','" + order.getOrderStatus()+ "','" + order.getDescription()+ "','" 
 				+ order.getFlyHour()+ "','" + order.getStayHour()+ "','" 
-				+ order.getOrderLetter()+ "','" + UtilDate.getOrderNum()+ "','"
+				+ order.getOrderLetter()+ "','" + order.getOrderNumber()+ "','"
 				+ order.getPlaneId()+ "')");
 		int update = getJdbcTemplate().update(sql.toString());
 		if (update>0) {

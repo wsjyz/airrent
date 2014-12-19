@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
+import com.alipay.util.UtilDate;
 import com.eighth.airrent.dao.AirlineDAO;
 import com.eighth.airrent.dao.AirportDAO;
 import com.eighth.airrent.dao.PlaneDAO;
@@ -15,6 +16,7 @@ import com.eighth.airrent.domain.OpenPage;
 import com.eighth.airrent.domain.Plane;
 import com.eighth.airrent.domain.UserOrder;
 import com.eighth.airrent.proxy.exception.RemoteInvokeException;
+import com.eighth.airrent.proxy.service.SmsSendService;
 import com.eighth.airrent.proxy.service.UserOrderService;
 
 /**
@@ -31,23 +33,29 @@ public class UserOrderServiceImpl implements UserOrderService {
 	AirportDAO airportDAO;
 	@Autowired
 	AirlineDAO airlineDAO;
+	@Autowired
+	SmsSendService SmsSendService;
 	@Override
 	public OpenPage<UserOrder> findUserOrder(OpenPage openPage, String userId)
 			throws RemoteInvokeException {
-		openPage= userOrderDAO.findUserOrder(openPage, userId);
-		if(openPage!=null && !CollectionUtils.isEmpty(openPage.getRows())){
+		openPage = userOrderDAO.findUserOrder(openPage, userId);
+		if (openPage != null && !CollectionUtils.isEmpty(openPage.getRows())) {
 			for (Object obj : openPage.getRows()) {
-				UserOrder userOrder=(UserOrder) obj;
+				UserOrder userOrder = (UserOrder) obj;
 				if (StringUtils.isNotEmpty(userOrder.getPlaneId())) {
-					Plane plane = planeDAO.findPlaneById(userOrder.getPlaneId());
-					if(plane!=null && StringUtils.isNotEmpty(plane.getAirlineId())){
-						Airline airline = airlineDAO.findAirlineById(plane.getAirlineId());
+					Plane plane = planeDAO
+							.findPlaneById(userOrder.getPlaneId());
+					if (plane != null
+							&& StringUtils.isNotEmpty(plane.getAirlineId())) {
+						Airline airline = airlineDAO.findAirlineById(plane
+								.getAirlineId());
 						userOrder.setAirline(airline);
 					}
 					userOrder.setPlane(plane);
 				}
 				if (StringUtils.isNotEmpty(userOrder.getAirportId())) {
-					Airport airport = airportDAO.findAirportById(userOrder.getAirportId());
+					Airport airport = airportDAO.findAirportById(userOrder
+							.getAirportId());
 					userOrder.setAirport(airport);
 				}
 			}
@@ -56,14 +64,13 @@ public class UserOrderServiceImpl implements UserOrderService {
 	}
 
 	@Override
-	public String payOrder(String userId, String orderId)
-			throws Exception {
+	public String payOrder(String userId, String orderId) throws Exception {
 		return userOrderDAO.payOrder(userId, orderId);
 	}
 
 	@Override
 	public UserOrder findOrderById(String orderId) throws RemoteInvokeException {
-		UserOrder userOrder =userOrderDAO.findOrderById(orderId);
+		UserOrder userOrder = userOrderDAO.findOrderById(orderId);
 		return userOrder;
 	}
 
@@ -72,15 +79,26 @@ public class UserOrderServiceImpl implements UserOrderService {
 		return userOrderDAO.deleteOrderById(orderId);
 	}
 
-    @Override
-    public OpenPage findUserOrders(OpenPage page, UserOrder userOrder) {
+	@Override
+	public OpenPage findUserOrders(OpenPage page, UserOrder userOrder) {
 
-        return userOrderDAO.findUserOrders(page,userOrder);
-    }
+		return userOrderDAO.findUserOrders(page, userOrder);
+	}
 
-    @Override
+	@Override
 	public UserOrder addUserOrder(UserOrder order) throws RemoteInvokeException {
-		return userOrderDAO.addUserOrder(order);
+		String orderNumber = UtilDate.getOrderNum();
+		order.setOrderNumber(orderNumber);
+		 UserOrder order2 = userOrderDAO.addUserOrder(order);
+		 String planeId=order2.getPlaneId();
+		 Plane plane = planeDAO.findPlaneById(planeId);
+		 if (plane!=null && StringUtils.isNotEmpty(plane.getAirlineId())) {
+			Airline airline = airlineDAO.findAirlineById(plane.getAirlineId());
+			if (airline!=null && StringUtils.isNotEmpty(airline.getPhone())) {
+				SmsSendService.sendSmsByOrder(airline.getPhone(), orderNumber);
+			}
+		 }
+		 return order2;
 	}
 
 	@Override
@@ -90,13 +108,13 @@ public class UserOrderServiceImpl implements UserOrderService {
 
 	@Override
 	public void updateOrderByOrderNo(String orderNo, String type) {
-		userOrderDAO.updateOrderByOrderNo( orderNo,  type);
+		userOrderDAO.updateOrderByOrderNo(orderNo, type);
 	}
 
 	@Override
 	public String updateOrderStatus(String orderId, String orderStatus) {
 		// TODO Auto-generated method stub
-		return userOrderDAO.updateOrderStatus(orderId,orderStatus);
+		return userOrderDAO.updateOrderStatus(orderId, orderStatus);
 	}
 
 }
