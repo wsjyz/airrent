@@ -2,7 +2,9 @@ package com.eighth.airrent.dao.impl;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
@@ -105,10 +107,12 @@ public class UserOrderDAOImpl extends BaseDAO implements UserOrderDAO{
 
 	@Override
 	public UserOrder addUserOrder(UserOrder order) {
+		Calendar cal=Calendar.getInstance();
+		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		StringBuffer sql=new StringBuffer();
 		String orderId=CommonUtils.genUUID();
 		sql.append("INSERT into t_airrent_user_order(order_id,user_id,airport_id,order_use,start_date,end_date,"
-				+ "start_ing,destination,user_counts,opt_time,down_payment,order_counts,order_status,description,fly_hour,stay_hour,order_letter,order_number,plane_id) values('"
+				+ "start_ing,destination,user_counts,opt_time,down_payment,order_counts,order_status,description,fly_hour,stay_hour,order_letter,order_number,plane_id,order_create_time) values('"
 				+orderId+ "','"+ order.getUserId()
 				+ "','" + order.getAirportId()+ "','" + order.getOrderUse()+ "','" 
 				+ order.getStartDate()+ "','" + order.getEndDate()
@@ -118,7 +122,7 @@ public class UserOrderDAOImpl extends BaseDAO implements UserOrderDAO{
 				+ "','" + order.getOrderStatus()+ "','" + order.getDescription()+ "','" 
 				+ order.getFlyHour()+ "','" + order.getStayHour()+ "','" 
 				+ order.getOrderLetter()+ "','" + order.getOrderNumber()+ "','"
-				+ order.getPlaneId()+ "')");
+				+ order.getPlaneId()+ "','"+sdf.format(cal.getTime())+"')");
 		int update = getJdbcTemplate().update(sql.toString());
 		if (update>0) {
 			StringBuffer sql1=new StringBuffer();
